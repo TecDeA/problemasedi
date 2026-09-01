@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problemas de Electrónica Digital - IES Virgen de Villadiego</title>
+	<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2c3e50">
+<link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" href="favicon.ico" type="image/vnd.icon">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-color: #2c3e50; /* Azul oscuro */
+            --accent-color: #3498db;  /* Azul brillante */
+            --hover-color: #2980b9;   /* Azul más oscuro para hover */
+            --text-color: #333;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+        }
+
+        /* --- ENCABEZADO --- */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 1rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #555;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-top: 0;
+        }
+
+        /* --- CONTENEDOR DE BOTONES (GRID) --- */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            /* Crea columnas automáticas con un ancho mínimo de 250px */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* --- ESTILO DE LOS BOTONES --- */
+        .card-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            padding: 2rem;
+            text-decoration: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        /* Efecto Hover */
+        .card-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            background-color: var(--primary-color);
+        }
+
+        .card-link:hover .card-title, 
+        .card-link:hover .icon {
+            color: white;
+        }
+
+        /* Texto del botón */
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 15px;
+            transition: color 0.3s;
+        }
+
+        /* Icono decorativo (simulado con CSS) */
+        .icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            transition: color 0.3s;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #777;
+            padding: 1rem;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- RESPONSIVIDAD PARA MÓVILES PEQUEÑOS --- */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>COLECCIONES DE PROBLEMAS DE ELECTRÓNICA DIGITAL</h1>
+        <h2>DEPARTAMENTO DE TECNOLOGÍA IES VIRGEN DE VILLADIEGO</h2>
+    </header>
+
+<main class="container">
+        <a href="ColeccionEDI1.html" class="card-link" target="_blank" rel="noopener noreferrer">
+            <div class="icon">⚡</div>
+            <span class="card-title">Colección EDI 1</span>
+        </a>
+
+        <a href="ColeccionEDI2.html" class="card-link" target="_blank" rel="noopener noreferrer">
+            <div class="icon">💡</div>
+            <span class="card-title">Colección EDI 2</span>
+        </a>
+
+        <a href="ColeccionEDI3.html" class="card-link" target="_blank" rel="noopener noreferrer">
+            <div class="icon">🔌</div>
+            <span class="card-title">Colección EDI 3</span>
+        </a>
+
+        <a href="ColeccionEDI4.html" class="card-link" target="_blank" rel="noopener noreferrer">
+            <div class="icon">📟</div>
+            <span class="card-title">Colección EDI 4</span>
+        </a>
+
+        <a href="ColeccionEDI5.html" class="card-link" target="_blank" rel="noopener noreferrer">
+            <div class="icon">🔋</div>
+            <span class="card-title">Colección EDI 5</span>
+        </a>
+
+        <a href="ColeccionEDI6.html" class="card-link" target="_blank" rel="noopener noreferrer">
+            <div class="icon">🖥️</div>
+            <span class="card-title">Colección EDI 6</span>
+        </a>
+    </main>
+    <footer>
+        &copy; 2026 by angelmicelti y Gemini
+    </footer>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(registration => {
+          console.log('Service Worker registrado con éxito:', registration.scope);
+        })
+        .catch(error => {
+          console.log('Fallo al registrar el Service Worker:', error);
+        });
+    });
+  }
+</script>
+</body>
+</html>
