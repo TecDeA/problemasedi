@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colección de Problemas de Electrónica Digital</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #2980b9;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        summary:hover {
+            background-color: #bdc3c7;
+        }
+        details {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .problem-content {
+            padding: 15px;
+            background-color: white;
+        }
+        h3 {
+            color: #34495e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            table { font-size: 14px; }
+        }
+        @media (max-width: 480px) {
+            body { margin: 10px; }
+            summary { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Colección de 25 Problemas de Electrónica Digital Relacionados con la Vida Cotidiana</h1>
+    <p>Esta colección incluye problemas para 4º de ESO, con 5 problemas de 2 variables, 10 de 3 variables y 10 de 4 variables. Cada problema se plantea, resuelve y relaciona con criterios de evaluación de Tecnología (TEC.4.x.x). Se incluye una rúbrica adaptada para los criterios afectados, basada en la normativa proporcionada.</p>
+
+    <details>
+        <summary>Problema 1: Sistema de Alarma Simple para Puerta (2 variables)</summary>
+        <div class="problem-content">
+            <p>En una casa, se quiere un sistema de alarma que se active (salida A=1) solo si la puerta está abierta (P=1) y no hay luz en la habitación (L=0). Diseña el circuito lógico.</p>
+            <h3>Solución</h3>
+            <p>Tabla de verdad:</p>
+            <table>
+                <tr><th>P</th><th>L</th><th>A</th></tr>
+                <tr><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>1</td><td>0</td></tr>
+            </table>
+            <p>Expresión booleana: A = P · ¬L<br>Simplificada: Igual (usando AND y NOT). Circuito: Puerta AND con entrada P y NOT L.</p>
+            <h3>Relación con Criterios</h3>
+            <p>Relacionado con TEC.4.4.1 (Diseñar sistemas automáticos) y TEC.4.2.2 (Fabricar soluciones tecnológicas con electrónica).</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña ni construye el sistema.</td><td>Diseña con errores significativos.</td><td>Diseña correctamente con pocos errores.</td><td>Diseña con precisión avanzada.</td><td>Diseña de forma innovadora.</td></tr>
+                <tr><td>TEC.4.2.2</td><td>No fabrica el producto.</td><td>Fabrica con fallos.</td><td>Fabrica adecuadamente.</td><td>Fabrica con innovación.</td><td>Fabrica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 2: Control de Luz en Baño (2 variables)</summary>
+        <div class="problem-content">
+            <p>En un baño público, la luz se enciende (L=1) si hay alguien dentro (O=1) o si la puerta está abierta (P=1). Diseña el circuito.</p>
+            <h3>Solución</h3>
+            <p>Tabla de verdad:</p>
+            <table>
+                <tr><th>O</th><th>P</th><th>L</th></tr>
+                <tr><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>1</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>1</td><td>1</td></tr>
+            </table>
+            <p>Expresión: L = O + P<br>Simplificada: Igual (OR). Circuito: Puerta OR.</p>
+            <h3>Relación con Criterios</h3>
+            <p>Relacionado con TEC.4.4.1 y TEC.4.6.1 (Uso responsable con sostenibilidad, ya que optimiza energía).</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña el sistema.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.1</td><td>No aplica sostenibilidad.</td><td>Aplica parcialmente.</td><td>Aplica adecuadamente.</td><td>Aplica avanzado.</td><td>Aplica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 3: Interruptor de Luz Automático (2 variables)</summary>
+        <div class="problem-content">
+            <p>La luz se apaga (A=0) si no hay movimiento (M=0) y es de día (D=1). Diseña el circuito para salida L=1 (luz encendida) en otros casos.</p>
+            <h3>Solución</h3>
+            <p>Tabla de verdad:</p>
+            <table>
+                <tr><th>M</th><th>D</th><th>L</th></tr>
+                <tr><td>0</td><td>0</td><td>1</td></tr>
+                <tr><td>0</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>1</td><td>1</td></tr>
+            </table>
+            <p>Expresión: L = M + ¬D<br>Simplificada: Igual (OR con NOT).</p>
+            <h3>Relación con Criterios</h3>
+            <p>Relacionado con TEC.4.4.1 y TEC.4.6.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.1</td><td>No aplica.</td><td>Aplica parcialmente.</td><td>Aplica adecuadamente.</td><td>Aplica avanzado.</td><td>Aplica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 4: Alarma de Coche (2 variables)</summary>
+        <div class="problem-content">
+            <p>La alarma se activa (A=1) si el coche está encendido (E=1) pero el cinturón no está abrochado (C=0).</p>
+            <h3>Solución</h3>
+            <p>Tabla de verdad:</p>
+            <table>
+                <tr><th>E</th><th>C</th><th>A</th></tr>
+                <tr><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>1</td><td>0</td></tr>
+            </table>
+            <p>Expresión: A = E · ¬C<br>Simplificada: Igual.</p>
+            <h3>Relación con Criterios</h3>
+            <p>Relacionado con TEC.4.4.1 y TEC.4.2.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.2.2</td><td>No fabrica.</td><td>Fabrica con fallos.</td><td>Fabrica adecuadamente.</td><td>Fabrica con innovación.</td><td>Fabrica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 5: Control de Ventilador (2 variables)</summary>
+        <div class="problem-content">
+            <p>El ventilador se enciende (V=1) si hace calor (H=1) o hay humo (S=1).</p>
+            <h3>Solución</h3>
+            <p>Tabla de verdad:</p>
+            <table>
+                <tr><th>H</th><th>S</th><th>V</th></tr>
+                <tr><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>1</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>1</td><td>1</td></tr>
+            </table>
+            <p>Expresión: V = H + S<br>Simplificada: Igual.</p>
+            <h3>Relación con Criterios</h3>
+            <p>Relacionado con TEC.4.4.1 y TEC.4.6.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.2</td><td>No analiza.</td><td>Analiza mínimamente.</td><td>Analiza aceptablemente.</td><td>Analiza notablemente.</td><td>Analiza sobresaliente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 6: Detector de Humedad en Plantas (3 variables)</summary>
+        <div class="problem-content">
+            <p>Un sistema riega una planta (R=1) si la humedad es baja (H=0), hay sol (S=1) y no está lloviendo (L=0).</p>
+            <h3>Solución</h3>
+            <p>Tabla de verdad (resumida):</p>
+            <table>
+                <tr><th>H</th><th>S</th><th>L</th><th>R</th></tr>
+                <tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                <!-- Asumir otras 0 -->
+            </table>
+            <p>Expresión: R = ¬H · S · ¬L<br>Simplificada: Igual.</p>
+            <h3>Relación con Criterios</h3>
+            <p>Relacionado con TEC.4.4.2 y TEC.4.6.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.6.2</td><td>No analiza.</td><td>Analiza mínimamente.</td><td>Analiza aceptablemente.</td><td>Analiza notablemente.</td><td>Analiza sobresaliente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 7: Control de Acceso a Garaje (3 variables)</summary>
+        <div class="problem-content">
+            <p>La puerta se abre (A=1) si hay un coche esperando (C=1), el sensor de peso confirma (P=1) o el mando está activado (M=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = C · (P + M)<br>Simplificada vía Karnaugh.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.5.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.5.1</td><td>No resuelve.</td><td>Resuelve limitadamente.</td><td>Resuelve eficientemente.</td><td>Resuelve autónomo.</td><td>Resuelve experto.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 8: Alarma de Refrigerador (3 variables)</summary>
+        <div class="problem-content">
+            <p>Alarma suena (S=1) si puerta abierta >5min (T=1), temperatura alta (A=1) y no hay comida dentro (C=0).</p>
+            <h3>Solución</h3>
+            <p>Expresión: S = T · A · ¬C<br>Simplificada: Igual.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.2.1 y TEC.4.4.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.2.1</td><td>No analiza.</td><td>Analiza superficialmente.</td><td>Analiza correctamente.</td><td>Analiza detalladamente.</td><td>Analiza exhaustivamente.</td></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 9: Sistema de Iluminación Inteligente (3 variables)</summary>
+        <div class="problem-content">
+            <p>Luz enciende (L=1) si es de noche (N=1), hay movimiento (M=1) y no hay luz natural (S=0).</p>
+            <h3>Solución</h3>
+            <p>Expresión: L = N · M · ¬S<br>Simplificada: Igual.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.6.1 y TEC.4.4.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.6.1</td><td>No aplica.</td><td>Aplica parcialmente.</td><td>Aplica adecuadamente.</td><td>Aplica avanzado.</td><td>Aplica excepcionalmente.</td></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 10: Detector de Movimiento en Jardín (3 variables)</summary>
+        <div class="problem-content">
+            <p>La luz se enciende (L=1) si hay movimiento (M=1), es de noche (N=1) o hay lluvia (R=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: L = M · (N + R)<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.6.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.2</td><td>No analiza.</td><td>Analiza mínimamente.</td><td>Analiza aceptablemente.</td><td>Analiza notablemente.</td><td>Analiza sobresaliente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 11: Control de Horno (3 variables)</summary>
+        <div class="problem-content">
+            <p>El horno se apaga (A=0) si la temperatura es alta (T=1), puerta abierta (P=1) y tiempo excedido (E=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión para apagado: A = T · P · E (pero salida inversa para encendido).</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.2.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.2.2</td><td>No fabrica.</td><td>Fabrica con fallos.</td><td>Fabrica adecuadamente.</td><td>Fabrica con innovación.</td><td>Fabrica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 12: Sistema de Seguridad para Bebé (3 variables)</summary>
+        <div class="problem-content">
+            <p>Alarma (A=1) si bebé llora (L=1), habitación oscura (O=0) y padres no presentes (P=0).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = L · ¬O · ¬P<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.2 y TEC.4.6.3.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.6.3</td><td>No identifica.</td><td>Identifica parcialmente.</td><td>Identifica correctamente.</td><td>Identifica muy bien.</td><td>Identifica excelentemente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 13: Control de Lavadora (3 variables)</summary>
+        <div class="problem-content">
+            <p>Inicia ciclo (I=1) si puerta cerrada (P=0), agua suficiente (A=1) y detergente presente (D=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: I = ¬P · A · D<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.5.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.5.1</td><td>No resuelve.</td><td>Resuelve limitadamente.</td><td>Resuelve eficientemente.</td><td>Resuelve autónomo.</td><td>Resuelve experto.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 14: Detector de Incendio (3 variables)</summary>
+        <div class="problem-content">
+            <p>Alarma (A=1) si humo detectado (H=1), temperatura alta (T=1) o gas presente (G=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = H + T + G<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.6.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.1</td><td>No aplica.</td><td>Aplica parcialmente.</td><td>Aplica adecuadamente.</td><td>Aplica avanzado.</td><td>Aplica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 15: Sistema de Alarma para Bicicleta (3 variables)</summary>
+        <div class="problem-content">
+            <p>Alarma (A=1) si movimiento detectado (M=1), candado roto (C=0) y dueño ausente (D=0).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = M · ¬C · ¬D<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.2 y TEC.4.2.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.2.2</td><td>No fabrica.</td><td>Fabrica con fallos.</td><td>Fabrica adecuadamente.</td><td>Fabrica con innovación.</td><td>Fabrica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 16: Control de Cafetera (4 variables)</summary>
+        <div class="problem-content">
+            <p>Cafetera inicia (I=1) si hay agua (A=1), café (C=1), taza presente (T=1) y botón presionado (B=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: I = A · C · T · B<br>Simplificada: Igual.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.2.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.2.2</td><td>No fabrica.</td><td>Fabrica con fallos.</td><td>Fabrica adecuadamente.</td><td>Fabrica con innovación.</td><td>Fabrica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 17: Detector de Fugas en Hogar (4 variables)</summary>
+        <div class="problem-content">
+            <p>Alarma (A=1) si fuga de gas (G=1) o agua (W=1), ventana cerrada (V=0) y nadie en casa (H=0).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = (G + W) · ¬V · ¬H<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.2 y TEC.4.6.3.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.6.3</td><td>No identifica.</td><td>Identifica parcialmente.</td><td>Identifica correctamente.</td><td>Identifica muy bien.</td><td>Identifica excelentemente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 18: Sistema de Riego Automático (4 variables)</summary>
+        <div class="problem-content">
+            <p>Riego activa (R=1) si suelo seco (S=1), no llueve (L=0), temperatura alta (T=1) y hora adecuada (H=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: R = S · ¬L · T · H<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.6.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.2</td><td>No analiza.</td><td>Analiza mínimamente.</td><td>Analiza aceptablemente.</td><td>Analiza notablemente.</td><td>Analiza sobresaliente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 19: Control de Ascensor Simple (4 variables)</summary>
+        <div class="problem-content">
+            <p>Ascensor mueve (M=1) si puerta cerrada (P=0), botón presionado (B=1), no sobrecarga (S=0) y piso seleccionado (F=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: M = ¬P · B · ¬S · F<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.2.1 y TEC.4.4.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.2.1</td><td>No analiza.</td><td>Analiza superficialmente.</td><td>Analiza correctamente.</td><td>Analiza detalladamente.</td><td>Analiza exhaustivamente.</td></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 20: Sistema de Seguridad para Hogar (4 variables)</summary>
+        <div class="problem-content">
+            <p>Alarma (A=1) si puerta abierta (P=1), ventana rota (V=1), no luz (L=0) y noche (N=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = P · V · ¬L · N<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.2 y TEC.4.6.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.6.1</td><td>No aplica.</td><td>Aplica parcialmente.</td><td>Aplica adecuadamente.</td><td>Aplica avanzado.</td><td>Aplica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 21: Control de Microondas (4 variables)</summary>
+        <div class="problem-content">
+            <p>Inicia (I=1) si puerta cerrada (P=0), tiempo establecido (T=1), potencia seleccionada (S=1) y botón start (B=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: I = ¬P · T · S · B<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.2.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.2.2</td><td>No fabrica.</td><td>Fabrica con fallos.</td><td>Fabrica adecuadamente.</td><td>Fabrica con innovación.</td><td>Fabrica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 22: Detector de Sobrecarga Eléctrica (4 variables)</summary>
+        <div class="problem-content">
+            <p>Apaga circuito (A=1) si corriente alta (C=1), voltaje inestable (V=1), temperatura elevada (T=1) o fusible dañado (F=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: A = C + V + T + F<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.6.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.1</td><td>No aplica.</td><td>Aplica parcialmente.</td><td>Aplica adecuadamente.</td><td>Aplica avanzado.</td><td>Aplica excepcionalmente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 23: Sistema de Control para Robot Aspirador (4 variables)</summary>
+        <div class="problem-content">
+            <p>Inicia limpieza (I=1) si batería cargada (B=1), habitación sucia (S=1), no obstáculos (O=0) y horario programado (H=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: I = B · S · ¬O · H<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.2 y TEC.4.5.1.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.5.1</td><td>No resuelve.</td><td>Resuelve limitadamente.</td><td>Resuelve eficientemente.</td><td>Resuelve autónomo.</td><td>Resuelve experto.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 24: Alarma para Medicamentos (4 variables)</summary>
+        <div class="problem-content">
+            <p>Recuerda (R=1) si hora de toma (H=1), medicamento disponible (M=1), paciente despierto (D=1) y no tomado aún (T=0).</p>
+            <h3>Solución</h3>
+            <p>Expresión: R = H · M · D · ¬T<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.1 y TEC.4.6.3.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.1</td><td>No diseña.</td><td>Diseña con errores.</td><td>Diseña correctamente.</td><td>Diseña avanzado.</td><td>Diseña innovador.</td></tr>
+                <tr><td>TEC.4.6.3</td><td>No identifica.</td><td>Identifica parcialmente.</td><td>Identifica correctamente.</td><td>Identifica muy bien.</td><td>Identifica excelentemente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Problema 25: Control de Termostato Inteligente (4 variables)</summary>
+        <div class="problem-content">
+            <p>Activa calefacción (C=1) si temperatura baja (T=0), alguien en casa (P=1), no ventana abierta (V=0) y modo invierno (M=1).</p>
+            <h3>Solución</h3>
+            <p>Expresión: C = ¬T · P · ¬V · M<br>Simplificada.</p>
+            <h3>Relación con Criterios</h3>
+            <p>TEC.4.4.2 y TEC.4.6.2.</p>
+            <h3>Rúbrica de Evaluación</h3>
+            <table>
+                <tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr>
+                <tr><td>TEC.4.4.2</td><td>No integra.</td><td>Integra limitadamente.</td><td>Integra correctamente.</td><td>Integra avanzado.</td><td>Integra innovador.</td></tr>
+                <tr><td>TEC.4.6.2</td><td>No analiza.</td><td>Analiza mínimamente.</td><td>Analiza aceptablemente.</td><td>Analiza notablemente.</td><td>Analiza sobresaliente.</td></tr>
+            </table>
+        </div>
+    </details>
+
+</body>
+</html>
