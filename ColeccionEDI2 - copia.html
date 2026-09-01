@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Problemas de Electrónica Digital – 4.º ESO (25 problemas)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: #e0ebff;
+      --text: #111827;
+      --muted: #4b5563;
+      --border: #e5e7eb;
+      --badge: #059669;
+      --badge-bg: #ecfdf3;
+      --danger: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 1.5rem 1.25rem 1.75rem;
+	  text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.6rem;
+    }
+
+    header p {
+      margin: 0.15rem 0;
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 2.5rem;
+    }
+
+    .intro {
+      background: var(--card-bg);
+      border-radius: 0.75rem;
+      padding: 1rem 1.1rem;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .intro h2 {
+      margin-top: 0;
+      font-size: 1.15rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .intro p {
+      margin: 0.25rem 0;
+      color: var(--muted);
+    }
+
+    .intro ul {
+      margin: 0.35rem 0 0.25rem 1.25rem;
+      padding-left: 0.75rem;
+    }
+
+    .intro li {
+      margin-bottom: 0.2rem;
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
+    }
+
+    .badge {
+      font-size: 0.78rem;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.08);
+      color: #020617;
+      white-space: nowrap;
+    }
+
+    .badge.criteria {
+      background: var(--badge-bg);
+      color: var(--badge);
+      border: 1px solid rgba(22, 163, 74, 0.35);
+    }
+
+    .exercise-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 800px) {
+      .exercise-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .exercise-card {
+      background: var(--card-bg);
+      border-radius: 0.85rem;
+      padding: 0; /* Padding quitado del contenedor general para controlar mejor la cabecera */
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden; /* Para que las esquinas redondeadas funcionen bien */
+      transition: box-shadow 0.2s;
+    }
+    
+    .exercise-card:hover {
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+    }
+
+    /* --- ESTILOS PARA HACERLA REPLEGABLE --- */
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center; /* Centrado vertical para la flecha */
+      flex-wrap: nowrap; /* Evita que la flecha baje */
+      padding: 1rem 1.1rem;
+      cursor: pointer; /* Indica que es clicable */
+      background: #fff;
+      transition: background 0.2s;
+      user-select: none; /* Evita seleccionar texto al hacer clic rápido */
+    }
+
+    .exercise-header:hover {
+        background: #f9fafb;
+    }
+
+    /* Flecha indicadora */
+    .exercise-header::after {
+        content: '';
+        display: block;
+        width: 0; 
+        height: 0; 
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 7px solid var(--accent); /* Triángulo hacia abajo */
+        transition: transform 0.3s ease;
+        flex-shrink: 0; /* Que no se aplaste */
+        margin-left: 0.5rem;
+    }
+
+    /* Estado abierto: rotar la flecha */
+    .exercise-card.active .exercise-header::after {
+        transform: rotate(180deg);
+    }
+
+    .exercise-body {
+        padding: 0 1.1rem 1.1rem;
+        display: none; /* Oculto por defecto */
+        border-top: 1px solid transparent; /* Reserva espacio para borde */
+    }
+
+    /* Estado abierto: mostrar cuerpo */
+    .exercise-card.active .exercise-body {
+        display: flex; /* Recupera el display flex original */
+        flex-direction: column;
+        gap: 0.35rem;
+        border-top: 1px solid var(--border); /* Línea separadora */
+        padding-top: 1rem;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    /* --------------------------------------- */
+
+    .exercise-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      flex-grow: 1; /* Ocupa el espacio disponible */
+    }
+
+    .exercise-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: flex-end; /* Alineado a la derecha junto a la flecha */
+      max-width: 40%;
+      text-align: right;
+    }
+
+    .exercise-meta span {
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .exercise-body p {
+      margin: 0.2rem 0;
+      font-size: 0.92rem;
+    }
+
+    .variables {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .variables span {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .apartados {
+      margin-top: 0.35rem;
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+    }
+
+    .apartados li {
+      margin-bottom: 0.2rem;
+    }
+
+    details {
+      margin-top: 0.4rem;
+      border-radius: 0.65rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 0.3rem 0.65rem 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent);
+      outline: none;
+    }
+
+    details[open] summary {
+      margin-bottom: 0.35rem;
+    }
+
+    .solucion-sub {
+      margin: 0.25rem 0;
+    }
+
+    .boolean {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #e5e7eb;
+      padding: 0.08rem 0.35rem;
+      border-radius: 0.25rem;
+      font-size: 0.86rem;
+    }
+
+    .rubrica-container {
+      margin-top: 0.5rem;
+      border-radius: 0.7rem;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      padding: 0.45rem 0.55rem 0.55rem;
+    }
+
+    .rubrica-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .rubrica-title span {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .rubrica-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .rubrica-table {
+      width: 100%;
+      min-width: 520px;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .rubrica-table th,
+    .rubrica-table td {
+      border: 1px solid #e5e7eb;
+      padding: 0.3rem 0.35rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .rubrica-table th {
+      background: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .rubrica-table td:first-child,
+    .rubrica-table th:first-child {
+      width: 90px;
+      white-space: nowrap;
+      background: #f3f4f6;
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem 1.2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+	  text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 1.1rem 1rem 1.4rem;
+      }
+      header h1 {
+        font-size: 1.35rem;
+      }
+      .intro {
+        padding: 0.85rem 0.9rem;
+      }
+      .exercise-card {
+        /* padding eliminado en mobile también, se controla en hijos */
+      }
+    }
+/* Estilo para el botón de PDF */
+    .pdf-btn {
+      padding: 0.15rem 0.6rem;
+      font-size: 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: white;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-left: 0.25rem;
+      transition: all 0.2s;
+    }
+    .pdf-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Problemas de Electrónica Digital – 4º ESO</h1>
+  <p>Colección de 25 problemas contextualizados en la vida cotidiana con 2, 3 y 4 variables lógicas.</p>
+  <p>Incluyen soluciones guiadas y rúbricas vinculadas a los criterios de Tecnología de 4º ESO</p>
+</header>
+
+<main>
+  <section class="intro">
+    <h2>Guía de uso en el aula</h2>
+    <p><strong>Tipo de problemas:</strong> Electrónica digital aplicada a situaciones cotidianas (domótica, ahorro energético, seguridad, movilidad, centro educativo, hogar inteligente, etc.).</p>
+    <p><strong>Instrucciones:</strong> Haz clic en el título de cada problema para desplegar o replegar su contenido.</p>
+    <p>Cada problema incluye:</p>
+    <ul>
+      <li><strong>Contexto:</strong> situación cotidiana clara para el alumnado.</li>
+      <li><strong>Definición de variables:</strong> siempre en forma de 0/1.</li>
+      <li><strong>Planteamiento:</strong> tabla de verdad, expresión booleana y, cuando procede, simplificación o análisis.</li>
+      <li><strong>Solución:</strong> desplegable con los pasos y la función lógica resuelta.</li>
+      <li><strong>Rúbrica:</strong> específica del problema y vinculada a los criterios TEC.4.x afectados.</li>
+    </ul>
+  </section>
+
+  <section class="exercise-grid">
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 1. Luz de pasillo con dos conmutadores</h3>
+        <div class="exercise-meta">
+          <span>2 variables</span>
+          <span>Domótica básica</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un pasillo hay una lámpara que puede encenderse desde dos puntos diferentes: la entrada (A) y el final del pasillo (B). Se desea que la luz esté encendida cuando exactamente uno de los conmutadores esté en posición de encendido, y apagada cuando los dos estén en la misma posición.</p>
+        <p class="variables">
+          <span>Variables:</span> A = 1 si el conmutador de la entrada está activado; B = 1 si el conmutador del final está activado; L = 1 si la lámpara está encendida.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Construye la tabla de verdad de la lámpara L en función de A y B.</li>
+          <li><strong>b)</strong> Obtén la expresión booleana de L.</li>
+          <li><strong>c)</strong> Identifica el tipo de puerta lógica equivalente.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.4.1, TEC.4.5.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad</strong></p>
+          <p>
+            A = 0, B = 0 → L = 0<br />
+            A = 0, B = 1 → L = 1<br />
+            A = 1, B = 0 → L = 1<br />
+            A = 1, B = 1 → L = 0
+          </p>
+          <p class="solucion-sub"><strong>b) Expresión booleana</strong></p>
+          <p><span class="boolean">L = A·¬B + ¬A·B</span></p>
+          <p class="solucion-sub"><strong>c) Puerta lógica equivalente</strong></p>
+          <p>Equivalente a una puerta XOR de dos entradas: <span class="boolean">L = A ⊕ B</span>.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 1
+            <span>(TEC.4.1.1, TEC.4.4.1, TEC.4.5.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No completa la tabla de verdad o lo hace con la mayoría de los valores incorrectos. No identifica la función ni la relaciona con el problema real (TEC.4.4.1).</td>
+                <td>Completa parcialmente la tabla de verdad con varios errores. Identifica de forma poco clara cuándo se enciende la luz y apenas conecta la solución con la situación del pasillo (TEC.4.1.1, TEC.4.4.1).</td>
+                <td>Completa correctamente la tabla de verdad con pequeños errores, obtiene una expresión lógica básica y reconoce la puerta XOR, aunque con dudas (TEC.4.4.1). Relaciona de forma simple el modelo con el caso real.</td>
+                <td>Completa correctamente la tabla, obtiene la expresión <span class="boolean">L = A·¬B + ¬A·B</span> y reconoce con seguridad la XOR, explicando cuándo se enciende la luz en el pasillo (TEC.4.1.1, TEC.4.4.1).</td>
+                <td>Además de lo anterior, justifica la elección de la función XOR con argumentos claros, interpreta el ahorro energético de evitar encendidos innecesarios y explica cómo podría implementarse con herramientas digitales de diseño (TEC.4.1.1, TEC.4.4.1, TEC.4.5.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 2. Timbre con modo noche</h3>
+        <div class="exercise-meta">
+          <span>2 variables</span>
+          <span>Confort y descanso</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En una vivienda se quiere que el timbre no suene durante la noche para no molestar. Se instala un interruptor de “modo noche” (N) que, cuando está activado, anula el timbre aunque pulsen el botón (T).</p>
+        <p class="variables">
+          <span>Variables:</span> T = 1 si alguien pulsa el timbre; N = 1 si está activado el modo noche; B = 1 si suena el timbre.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Elabora la tabla de verdad de B en función de T y N.</li>
+          <li><strong>b)</strong> Obtén una expresión booleana simplificada de B.</li>
+          <li><strong>c)</strong> Explica con tus palabras qué ocurre en cada combinación de T y N.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad</strong></p>
+          <p>
+            T = 0, N = 0 → B = 0<br />
+            T = 0, N = 1 → B = 0<br />
+            T = 1, N = 0 → B = 1<br />
+            T = 1, N = 1 → B = 0
+          </p>
+          <p class="solucion-sub"><strong>b) Expresión booleana</strong></p>
+          <p><span class="boolean">B = T·¬N</span></p>
+          <p class="solucion-sub"><strong>c) Interpretación</strong></p>
+          <p>Cuando el modo noche está desactivado (N = 0), el timbre funciona con normalidad. Cuando N = 1, el timbre permanece apagado, aunque alguien pulse T, protegiendo el descanso.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 2
+            <span>(TEC.4.1.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No representa la tabla de verdad ni comprende cuándo suena el timbre. No relaciona la solución con la mejora del bienestar o el contexto real (TEC.4.1.1).</td>
+                <td>Representa solo parte de la tabla o con errores importantes y da explicaciones poco claras sobre el modo noche (TEC.4.4.1).</td>
+                <td>Completa la tabla correctamente, obtiene la expresión <span class="boolean">B = T·¬N</span> y explica de forma básica el funcionamiento del modo noche (TEC.4.4.1).</td>
+                <td>Además, interpreta con claridad cada combinación de T y N, justificando cómo se protege el descanso en la vivienda (TEC.4.1.1, TEC.4.6.1).</td>
+                <td>Analiza de forma crítica la solución, proponiendo mejoras (por ejemplo, horarios automáticos o sensores de luz) y valorando el uso responsable de la tecnología para el bienestar y la sostenibilidad (TEC.4.1.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 3. Riego automático del jardín</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Ahorro de agua</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un jardín se quiere automatizar el riego de forma que se tenga en cuenta la humedad del suelo, el nivel del depósito de agua y el horario nocturno para evitar evaporación excesiva.</p>
+        <p class="variables">
+          <span>Variables:</span> H = 1 si la humedad del suelo es baja; D = 1 si el depósito está lleno; N = 1 si es horario nocturno; R = 1 si se activa el riego.
+        </p>
+        <p>La condición deseada es: el riego debe activarse solo cuando la humedad sea baja, haya agua en el depósito y sea horario nocturno.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Construye la tabla de verdad de R en función de H, D y N.</li>
+          <li><strong>b)</strong> Deduce la expresión booleana de R.</li>
+          <li><strong>c)</strong> Explica cómo esta lógica contribuye al uso responsable del agua.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.4.1, TEC.4.6.1, TEC.4.4.2</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad (resumen)</strong></p>
+          <p>La salida R será 1 solo en el caso H = 1, D = 1, N = 1. En todas las demás combinaciones, R = 0.</p>
+          <p class="solucion-sub"><strong>b) Expresión booleana</strong></p>
+          <p><span class="boolean">R = H·D·N</span></p>
+          <p class="solucion-sub"><strong>c) Interpretación</strong></p>
+          <p>El sistema solo riega cuando es realmente necesario (suelo seco), hay recurso disponible (depósito lleno) y se reduce la evaporación (riego nocturno). Esto minimiza el consumo de agua y favorece la sostenibilidad.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 3
+            <span>(TEC.4.1.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No representa la lógica del sistema de riego ni identifica las variables que intervienen. No conecta el problema con el uso sostenible del agua (TEC.4.1.1, TEC.4.6.1).</td>
+                <td>Representa parcialmente la tabla de verdad con errores frecuentes y obtiene una expresión incorrecta o incompleta (TEC.4.4.1).</td>
+                <td>Completa correctamente la tabla y obtiene la expresión <span class="boolean">R = H·D·N</span>, aunque con una justificación simple del uso responsable del agua (TEC.4.4.1, TEC.4.6.1).</td>
+                <td>Además de lo anterior, explica con claridad cómo la lógica evita desperdicios de agua y propone posibilidades de sensores o IoT para automatizar el sistema (TEC.4.1.1, TEC.4.4.2, TEC.4.6.1).</td>
+                <td>Propone mejoras creativas (por ejemplo, añadir previsión meteorológica o conexión a datos de humedad del aire), valorando críticamente el impacto ambiental y el diseño del sistema de riego (TEC.4.1.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 4. Alarma de ventana con modo mascotas</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Seguridad en casa</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>Una alarma se activa cuando una ventana se abre y el sistema está armado. Sin embargo, existe un “modo mascotas” que permite abrir ligeramente una ventana sin disparar la alarma cuando está activado.</p>
+        <p class="variables">
+          <span>Variables:</span> V = 1 si la ventana está abierta; A = 1 si la alarma está activada; M = 1 si el modo mascotas está activado; S = 1 si salta la sirena.
+        </p>
+        <p>Se desea que la sirena se active cuando la ventana esté abierta y la alarma esté activada, excepto si está activo el modo mascotas.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Construye la tabla de verdad de S en función de V, A y M.</li>
+          <li><strong>b)</strong> Obtén la expresión booleana simplificada de S.</li>
+          <li><strong>c)</strong> Identifica una situación cotidiana donde el modo mascotas sea útil.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.2, TEC.4.4.1, TEC.4.4.2</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad (esquema)</strong></p>
+          <p>La sirena S se activa cuando V = 1, A = 1 y M = 0. En los demás casos S = 0.</p>
+          <p class="solucion-sub"><strong>b) Expresión booleana</strong></p>
+          <p><span class="boolean">S = V·A·¬M</span></p>
+          <p class="solucion-sub"><strong>c) Ejemplo cotidiano</strong></p>
+          <p>Por ejemplo, por la noche, la familia activa la alarma pero quiere dejar una ventana entreabierta para que el gato pueda salir o entrar. Al activar el modo mascotas, la alarma no se dispara solo por esa ventana controlada.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 4
+            <span>(TEC.4.1.2, TEC.4.4.1, TEC.4.4.2)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No reconoce las condiciones en las que debe saltar la sirena ni relaciona el problema con un sistema de alarma real (TEC.4.4.1).</td>
+                <td>Representa parcialmente la tabla de verdad con errores y no logra obtener la función correcta de S (TEC.4.4.1).</td>
+                <td>Obtiene la expresión <span class="boolean">S = V·A·¬M</span> y propone al menos un ejemplo cotidiano sencillo del uso del modo mascotas (TEC.4.1.2, TEC.4.4.1).</td>
+                <td>Además, explica de manera clara el comportamiento del sistema en varios casos y relaciona el problema con posibles sensores y aplicaciones de domótica reales (TEC.4.4.1, TEC.4.4.2).</td>
+                <td>Analiza críticamente la solución, proponiendo variantes (por ejemplo, diferentes ventanas, horarios o niveles de sensibilidad) y valorando posibles mejoras en seguridad y comodidad (TEC.4.1.2, TEC.4.4.1, TEC.4.4.2).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 5. Ventilación automática en la cocina</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Salud y confort</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En una cocina se instala un sistema de ventilación automática. Se quiere que el extractor se encienda si se da cualquiera de estas condiciones: hay mucho vapor, la temperatura es alta o la placa de cocina está encendida.</p>
+        <p class="variables">
+          <span>Variables:</span> V = 1 si hay mucho vapor; T = 1 si la temperatura es alta; P = 1 si la placa está encendida; E = 1 si el extractor funciona.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Expresa mediante una función lógica la condición de encendido del extractor.</li>
+          <li><strong>b)</strong> Construye la tabla de verdad de E.</li>
+          <li><strong>c)</strong> Señala en qué casos el extractor no se enciende y analiza si eso es razonable.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.3, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función lógica</strong></p>
+          <p><span class="boolean">E = V + T + P</span></p>
+          <p class="solucion-sub"><strong>b) Tabla de verdad</strong></p>
+          <p>E = 0 solo cuando V = 0, T = 0 y P = 0. En cualquier otra combinación, E = 1.</p>
+          <p class="solucion-sub"><strong>c) Análisis</strong></p>
+          <p>El sistema no se enciende cuando no hay vapor, la temperatura está normal y la placa está apagada, lo cual es razonable porque no hace falta ventilación extra. Esto supone un uso responsable de la energía.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 5
+            <span>(TEC.4.1.3, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No describe adecuadamente las condiciones de ventilación ni consigue escribir la función lógica del sistema (TEC.4.4.1).</td>
+                <td>Escribe una función parcial o incorrecta y da una tabla de verdad incompleta o con errores frecuentes (TEC.4.4.1).</td>
+                <td>Escribe correctamente <span class="boolean">E = V + T + P</span> y entiende que el extractor se enciende salvo cuando todas las variables son 0 (TEC.4.4.1).</td>
+                <td>Analiza con claridad los casos en los que no se enciende el extractor y valora la relación con el ahorro energético y la calidad del aire (TEC.4.1.3, TEC.4.6.1).</td>
+                <td>Propone variantes creativas (por ejemplo, diferentes niveles de temperatura o sensores más precisos), justificando su impacto en confort, salud y consumo energético (TEC.4.1.3, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 6. Luz de escritorio para estudiar</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Vida académica</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>Una luz de escritorio inteligente se enciende automáticamente para ayudar a estudiar. Se desea que se encienda solo cuando el alumno está delante del escritorio, hay poca luz natural y está dentro del horario de estudio configurado.</p>
+        <p class="variables">
+          <span>Variables:</span> P = 1 si se detecta presencia en el escritorio; L = 1 si la luz natural es baja; H = 1 si es horario de estudio; S = 1 si se enciende la lámpara de estudio.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Plantea la función lógica que define S.</li>
+          <li><strong>b)</strong> Representa la tabla de verdad (indica en qué caso exacto se enciende).</li>
+          <li><strong>c)</strong> Explica por qué este diseño puede ayudar a ahorrar energía.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.1.3, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función lógica</strong></p>
+          <p><span class="boolean">S = P·L·H</span></p>
+          <p class="solucion-sub"><strong>b) Tabla de verdad</strong></p>
+          <p>S = 1 únicamente cuando P = 1, L = 1 y H = 1. En cualquier otra combinación, S = 0.</p>
+          <p class="solucion-sub"><strong>c) Ahorro de energía</strong></p>
+          <p>La luz solo se enciende cuando alguien va a estudiar y realmente la necesita (poca luz natural), y además solo durante el horario programado. Evita que la lámpara quede encendida sin uso, reduciendo consumo eléctrico.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 6
+            <span>(TEC.4.1.1, TEC.4.1.3, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica correctamente las condiciones para encender la lámpara ni plantea una función lógica coherente (TEC.4.4.1).</td>
+                <td>Plantea una función parcial o confusa y no relaciona bien el sistema con la situación de estudio real (TEC.4.1.1).</td>
+                <td>Formula <span class="boolean">S = P·L·H</span> y entiende el caso en el que se enciende la luz, con una explicación básica del ahorro energético (TEC.4.4.1, TEC.4.6.1).</td>
+                <td>Explica de forma clara cómo cada variable contribuye al ahorro de energía y al uso responsable de la tecnología en el estudio (TEC.4.1.1, TEC.4.1.3, TEC.4.6.1).</td>
+                <td>Propone ampliaciones creativas (por ejemplo, medición de tiempo de estudio, integración con aplicaciones de planificación) y valora su impacto en la organización del trabajo y el consumo energético (TEC.4.1.1, TEC.4.1.3, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 7. Control de acceso a garaje comunitario</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Movilidad diaria</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un garaje comunitario se quiere que la barrera se abra automáticamente solo en determinadas condiciones. El sistema tiene en cuenta si hay plaza libre, si el coche pertenece a un abonado, si la barrera está cerrada y si hay una situación de emergencia.</p>
+        <p class="variables">
+          <span>Variables:</span> L = 1 si hay plaza libre; A = 1 si el vehículo es abonado; C = 1 si la barrera está cerrada; E = 1 si hay emergencia; B = 1 si la barrera se abre.
+        </p>
+        <p>Se desea que la barrera se abra si hay emergencia, independientemente del resto; si no hay emergencia, solo si hay plaza libre, el coche es abonado y la barrera está cerrada.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana B que cumple las condiciones anteriores.</li>
+          <li><strong>b)</strong> ¿En qué casos no se abre la barrera? Explica al menos dos ejemplos.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p><span class="boolean">B = E + ¬E·L·A·C</span></p>
+          <p class="solucion-sub"><strong>b) Casos en los que no se abre</strong></p>
+          <p>Por ejemplo:</p>
+          <ul class="apartados">
+            <li>Si no hay emergencia y no hay plaza libre (L = 0), la barrera no se abre aunque el coche sea abonado.</li>
+            <li>Si el coche no es abonado (A = 0) y no hay emergencia, la barrera no se abre aunque haya plazas libres.</li>
+          </ul>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 7
+            <span>(TEC.4.1.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica las condiciones para abrir/cerrar la barrera ni es capaz de relacionar el problema con un sistema real (TEC.4.4.1).</td>
+                <td>Plantea una función confusa o incompleta y tiene dificultades para explicar casos en los que la barrera no se abre (TEC.4.4.1).</td>
+                <td>Escribe correctamente <span class="boolean">B = E + ¬E·L·A·C</span> y explica al menos un caso en el que la barrera no se abre de forma razonable (TEC.4.4.1).</td>
+                <td>Analiza varios casos de funcionamiento, relacionando la lógica con la seguridad, el acceso responsable y el control del aforo (TEC.4.1.1, TEC.4.4.2, TEC.4.6.1).</td>
+                <td>Propone mejoras creativas (por ejemplo, registro de matrículas, sensores de CO₂ o comunicación con apps de residentes) valorando su impacto en el uso responsable del garaje y el entorno (TEC.4.1.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 8. Ascensor con prioridad de accesibilidad</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Accesibilidad</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un edificio se diseña un ascensor que da prioridad a pisos accesibles cuando hay una persona con movilidad reducida. El sistema registra si se ha pulsado el botón de planta, si se detecta peso excesivo, si el ascensor está en modo mantenimiento y si la planta solicitada es accesible.</p>
+        <p class="variables">
+          <span>Variables:</span> P = 1 si se pulsa el botón de planta; W = 1 si el peso es excesivo; M = 1 si el ascensor está en modo mantenimiento; A = 1 si la planta solicitada es accesible; S = 1 si el ascensor atiende la llamada.
+        </p>
+        <p>Se desea que el ascensor atienda la llamada solo si se pulsa el botón, no hay sobrepeso, no está en mantenimiento y la planta es accesible.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la expresión booleana de S.</li>
+          <li><strong>b)</strong> Explica en qué situaciones se ignora la llamada por seguridad o mantenimiento.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.2.1, TEC.4.4.1, TEC.4.6.1, TEC.4.6.2</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Expresión booleana</strong></p>
+          <p><span class="boolean">S = P·¬W·¬M·A</span></p>
+          <p class="solucion-sub"><strong>b) Situaciones en las que se ignora la llamada</strong></p>
+          <p>Por ejemplo:</p>
+          <ul class="apartados">
+            <li>Si hay sobrepeso (W = 1), el ascensor no atiende nuevas llamadas hasta reducir el peso, garantizando seguridad.</li>
+            <li>Si está en mantenimiento (M = 1), no responde para evitar uso indebido.</li>
+            <li>Si la planta no es accesible (A = 0), el sistema puede derivar a otra planta accesible o avisar a la persona usuaria.</li>
+          </ul>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 8
+            <span>(TEC.4.2.1, TEC.4.4.1, TEC.4.6.1, TEC.4.6.2)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica las condiciones de funcionamiento del ascensor ni relaciona el problema con criterios de accesibilidad y seguridad (TEC.4.2.1, TEC.4.6.2).</td>
+                <td>Propone una función incompleta o con errores y explica de forma poco clara las situaciones de bloqueo por mantenimiento o peso (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">S = P·¬W·¬M·A</span> y reconoce algunas situaciones de seguridad básica (TEC.4.4.1, TEC.4.2.1).</td>
+                <td>Relaciona adecuadamente la lógica del sistema con la accesibilidad, seguridad de las personas y el diseño responsable del ascensor (TEC.4.2.1, TEC.4.6.1, TEC.4.6.2).</td>
+                <td>Analiza críticamente cómo la tecnología del ascensor puede mejorar la calidad de vida, proponiendo ejemplos reales o creativos de edificios accesibles y sistemas inteligentes (TEC.4.2.1, TEC.4.4.1, TEC.4.6.1, TEC.4.6.2).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 9. Control de calefacción en el aula</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Centro educativo</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un aula se quiere controlar la calefacción de forma automática. El sistema tiene en cuenta si la temperatura es baja, si las ventanas están cerradas, si hay alumnado presente y si se está en horario lectivo.</p>
+        <p class="variables">
+          <span>Variables:</span> T = 1 si la temperatura es baja; V = 1 si las ventanas están cerradas; P = 1 si hay alumnado presente; H = 1 si es horario lectivo; C = 1 si se enciende la calefacción.
+        </p>
+        <p>Se desea que la calefacción se encienda solo cuando la temperatura es baja, las ventanas están cerradas, el aula está ocupada y es horario lectivo.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana de C.</li>
+          <li><strong>b)</strong> Indica al menos dos beneficios de este sistema para el centro educativo.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.2.1, TEC.4.6.1, TEC.4.6.2</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p><span class="boolean">C = T·V·P·H</span></p>
+          <p class="solucion-sub"><strong>b) Beneficios</strong></p>
+          <p>Por ejemplo:</p>
+          <ul class="apartados">
+            <li>Ahorro energético y económico al evitar calentar aulas vacías o con ventanas abiertas.</li>
+            <li>Mayor confort térmico para el alumnado y profesorado durante las clases.</li>
+            <li>Uso responsable de la energía, contribuyendo al desarrollo sostenible del centro.</li>
+          </ul>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 9
+            <span>(TEC.4.1.1, TEC.4.2.1, TEC.4.6.1, TEC.4.6.2)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No formula la función booleana ni relaciona la solución con la gestión energética del aula (TEC.4.1.1, TEC.4.6.1).</td>
+                <td>Escribe una función incompleta o con errores y da una explicación breve y poco precisa de los beneficios (TEC.4.2.1).</td>
+                <td>Escribe correctamente <span class="boolean">C = T·V·P·H</span> e identifica al menos un beneficio claro (TEC.4.2.1, TEC.4.6.1).</td>
+                <td>Describe de forma clara varios beneficios para el centro (salud, confort, ahorro, impacto ambiental), conectando la lógica digital con la realidad del aula (TEC.4.1.1, TEC.4.6.1, TEC.4.6.2).</td>
+                <td>Plantea propuestas de mejora (por ejemplo, integración con datos de meteorología o programación horaria avanzada) y reflexiona críticamente sobre la sostenibilidad en el centro educativo (TEC.4.1.1, TEC.4.2.1, TEC.4.6.1, TEC.4.6.2).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 10. Sistema domótico de ahorro energético en casa</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Hogar inteligente</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En una vivienda se instala un sistema domótico que apaga automáticamente las luces y algunos enchufes cuando la casa se queda vacía, siempre que las ventanas estén cerradas, el modo vacaciones esté activado y la alarma esté encendida.</p>
+        <p class="variables">
+          <span>Variables:</span> N = 1 si no hay nadie en casa; V = 1 si todas las ventanas están cerradas; F = 1 si el modo vacaciones está activado; A = 1 si la alarma está encendida; X = 1 si el sistema desactiva luces y enchufes seleccionados.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana que define X.</li>
+          <li><strong>b)</strong> Explica brevemente cómo podría conectarse este sistema con una app móvil (en términos generales).</li>
+          <li><strong>c)</strong> Indica al menos un beneficio para la sostenibilidad y otro para la seguridad.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.3, TEC.4.4.2, TEC.4.5.1, TEC.4.6.1, TEC.4.6.3</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p><span class="boolean">X = N·V·F·A</span></p>
+          <p class="solucion-sub"><strong>b) Conexión con app móvil</strong></p>
+          <p>De forma general, el sistema podría enviar el estado de las variables a una aplicación móvil mediante internet. La persona usuaria podría ver si hay ventanas abiertas, activar el modo vacaciones o la alarma, y el sistema actualizaría la salida X automáticamente.</p>
+          <p class="solucion-sub"><strong>c) Beneficios</strong></p>
+          <ul class="apartados">
+            <li><strong>Sostenibilidad:</strong> evita consumos eléctricos innecesarios al apagar luces y enchufes cuando nadie está en casa.</li>
+            <li><strong>Seguridad:</strong> al combinarse con la alarma y el cierre de ventanas, reduce el riesgo de intrusiones.</li>
+          </ul>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 10
+            <span>(TEC.4.1.3, TEC.4.4.2, TEC.4.5.1, TEC.4.6.1, TEC.4.6.3)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No consigue formular la función ni relaciona el sistema con el uso de apps o la sostenibilidad (TEC.4.1.3, TEC.4.6.1).</td>
+                <td>Formula parcialmente la función lógica y da explicaciones muy básicas sobre la conexión con una app y los beneficios (TEC.4.4.2).</td>
+                <td>Escribe correctamente <span class="boolean">X = N·V·F·A</span>, identifica un beneficio de sostenibilidad y uno de seguridad (TEC.4.4.2, TEC.4.6.1, TEC.4.6.3).</td>
+                <td>Además, describe con claridad cómo una app podría mostrar estados y permitir configurar el sistema, valorando el uso responsable de la tecnología (TEC.4.1.3, TEC.4.5.1, TEC.4.6.3).</td>
+                <td>Propone ideas creativas de comunidad y proyectos de servicio (por ejemplo, compartir datos de consumo para concienciar al barrio) y analiza críticamente el impacto social de este tipo de domótica (TEC.4.1.3, TEC.4.4.2, TEC.4.5.1, TEC.4.6.1, TEC.4.6.3).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 11. Luz del baño con sensor de presencia</h3>
+        <div class="exercise-meta">
+          <span>2 variables</span>
+          <span>Ahorro energético</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un baño se instala una luz controlada por un sensor de presencia y un interruptor general. La luz solo debe encenderse si el interruptor general está encendido y el sensor detecta presencia.</p>
+        <p class="variables">
+          <span>Variables:</span> I = 1 si el interruptor general está encendido; P = 1 si el sensor detecta presencia; L = 1 si la luz del baño está encendida.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Completa la tabla de verdad de L en función de I y P.</li>
+          <li><strong>b)</strong> Obtén la expresión booleana simplificada de L.</li>
+          <li><strong>c)</strong> Explica por qué este sistema ayuda a ahorrar energía.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad</strong></p>
+          <p>
+            I = 0, P = 0 → L = 0<br />
+            I = 0, P = 1 → L = 0<br />
+            I = 1, P = 0 → L = 0<br />
+            I = 1, P = 1 → L = 1
+          </p>
+          <p class="solucion-sub"><strong>b) Expresión booleana</strong></p>
+          <p><span class="boolean">L = I·P</span></p>
+          <p class="solucion-sub"><strong>c) Ahorro energético</strong></p>
+          <p>La luz no puede quedarse encendida si no hay nadie, ya que depende de la presencia. Tampoco se enciende si el interruptor general está apagado, lo que permite desconectar totalmente el sistema, reduciendo consumos innecesarios.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 11
+            <span>(TEC.4.1.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No completa la tabla de verdad ni identifica cuándo se enciende la luz (TEC.4.4.1).</td>
+                <td>Completa la tabla con varios errores y propone una función lógica incompleta (TEC.4.4.1).</td>
+                <td>Completa la tabla y obtiene <span class="boolean">L = I·P</span>, explicando de forma básica el sistema (TEC.4.4.1).</td>
+                <td>Relaciona la lógica con el ahorro energético y la comodidad de uso, argumentando de forma clara (TEC.4.1.1, TEC.4.6.1).</td>
+                <td>Propone mejoras (temporizadores, sensores de luz natural, etc.) y valora su impacto en el ahorro y la sostenibilidad (TEC.4.1.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 12. Deshumidificador con control automático</h3>
+        <div class="exercise-meta">
+          <span>2 variables</span>
+          <span>Salud y confort</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En una habitación se instala un deshumidificador que solo debe encenderse cuando la humedad es alta y la ventana está cerrada para que el proceso sea eficiente.</p>
+        <p class="variables">
+          <span>Variables:</span> H = 1 si la humedad es alta; V = 1 si la ventana está cerrada; D = 1 si el deshumidificador está encendido.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la tabla de verdad de D.</li>
+          <li><strong>b)</strong> Obtén la función lógica de D.</li>
+          <li><strong>c)</strong> ¿Qué ocurriría si el sistema no tuviera en cuenta la ventana?</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.2.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad</strong></p>
+          <p>
+            H = 0, V = 0 → D = 0<br />
+            H = 0, V = 1 → D = 0<br />
+            H = 1, V = 0 → D = 0<br />
+            H = 1, V = 1 → D = 1
+          </p>
+          <p class="solucion-sub"><strong>b) Función lógica</strong></p>
+          <p><span class="boolean">D = H·V</span></p>
+          <p class="solucion-sub"><strong>c) Análisis</strong></p>
+          <p>Si no se tuviera en cuenta la ventana, el deshumidificador podría funcionar con la ventana abierta, perdiendo eficacia y energía al intentar secar aire que se renueva continuamente.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 12
+            <span>(TEC.4.2.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No completa la tabla de verdad ni comprende la relación entre humedad, ventana y funcionamiento (TEC.4.4.1).</td>
+                <td>Completa la tabla con errores y obtiene una función incompleta o incorrecta (TEC.4.4.1).</td>
+                <td>Obtiene <span class="boolean">D = H·V</span> y comprende por qué solo se enciende en ese caso (TEC.4.2.1, TEC.4.4.1).</td>
+                <td>Analiza de forma clara el impacto de ignorar la ventana y lo relaciona con eficiencia y consumo energético (TEC.4.6.1).</td>
+                <td>Propone mejoras (por ejemplo, integrar sensores de CO₂ o sistemas de ventilación cruzada) y reflexiona sobre salud y sostenibilidad (TEC.4.2.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 13. Iluminación del portal con reloj astronómico</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Edificio residencial</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En el portal de una comunidad se quiere que la luz se encienda automáticamente cuando sea de noche o cuando haya poca luz, pero solo si el reloj astronómico indica que es hora de iluminación y el interruptor de mantenimiento no está apagado.</p>
+        <p class="variables">
+          <span>Variables:</span> N = 1 si es de noche; L = 1 si hay poca luz; R = 1 si el reloj astronómico permite el encendido; M = 1 si el técnico activa el modo apagado por mantenimiento; P = 1 si la luz del portal está encendida.
+        </p>
+        <p>Para simplificar, considera que la luz debe encenderse cuando (N + L) es 1, el reloj autoriza (R = 1) y no hay mantenimiento (M = 0).</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe una función booleana para P usando N, L, R y M.</li>
+          <li><strong>b)</strong> Indica en qué casos P = 0 aunque sea de noche.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p>Primero, la condición de oscuridad: <span class="boolean">N + L</span>. Luego, reloj y mantenimiento:</p>
+          <p><span class="boolean">P = (N + L)·R·¬M</span></p>
+          <p class="solucion-sub"><strong>b) Casos en los que P = 0 aunque sea de noche</strong></p>
+          <p>Por ejemplo:</p>
+          <ul class="apartados">
+            <li>Si es de noche (N = 1) pero el reloj astronómico está desactivado para ahorro (R = 0), entonces P = 0.</li>
+            <li>Si es de noche (N = 1) pero hay mantenimiento y M = 1, la luz se mantiene apagada para poder hacer trabajos eléctricos.</li>
+          </ul>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 13
+            <span>(TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No comprende las condiciones del sistema de iluminación ni las traduce a una función lógica (TEC.4.4.1).</td>
+                <td>Formula una función incompleta o con errores y no analiza correctamente los casos de apagado (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">P = (N + L)·R·¬M</span> y describe de forma básica algunos casos en los que la luz no se enciende (TEC.4.1.1, TEC.4.4.1).</td>
+                <td>Relaciona la lógica con la gestión energética del edificio y la seguridad de las personas, razonando diferentes escenarios (TEC.4.2.1, TEC.4.6.1).</td>
+                <td>Propone mejoras creativas (sensores de presencia, ajuste automático según estación del año) y valora críticamente su impacto en confort, consumo y sostenibilidad (TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 14. Sistema de aviso de aula abierta</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Centro educativo</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un instituto se quiere instalar un sistema que avise en conserjería cuando una puerta de aula se queda abierta sin alumnado dentro, fuera del horario lectivo, por motivos de seguridad.</p>
+        <p class="variables">
+          <span>Variables:</span> D = 1 si la puerta está abierta; P = 1 si hay alumnado presente; H = 1 si es horario lectivo; A = 1 si se activa la alarma en conserjería.
+        </p>
+        <p>Se desea que la alarma se active cuando la puerta esté abierta, no haya alumnado y no sea horario lectivo.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la expresión booleana de A.</li>
+          <li><strong>b)</strong> Indica un caso en el que la puerta pueda estar abierta sin activar la alarma.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.2, TEC.4.4.1, TEC.4.6.1, TEC.4.6.3</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Expresión booleana</strong></p>
+          <p>Condiciones: D = 1, P = 0, H = 0.</p>
+          <p><span class="boolean">A = D·¬P·¬H</span></p>
+          <p class="solucion-sub"><strong>b) Caso sin alarma</strong></p>
+          <p>Por ejemplo, si la puerta está abierta (D = 1) pero es horario lectivo (H = 1) y hay alumnado dentro (P = 1), la alarma no se activa porque la situación es normal.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 14
+            <span>(TEC.4.1.2, TEC.4.4.1, TEC.4.6.1, TEC.4.6.3)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No traduce la situación de seguridad a una lógica clara ni propone una función coherente (TEC.4.4.1).</td>
+                <td>Plantea una función incompleta o con errores y no distingue bien los casos de alarma y no alarma (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">A = D·¬P·¬H</span> y explica al menos un caso en el que la alarma no se activa (TEC.4.1.2, TEC.4.4.1).</td>
+                <td>Relaciona el sistema con la seguridad del centro y el cuidado de los espacios, valorando su importancia (TEC.4.6.1, TEC.4.6.3).</td>
+                <td>Plantea ideas de proyectos de servicio a la comunidad educativa (campañas, sistemas compartidos, indicadores en apps) conectados con esta lógica de seguridad (TEC.4.1.2, TEC.4.4.1, TEC.4.6.1, TEC.4.6.3).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 15. Control de ventiladores en un invernadero escolar</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Proyecto escolar</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un invernadero del centro educativo, el alumnado diseña un sistema que enciende ventiladores para regular el clima. Deben encenderse cuando la temperatura sea alta o la humedad interior sea muy elevada, pero solo si el sistema está activado desde el panel de control.</p>
+        <p class="variables">
+          <span>Variables:</span> T = 1 si la temperatura es alta; H = 1 si la humedad es muy alta; S = 1 si el sistema está activado; F = 1 si los ventiladores se encienden.
+        </p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función lógica que define F.</li>
+          <li><strong>b)</strong> Representa la tabla de verdad de F.</li>
+          <li><strong>c)</strong> Explica por qué es importante que el sistema pueda desactivarse desde el panel.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.3, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función lógica</strong></p>
+          <p>El sistema debe estar activado (S = 1) y debe darse calor o exceso de humedad:</p>
+          <p><span class="boolean">F = S·(T + H)</span></p>
+          <p class="solucion-sub"><strong>b) Tabla de verdad (resumen)</strong></p>
+          <p>Si S = 0, entonces F = 0 en todas las combinaciones. Si S = 1, F = 1 cuando T = 1 o H = 1.</p>
+          <p class="solucion-sub"><strong>c) Importancia del panel</strong></p>
+          <p>El panel permite parar el sistema en tareas de mantenimiento o cuando no se desea usarlo, aunque los sensores detecten valores altos. Esto evita riesgos y permite un control responsable del invernadero.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 15
+            <span>(TEC.4.1.3, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica correctamente las variables ni es capaz de proponer una función coherente (TEC.4.4.1).</td>
+                <td>Propone una función lógica incompleta o con errores y no representa bien la tabla de verdad (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">F = S·(T + H)</span> y comprende cuándo se activan los ventiladores (TEC.4.4.1, TEC.4.2.1).</td>
+                <td>Explica con claridad el papel del panel de control y lo relaciona con seguridad y mantenimiento (TEC.4.1.3, TEC.4.6.1).</td>
+                <td>Propone mejoras de proyecto (monitorización con datos, gráficos, integración con IoT) conectando la parte digital con la sostenibilidad del invernadero (TEC.4.1.3, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 16. Aviso de uso del laboratorio de tecnología</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Organización de espacios</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En el laboratorio de tecnología se quiere que se encienda un piloto en la puerta cuando el laboratorio está ocupado y se están utilizando herramientas peligrosas, para que el profesorado y conserjería lo sepan.</p>
+        <p class="variables">
+          <span>Variables:</span> O = 1 si el laboratorio está ocupado; P = 1 si se usan herramientas peligrosas (por ejemplo, sierra, taladro); H = 1 si hay un profesor o profesora presente; L = 1 si se enciende el piloto de aviso.</p>
+        <p>Se decide que el piloto se encenderá si el laboratorio está ocupado y se usan herramientas peligrosas, siempre que haya un docente presente.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función lógica de L.</li>
+          <li><strong>b)</strong> Explica por qué es importante tener en cuenta la presencia del profesorado.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.2, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función lógica</strong></p>
+          <p><span class="boolean">L = O·P·H</span></p>
+          <p class="solucion-sub"><strong>b) Importancia del profesorado</strong></p>
+          <p>Marcar que hay un docente presente permite distinguir situaciones de uso controlado (con profesor responsable) de posibles usos inadecuados. El piloto solo tiene sentido si la actividad está supervisada, y facilita a otros docentes y conserjería saber que se están usando herramientas que requieren atención.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 16
+            <span>(TEC.4.1.2, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica correctamente las condiciones de encendido del piloto ni traduce la situación a una función lógica (TEC.4.4.1).</td>
+                <td>Propone una función parcial o incorrecta y no explica bien la importancia de la supervisión docente (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">L = O·P·H</span> y describe de forma básica el papel del piloto (TEC.4.1.2, TEC.4.4.1).</td>
+                <td>Relata con claridad cómo el sistema mejora la seguridad en el laboratorio y la organización del centro (TEC.4.6.1).</td>
+                <td>Propone mejoras y protocolos de uso del laboratorio ligados al sistema (por ejemplo, hojas de registro, apps de reserva, avisos adicionales) relacionando tecnología y cultura de seguridad (TEC.4.1.2, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 17. Sistema de control de persianas inteligentes</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Confort térmico</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un salón se instalan persianas inteligentes que se bajan automáticamente para evitar sobrecalentamiento. El sistema tiene en cuenta la intensidad solar, la temperatura interior, si hay personas en la habitación y si el usuario ha activado el modo automático.</p>
+        <p class="variables">
+          <span>Variables:</span> S = 1 si la radiación solar es alta; T = 1 si la temperatura interior es alta; P = 1 si hay personas en el salón; A = 1 si el modo automático está activado; B = 1 si las persianas se bajan.</p>
+        <p>Se decide que las persianas se bajarán si el modo automático está activado y (la radiación es alta o la temperatura es alta) y hay personas en la habitación.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana que define B.</li>
+          <li><strong>b)</strong> Explica por qué tiene sentido que el sistema se active solo cuando P = 1.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.3, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1, TEC.4.6.2</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p>Condición de calor o sol: <span class="boolean">S + T</span>. Con presencia y modo automático:</p>
+          <p><span class="boolean">B = A·P·(S + T)</span></p>
+          <p class="solucion-sub"><strong>b) Presencia de personas</strong></p>
+          <p>Si no hay nadie en el salón (P = 0), puede no ser necesario bajar persianas en ese momento, o podrían seguir otros criterios. Hacer depender el movimiento de la presencia aumenta el confort de las personas y permite adaptar mejor la luz cuando están utilizando la estancia.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 17
+            <span>(TEC.4.1.3, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1, TEC.4.6.2)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica las variables clave del sistema ni propone una función adecuada (TEC.4.4.1).</td>
+                <td>Propone una función incompleta o con errores y no argumenta bien la condición de presencia (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">B = A·P·(S + T)</span> y comprende la relación básica con el confort térmico (TEC.4.2.1, TEC.4.4.1).</td>
+                <td>Explica con claridad por qué se considera la presencia de personas y relaciona el sistema con el ahorro energético y el confort (TEC.4.1.3, TEC.4.6.1, TEC.4.6.2).</td>
+                <td>Conecta este modelo con ejemplos reales de arquitectura bioclimática y domótica, describiendo beneficios para el desarrollo sostenible (TEC.4.1.3, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1, TEC.4.6.2).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 18. Sistema de recarga de bicicletas eléctricas en un instituto</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Ecotransporte</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>Un instituto quiere instalar un sistema de recarga de bicicletas eléctricas que favorezca la movilidad sostenible. Se desea que los puntos de carga se activen automáticamente solo en determinadas condiciones.</p>
+        <p class="variables">
+          <span>Variables:</span> B = 1 si hay bicicleta conectada; H = 1 si es horario lectivo; S = 1 si el sistema fotovoltaico está produciendo energía suficiente; C = 1 si el conserje ha activado el modo de recarga; R = 1 si se activa la recarga.</p>
+        <p>Se define que la recarga se active cuando haya bicicleta conectada, haya producción solar suficiente y el modo de recarga esté activado. Además, se prioriza que sea horario lectivo para vincularlo al uso por parte del alumnado.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función lógica R en función de B, H, S y C.</li>
+          <li><strong>b)</strong> Explica por qué tiene sentido relacionar el sistema con la producción solar y el horario lectivo.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.2.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.2, TEC.4.6.3</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función lógica</strong></p>
+          <p><span class="boolean">R = B·H·S·C</span></p>
+          <p class="solucion-sub"><strong>b) Explicación</strong></p>
+          <p>Relacionar la recarga con la producción solar fomenta el uso de energías renovables y evita consumir electricidad de la red cuando no es necesario. Vincularlo al horario lectivo lo orienta a un proyecto educativo de ecotransporte, dirigido al alumnado, reforzando hábitos sostenibles.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 18
+            <span>(TEC.4.2.1, TEC.4.4.1, TEC.4.4.2, TEC.4.6.2, TEC.4.6.3)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No relaciona el sistema de recarga con la lógica digital ni con el ecotransporte (TEC.4.4.1, TEC.4.6.2).</td>
+                <td>Formula una función incompleta y no explica bien por qué se consideran la energía solar y el horario (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">R = B·H·S·C</span> y hace una explicación básica del vínculo con sostenibilidad y centro educativo (TEC.4.2.1, TEC.4.6.2).</td>
+                <td>Analiza con claridad cómo el sistema favorece la movilidad sostenible del alumnado y el uso de energías renovables (TEC.4.4.2, TEC.4.6.2, TEC.4.6.3).</td>
+                <td>Propone ideas de proyecto social (servicio de recarga comunitaria, campañas de sensibilización) conectando ecotransporte, tecnología y participación ciudadana (TEC.4.2.1, TEC.4.4.2, TEC.4.6.2, TEC.4.6.3).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 19. Control automático de iluminación en biblioteca</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Espacios de estudio</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En la biblioteca del centro se quiere automatizar el encendido de la iluminación general. El sistema tiene en cuenta la presencia, la luz natural, el horario de apertura y si se ha activado un modo “evento especial”.</p>
+        <p class="variables">
+          <span>Variables:</span> P = 1 si hay personas dentro; L = 1 si la luz natural es baja; H = 1 si es horario de biblioteca; E = 1 si hay evento especial (charla, reunión); I = 1 si se enciende la iluminación general.</p>
+        <p>La iluminación general debe encenderse cuando sea horario de biblioteca y haya poca luz natural y presencia, o siempre que haya un evento especial (aunque no sea horario habitual).</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana I que describe el sistema.</li>
+          <li><strong>b)</strong> Explica qué papel juega el evento especial en la lógica.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p>Parte de biblioteca normal: <span class="boolean">H·P·L</span>. Parte de evento especial: <span class="boolean">E</span>.</p>
+          <p><span class="boolean">I = H·P·L + E</span></p>
+          <p class="solucion-sub"><strong>b) Evento especial</strong></p>
+          <p>El evento especial permite saltarse las condiciones habituales para iluminar la biblioteca cuando hay una actividad extraordinaria, garantizando confort y visibilidad incluso fuera del horario normal o con otras condiciones.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 19
+            <span>(TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No comprende la situación ni la traduce a una función lógica coherente (TEC.4.4.1).</td>
+                <td>Formula una función con errores o sin integrar bien la condición de evento especial (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">I = H·P·L + E</span> y comprende el papel especial de E (TEC.4.1.1, TEC.4.4.1).</td>
+                <td>Relaciona el diseño con el ahorro energético y con la calidad de los espacios de estudio (TEC.4.2.1, TEC.4.6.1).</td>
+                <td>Propone ideas para registrar datos reales de uso de la biblioteca y ajustar la lógica, conectando tecnología y gestión de espacios educativos (TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 20. Control de un ventilador de techo en dormitorio</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Confort en el hogar</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>Un ventilador de techo en un dormitorio dispone de varios condicionantes: interruptor general, temperatura alta, presencia en la habitación y modo “ruido bajo” para la noche (que solo permite funcionar en velocidad baja, pero asumimos que activa igualmente el ventilador).</p>
+        <p class="variables">
+          <span>Variables:</span> I = 1 si el interruptor general está encendido; T = 1 si la temperatura es alta; P = 1 si hay presencia; N = 1 si el modo “ruido bajo” está activado; F = 1 si el ventilador se enciende.</p>
+        <p>Se quiere que el ventilador se encienda cuando el interruptor está encendido y hay presencia, y además o bien la temperatura es alta, o bien se ha activado el modo “ruido bajo” porque la persona quiere ventilación suave aunque no haga tanto calor.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana F.</li>
+          <li><strong>b)</strong> Explica un caso en el que el ventilador permanezca apagado aunque la temperatura sea alta.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.3, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p>Combinamos interruptor, presencia y (temperatura alta o modo noche):</p>
+          <p><span class="boolean">F = I·P·(T + N)</span></p>
+          <p class="solucion-sub"><strong>b) Caso con ventilador apagado</strong></p>
+          <p>Por ejemplo, si la temperatura es alta (T = 1) pero el interruptor general está apagado (I = 0), entonces F = 0, ya que el sistema está desactivado.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 20
+            <span>(TEC.4.1.3, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica el papel del interruptor, la presencia y los modos de funcionamiento del ventilador (TEC.4.4.1).</td>
+                <td>Propone una función incompleta o con errores y no explica correctamente los casos de apagado (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">F = I·P·(T + N)</span> y describe de forma simple algún caso de funcionamiento (TEC.4.4.1).</td>
+                <td>Relaciona el diseño con el confort y el uso responsable de la energía, explicando claramente varios casos (TEC.4.1.3, TEC.4.6.1).</td>
+                <td>Propone mejoras creativas (control desde app, integración con ventanas, programación horaria) y las vincula con la sostenibilidad y el bienestar en el hogar (TEC.4.1.3, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 21. Control de una lámpara de lectura en la cama</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Hábitos de lectura</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>Se diseña una lámpara de lectura junto a la cama que puede encenderse solo si se da la combinación adecuada de tres condiciones: el usuario ha pulsado el botón de encendido, la luz ambiental es baja y no se ha activado el modo “descanso total” en el móvil (que apaga todas las luces).</p>
+        <p class="variables">
+          <span>Variables:</span> B = 1 si se pulsa el botón de la lámpara; L = 1 si la luz ambiental es baja; D = 1 si el modo “descanso total” está activado; R = 1 si se enciende la lámpara.</p>
+        <p>La lámpara se encenderá si B = 1, L = 1 y D = 0.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana de R.</li>
+          <li><strong>b)</strong> Haz un breve comentario sobre cómo este diseño puede ayudar a mejorar los hábitos de sueño.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.4.1, TEC.4.5.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p><span class="boolean">R = B·L·¬D</span></p>
+          <p class="solucion-sub"><strong>b) Comentario</strong></p>
+          <p>Al disponer de un modo “descanso total” que impide encender luces aunque se pulse el botón, la persona puede evitar tentaciones de seguir leyendo mucho más tiempo del deseado, contribuyendo a un horario de sueño más regular y a un uso más consciente de la tecnología.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 21
+            <span>(TEC.4.1.1, TEC.4.4.1, TEC.4.5.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No formula la función lógica ni relaciona el problema con la vida cotidiana (TEC.4.4.1).</td>
+                <td>Formula una función parcial o con errores y realiza una reflexión muy superficial sobre el sueño (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">R = B·L·¬D</span> y hace una breve conexión con el control de los hábitos de lectura (TEC.4.1.1, TEC.4.4.1).</td>
+                <td>Explica con claridad cómo el modo “descanso total” ayuda a gestionar mejor el descanso, relacionándolo con un uso responsable de la tecnología (TEC.4.5.1, TEC.4.6.1).</td>
+                <td>Propone ideas para integrar este sistema en apps de bienestar y calendario de estudio, valorando el impacto en la salud y la organización personal (TEC.4.1.1, TEC.4.4.1, TEC.4.5.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 22. Control de una fuente decorativa en un patio</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Espacios exteriores</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En el patio de una casa o del centro se instala una fuente decorativa. Se quiere que funcione solo cuando es horario diurno, hay personas presentes en el patio y el depósito de agua está suficientemente lleno.</p>
+        <p class="variables">
+          <span>Variables:</span> D = 1 si es horario diurno; P = 1 si hay personas presentes; W = 1 si el depósito de agua está lleno; F = 1 si la fuente funciona.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana de F.</li>
+          <li><strong>b)</strong> Explica por qué es importante tener en cuenta el nivel de agua.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p><span class="boolean">F = D·P·W</span></p>
+          <p class="solucion-sub"><strong>b) Explicación</strong></p>
+          <p>Si el depósito no está lo suficientemente lleno, la bomba de la fuente podría trabajar en vacío, sobrecalentarse o estropearse, además de desperdiciar energía sin producir el efecto deseado. Considerar W protege el sistema y contribuye a un uso responsable del agua.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 22
+            <span>(TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No identifica las condiciones de funcionamiento de la fuente ni propone una función lógica adecuada (TEC.4.4.1).</td>
+                <td>Formula una función con errores y no explica el papel del nivel de agua (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">F = D·P·W</span> y hace una explicación sencilla del porqué de las condiciones (TEC.4.1.1, TEC.4.4.1).</td>
+                <td>Relaciona la lógica con el cuidado del sistema y el uso responsable del agua y la energía (TEC.4.2.1, TEC.4.6.1).</td>
+                <td>Propone mejoras (sensores de lluvia, conexión con datos meteorológicos) y las vincula con el diseño de espacios exteriores sostenibles (TEC.4.1.1, TEC.4.2.1, TEC.4.4.1, TEC.4.6.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 23. Señal de “no molestar” en un despacho</h3>
+        <div class="exercise-meta">
+          <span>2 variables</span>
+          <span>Comunicación en espacios compartidos</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un despacho se coloca un indicador luminoso de “no molestar”. La persona que trabaja dentro puede activar un interruptor para encender el indicador, pero también se enciende automáticamente cuando está en una videollamada.</p>
+        <p class="variables">
+          <span>Variables:</span> I = 1 si la persona activa el interruptor; V = 1 si hay videollamada en curso; N = 1 si el indicador de “no molestar” está encendido.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la tabla de verdad de N.</li>
+          <li><strong>b)</strong> Obtén la función booleana de N.</li>
+          <li><strong>c)</strong> Explica cómo este sistema mejora la comunicación y el respeto en espacios compartidos.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.3.1, TEC.4.4.1, TEC.4.5.1</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Tabla de verdad</strong></p>
+          <p>
+            I = 0, V = 0 → N = 0<br />
+            I = 0, V = 1 → N = 1<br />
+            I = 1, V = 0 → N = 1<br />
+            I = 1, V = 1 → N = 1
+          </p>
+          <p class="solucion-sub"><strong>b) Función booleana</strong></p>
+          <p><span class="boolean">N = I + V</span></p>
+          <p class="solucion-sub"><strong>c) Comunicación y respeto</strong></p>
+          <p>El indicador informa visualmente a otras personas de que no conviene interrumpir en ese momento, bien porque el usuario lo ha decidido o porque está en videollamada, favoreciendo la comunicación asertiva y el respeto en espacios compartidos.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 23
+            <span>(TEC.4.3.1, TEC.4.4.1, TEC.4.5.1)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No completa la tabla de verdad ni relaciona el problema con la comunicación en el entorno de trabajo (TEC.4.4.1).</td>
+                <td>Completa la tabla con errores y obtiene una función incorrecta (TEC.4.4.1).</td>
+                <td>Obtiene <span class="boolean">N = I + V</span> y explica de forma básica la utilidad del indicador (TEC.4.3.1, TEC.4.4.1).</td>
+                <td>Relaciona el sistema con la comunicación asertiva y el uso de herramientas digitales para mejorar la convivencia (TEC.4.3.1, TEC.4.5.1).</td>
+                <td>Propone variantes (integración con calendario, estado en plataformas de mensajería) y reflexiona sobre buenas prácticas de comunicación digital (TEC.4.3.1, TEC.4.4.1, TEC.4.5.1).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 24. Control de alarmas de un pequeño huerto urbano</h3>
+        <div class="exercise-meta">
+          <span>3 variables</span>
+          <span>Huerto escolar o comunitario</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un huerto urbano gestionado por un grupo de vecinos o por el alumnado, se quiere activar una alarma en el móvil cuando se combina el riesgo de helada y la falta de riego, pero solo si el sistema está en modo vigilancia.</p>
+        <p class="variables">
+          <span>Variables:</span> F = 1 si hay riesgo de helada (temperatura muy baja); R = 1 si falta riego; M = 1 si el sistema está en modo vigilancia; A = 1 si se envía una alarma al móvil.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana de A.</li>
+          <li><strong>b)</strong> Explica brevemente cómo este sistema puede formar parte de un proyecto de servicio a la comunidad.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.1.3, TEC.4.4.2, TEC.4.5.1, TEC.4.6.3</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p>Se quiere alarma cuando se combina riesgo de helada y falta de riego y el sistema está en vigilancia:</p>
+          <p><span class="boolean">A = F·R·M</span></p>
+          <p class="solucion-sub"><strong>b) Proyecto de servicio</strong></p>
+          <p>El sistema puede ayudar a vecinos o alumnado a cuidar un huerto comunitario con menos desplazamientos, reaccionando a situaciones críticas. Se puede integrar en un proyecto de aprendizaje-servicio sobre alimentación saludable, sostenibilidad y cooperación vecinal.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 24
+            <span>(TEC.4.1.3, TEC.4.4.2, TEC.4.5.1, TEC.4.6.3)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No formula la función booleana ni relaciona el huerto con un proyecto tecnológico (TEC.4.4.2).</td>
+                <td>Propone una función incompleta y una conexión muy superficial con la comunidad (TEC.4.4.2).</td>
+                <td>Escribe <span class="boolean">A = F·R·M</span> y explica de forma sencilla cómo ayuda a cuidar el huerto (TEC.4.1.3, TEC.4.5.1).</td>
+                <td>Relata un posible proyecto de servicio a la comunidad vinculado al huerto y al sistema de alarmas (TEC.4.6.3).</td>
+                <td>Diseña una idea clara de proyecto de aprendizaje-servicio con tecnologías digitales (sensores, apps, datos) y reflexiona sobre sus beneficios sociales y ambientales (TEC.4.1.3, TEC.4.4.2, TEC.4.5.1, TEC.4.6.3).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="exercise-card">
+      <div class="exercise-header">
+        <h3 class="exercise-title">Problema 25. Control de carga de dispositivos en un aula de informática</h3>
+        <div class="exercise-meta">
+          <span>4 variables</span>
+          <span>Gestión de recursos TIC</span>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <p>En un aula de informática hay varias regletas inteligentes para cargar portátiles y tabletas. Se quiere que las regletas se activen solo cuando sea horario lectivo, haya dispositivos conectados, el nivel de batería medio sea bajo y el responsable TIC haya activado el modo de carga desde un panel.</p>
+        <p class="variables">
+          <span>Variables:</span> H = 1 si es horario lectivo; D = 1 si hay dispositivos conectados; B = 1 si el nivel de batería medio es bajo; R = 1 si el responsable TIC ha activado el modo de carga; C = 1 si las regletas de carga se activan.</p>
+        <ul class="apartados">
+          <li><strong>a)</strong> Escribe la función booleana de C.</li>
+          <li><strong>b)</strong> Explica cómo este sistema ayuda a cuidar los dispositivos y ahorrar energía en el centro.</li>
+        </ul>
+        <p class="variables"><span>Criterios relacionados:</span> TEC.4.2.1, TEC.4.4.1, TEC.4.5.1, TEC.4.6.1, TEC.4.6.3</p>
+
+        <details>
+          <summary>Solución</summary>
+          <p class="solucion-sub"><strong>a) Función booleana</strong></p>
+          <p><span class="boolean">C = H·D·B·R</span></p>
+          <p class="solucion-sub"><strong>b) Explicación</strong></p>
+          <p>El sistema evita tener regletas siempre encendidas, reduciendo el consumo en espera. Además, carga los dispositivos principalmente cuando lo necesitan y en horario lectivo, alargando la vida útil de las baterías y facilitando que estén listos para las clases. El control del responsable TIC permite coordinarlo con el uso real de los equipos.</p>
+        </details>
+
+        <div class="rubrica-container">
+          <div class="rubrica-title">
+            Rúbrica específica problema 25
+            <span>(TEC.4.2.1, TEC.4.4.1, TEC.4.5.1, TEC.4.6.1, TEC.4.6.3)</span>
+          </div>
+          <div class="rubrica-scroll">
+            <table class="rubrica-table">
+              <tr>
+                <th>Nivel</th>
+                <th>1–2,9</th>
+                <th>3–4,9</th>
+                <th>5–6,9</th>
+                <th>7–8,9</th>
+                <th>9–10</th>
+              </tr>
+              <tr>
+                <td>Desempeño</td>
+                <td>No formula la función booleana ni relaciona el sistema con la gestión de recursos TIC (TEC.4.4.1).</td>
+                <td>Formula una función parcial o con errores y describe de forma muy simple el impacto del sistema (TEC.4.4.1).</td>
+                <td>Escribe <span class="boolean">C = H·D·B·R</span> y hace una explicación básica del ahorro y del cuidado de dispositivos (TEC.4.2.1, TEC.4.5.1).</td>
+                <td>Relaciona el sistema con la organización del aula de informática, el ahorro energético y la vida útil de los equipos (TEC.4.6.1, TEC.4.6.3).</td>
+                <td>Propone un diseño más amplio de gestión TIC (estadísticas, avisos, priorización de grupos) que integra esta lógica en un proyecto de mejora del centro (TEC.4.2.1, TEC.4.4.1, TEC.4.5.1, TEC.4.6.1, TEC.4.6.3).</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer>
+  Documento HTML responsivo para trabajo de aula en Tecnología 4.º ESO. Adaptable a ordenador, tablet y móvil.
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Seleccionar todos los encabezados de ejercicios
+    const headers = document.querySelectorAll(".exercise-header");
+
+    headers.forEach(header => {
+      header.addEventListener("click", () => {
+        // Encontrar la tarjeta padre
+        const card = header.closest(".exercise-card");
+        
+        // Alternar la clase 'active' que controla la visibilidad y la flecha
+        card.classList.toggle("active");
+      });
+    });
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    
+    // Seleccionamos todas las cabeceras existentes
+    const headers = document.querySelectorAll(".exercise-header");
+    
+    headers.forEach(oldHeader => {
+      // 1. TRUCO DE LIMPIEZA: Clonamos la cabecera para eliminar CUALQUIER evento 'click' antiguo duplicado
+      // Esto soluciona el problema de que "no se desplieguen" por conflicto de scripts.
+      const newHeader = oldHeader.cloneNode(true);
+      oldHeader.parentNode.replaceChild(newHeader, oldHeader);
+
+      // 2. Limpiamos posibles botones antiguos clonados para no duplicarlos
+      const oldBtn = newHeader.querySelector(".pdf-btn");
+      if(oldBtn) oldBtn.remove();
+
+      // 3. Reactivamos el ACORDEÓN (Abrir/Cerrar) en la cabecera limpia
+      newHeader.addEventListener("click", (e) => {
+        // Si el clic fue en el botón, no hacemos nada aquí (se encarga el evento del botón)
+        if (e.target.closest('.pdf-btn')) return;
+
+        const card = newHeader.closest(".exercise-card");
+        card.classList.toggle("active");
+      });
+
+      // 4. Inyectamos de nuevo el BOTÓN PDF
+      const meta = newHeader.querySelector(".exercise-meta");
+      if(meta) {
+        const btn = document.createElement("button");
+        btn.className = "pdf-btn";
+        btn.textContent = "Exportar PDF";
+        btn.title = "Guardar ejercicio completo";
+        
+        // Evento exclusivo para generar el PDF
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Evita que el clic cierre el ejercicio
+            
+            // Identificamos la tarjeta actual y su número
+            const currentCard = newHeader.closest(".exercise-card");
+            const allCards = Array.from(document.querySelectorAll(".exercise-card"));
+            const index = allCards.indexOf(currentCard) + 1;
+            
+            generatePDF(currentCard, index);
+        });
+
+        meta.appendChild(btn);
+      }
+    });
+  });
+
+  // FUNCIÓN DE GENERACIÓN PDF (Configurada para que no corte contenido)
+  function generatePDF(sourceCard, exerciseNum) {
+    // A) Clonar la tarjeta para prepararla para impresión
+    const clone = sourceCard.cloneNode(true);
+
+    // B) Estilos forzados para asegurar visibilidad total
+    clone.style.backgroundColor = "white";
+    clone.style.color = "black";
+    clone.style.border = "none";
+    
+    // Desplegar cuerpo y quitar animaciones
+    const body = clone.querySelector(".exercise-body");
+    if (body) {
+        body.style.display = "block";
+        body.style.opacity = "1";
+        body.style.transform = "none";
+        body.style.animation = "none";
+    }
+
+    // Abrir todos los detalles/soluciones
+    const details = clone.querySelectorAll("details");
+    details.forEach(detail => {
+        detail.setAttribute("open", "true");
+        detail.style.marginBottom = "10px"; 
+    });
+
+    // Arreglar tablas cortadas (rúbricas)
+    const scrolls = clone.querySelectorAll(".rubrica-scroll");
+    scrolls.forEach(div => {
+        div.style.overflow = "visible";
+        div.style.width = "100%";
+        div.style.display = "block";
+    });
+
+    // Quitar el botón del PDF
+    const btn = clone.querySelector(".pdf-btn");
+    if(btn) btn.remove();
+
+    // C) Contenedor temporal ancho (A4)
+    const tempContainer = document.createElement("div");
+    tempContainer.style.position = "absolute";
+    tempContainer.style.left = "-9999px";
+    tempContainer.style.top = "0";
+    tempContainer.style.width = "800px"; // Ancho fijo para evitar cortes
+    tempContainer.style.background = "white";
+    document.body.appendChild(tempContainer);
+    tempContainer.appendChild(clone);
+
+    // D) Generar PDF
+    const opt = {
+      margin:       [10, 15, 10, 15],
+      filename:     `ColecciónEDI2_Problema_${exerciseNum}.pdf`,
+      image:        { type: 'jpeg', quality: 1 },
+      html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(clone).save().then(() => {
+        document.body.removeChild(tempContainer);
+    });
+  }
+</script>
+
+</body>
+</html>
