@@ -1,814 +1,1869 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Problemas de Electronica Digital - 4 ESO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <style>
-        /* ===== CSS VARIABLES ===== */
-        :root {
-            --primary: #4f46e5;
-            --primary-light: #818cf8;
-            --primary-dark: #3730a3;
-            --secondary: #0ea5e9;
-            --accent: #f43f5e;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-light: #f1f5f9;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
-            --radius: 12px;
-            --radius-lg: 16px;
-            --radius-full: 9999px;
-        }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Problemas de Electrónica Digital - 4º ESO</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+/* ============================================================
+   AURORA DARK · Núcleo compartido para las colecciones "copia"
+   Paleta violeta #8B5CF6 → cian #22D3EE · Space Grotesk + Inter
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-        /* ===== RESET & BASE ===== */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
+:root {
+    --bg: #060A13;
+    --bg-2: #0A0F1E;
+    --panel: rgba(148, 163, 184, 0.055);
+    --panel-strong: rgba(148, 163, 184, 0.09);
+    --stroke: rgba(148, 163, 184, 0.14);
+    --stroke-soft: rgba(148, 163, 184, 0.10);
+    --text: #F1F5F9;
+    --text-secondary: #B9C6DA;
+    --text-muted: #7E90AB;
+    --violet: #8B5CF6;
+    --violet-soft: #A78BFA;
+    --cyan: #22D3EE;
+    --fuchsia: #E879F9;
+    --emerald: #34D399;
+    --blue: #60A5FA;
+    --amber: #FBBF24;
+    --font-display: 'Space Grotesk', 'Inter', system-ui, 'Segoe UI', sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --grad-main: linear-gradient(120deg, #8B5CF6, #6366F1 45%, #22D3EE);
+}
 
-        /* ===== HEADER ===== */
-        .header {
-            position: relative;
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4338ca 50%, #4f46e5 75%, #6366f1 100%);
-            padding: 3.5rem 1.5rem 3rem;
-            text-align: center;
-            color: white;
-            overflow: hidden;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(ellipse at 30% 50%, rgba(99,102,241,0.3) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 20%, rgba(14,165,233,0.2) 0%, transparent 40%),
-                        radial-gradient(ellipse at 50% 80%, rgba(244,63,94,0.1) 0%, transparent 40%);
-            animation: headerFloat 20s ease-in-out infinite;
-        }
-        @keyframes headerFloat {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -20px) rotate(1deg); }
-            66% { transform: translate(-20px, 15px) rotate(-1deg); }
-        }
-        .header-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
-        .header-icon {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 64px; height: 64px;
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius);
-            font-size: 1.75rem;
-            margin-bottom: 1.25rem;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .header h1 {
-            font-size: 2.25rem; font-weight: 800;
-            letter-spacing: -0.02em; margin-bottom: 0.75rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        .header p { font-size: 1.05rem; opacity: 0.9; font-weight: 300; max-width: 600px; margin: 0 auto; }
+/* ===== BASE ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-body);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background:
+        radial-gradient(900px 520px at 88% -120px, rgba(139, 92, 246, 0.17), transparent 62%),
+        radial-gradient(820px 520px at -12% 240px, rgba(34, 211, 238, 0.10), transparent 58%),
+        radial-gradient(1100px 720px at 50% 118%, rgba(99, 102, 241, 0.09), transparent 62%),
+        var(--bg);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+::selection { background: rgba(139, 92, 246, 0.5); color: #fff; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--bg-2); }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #4C1D95, #155E75);
+    border-radius: 8px;
+    border: 2px solid var(--bg-2);
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #6D28D9, #0E7490); }
+button { font-family: var(--font-body); }
+button:focus-visible, summary:focus-visible, a:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+strong, b { color: var(--text); font-weight: 600; }
 
-        /* ===== STATS BAR ===== */
-        .stats-bar {
-            display: flex; justify-content: center; gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            position: sticky; top: 0; z-index: 100;
-            flex-wrap: wrap;
-        }
-        .stat-chip {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.5rem 1rem; border-radius: var(--radius-full);
-            font-size: 0.85rem; font-weight: 500;
-            background: var(--border-light); color: var(--text-secondary);
-            transition: all 0.2s ease; cursor: default;
-        }
-        .stat-chip i { font-size: 0.9rem; }
-        .stat-chip .count { font-weight: 700; color: var(--primary); }
-        .stat-chip.green { background: #ecfdf5; color: #065f46; }
-        .stat-chip.green .count { color: #059669; }
-        .stat-chip.blue { background: #eff6ff; color: #1e40af; }
-        .stat-chip.blue .count { color: #2563eb; }
-        .stat-chip.purple { background: #f5f3ff; color: #5b21b6; }
-        .stat-chip.purple .count { color: #7c3aed; }
+/* ===== CABECERA · Héroe con aurora ===== */
+header {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+    background: var(--bg-2);
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    border-radius: 22px;
+    padding: 2.7rem 1.5rem 2.5rem;
+    margin-bottom: 2.2rem;
+    box-shadow: 0 30px 80px -40px rgba(139, 92, 246, 0.45);
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(36% 42% at 22% 38%, rgba(139, 92, 246, 0.40), transparent 70%),
+        radial-gradient(32% 40% at 78% 28%, rgba(34, 211, 238, 0.28), transparent 70%),
+        radial-gradient(28% 34% at 56% 86%, rgba(232, 121, 249, 0.20), transparent 70%);
+    filter: blur(34px);
+    animation: auroraDrift 22s ease-in-out infinite alternate;
+}
+header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(72% 95% at 50% 42%, #000 25%, transparent 100%);
+    mask-image: radial-gradient(72% 95% at 50% 42%, #000 25%, transparent 100%);
+}
+@keyframes auroraDrift {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    33%  { transform: translate(3%, -3%) rotate(2deg) scale(1.06); }
+    66%  { transform: translate(-3%, 2%) rotate(-2deg) scale(1.03); }
+    100% { transform: translate(2%, 3%) rotate(1deg) scale(1.08); }
+}
+header > * { position: relative; z-index: 1; }
+header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.18;
+    margin: 0 0 0.6rem;
+    background: linear-gradient(100deg, #E0E7FF 0%, #A78BFA 32%, #22D3EE 62%, #E0E7FF 92%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 7s linear infinite;
+    filter: drop-shadow(0 6px 26px rgba(139, 92, 246, 0.35));
+}
+header h1 i { -webkit-text-fill-color: #67E8F9; }
+@keyframes shimmer { to { background-position: 220% center; } }
+header p { color: #A5B4CE; margin: 0.25rem 0; font-weight: 300; }
+header p:last-of-type::after {
+    content: '';
+    display: block;
+    width: 120px; height: 2px;
+    margin: 1.3rem auto 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+}
 
-        /* ===== MAIN CONTAINER ===== */
-        .main-container { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+/* ===== TABLAS base ===== */
+table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.87rem; }
+th {
+    background: linear-gradient(120deg, #4C1D95, #6D28D9 45%, #0E7490 130%);
+    color: #fff;
+    padding: 0.62rem 0.8rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--stroke-soft);
+    color: var(--text-secondary);
+    text-align: left;
+    vertical-align: top;
+    background: rgba(15, 23, 42, 0.38);
+}
+tr:nth-child(even) td { background: rgba(30, 41, 59, 0.45); }
+tr:hover td { background: rgba(99, 102, 241, 0.14); }
+td strong { color: #E8EDF7; }
+ul li::marker, ol li::marker { color: var(--violet-soft); }
 
-        /* ===== INTRO SECTION ===== */
-        .intro-section {
-            background: var(--card); border-radius: var(--radius-lg);
-            padding: 1.75rem; margin-bottom: 2rem;
-            box-shadow: var(--shadow); border: 1px solid var(--border);
-            border-left: 4px solid var(--primary);
-        }
-        .intro-section h2 {
-            font-size: 1.15rem; font-weight: 700; color: var(--primary-dark);
-            margin-bottom: 0.75rem;
-            display: flex; align-items: center; gap: 0.5rem;
-        }
-        .intro-section p { color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.95rem; }
-        .intro-section ul { margin: 0.5rem 0 0 1.25rem; color: var(--text-secondary); }
-        .intro-section li { margin-bottom: 0.35rem; font-size: 0.95rem; }
+/* ===== BOTÓN PDF ===== */
+.pdf-btn {
+    background: rgba(148, 163, 184, 0.08);
+    color: #67E8F9;
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    padding: 4px 13px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.pdf-btn i { color: #F0ABFC; }
+.pdf-btn:hover {
+    background: linear-gradient(120deg, #E879F9, #8B5CF6);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 20px -6px rgba(232, 121, 249, 0.6);
+    transform: translateY(-1px) scale(1.03);
+}
 
-        /* ===== PROBLEM CARD ===== */
-        .problem-card {
-            background: var(--card); border-radius: var(--radius-lg);
-            margin-bottom: 1rem; box-shadow: var(--shadow);
-            border: 1px solid var(--border); overflow: hidden;
-            transition: box-shadow 0.3s ease, transform 0.2s ease;
-        }
-        .problem-card:hover { box-shadow: var(--shadow-lg); }
-        .problem-card.active { border-color: var(--primary-light); box-shadow: var(--shadow-lg), 0 0 0 3px rgba(79,70,229,0.08); }
+/* ===== ANIMACIONES compartidas ===== */
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
-        .problem-header {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 1.1rem 1.5rem; cursor: pointer; user-select: none;
-            transition: background 0.15s ease;
-        }
-        .problem-header:hover { background: var(--border-light); }
+/* ===== SUBTEMA CLARO para exportación PDF =====
+   Los scripts de cada página clonan tarjetas dentro de un contenedor
+   temporal (fuera de pantalla o de 750px) con fondo blanco; se re-tematiza
+   ese clon para que el PDF salga legible. */
+body > div[style*="-9999"],
+body > div[style*="750px"] { background: #ffffff !important; }
+body > div[style*="-9999"] :where(p, li, td, th, div, span, summary, strong, b, em, label, h1, h2, h3, h4, h5),
+body > div[style*="750px"] :where(p, li, td, th, div, span, summary, strong, b, em, label, h1, h2, h3, h4, h5) {
+    color: #1e293b;
+    text-shadow: none;
+}
+body > div[style*="-9999"] :where(h1, h2, h3, h4, h5),
+body > div[style*="750px"] :where(h1, h2, h3, h4, h5) {
+    background: none;
+    -webkit-text-fill-color: #312e81;
+    color: #312e81;
+    animation: none;
+    filter: none;
+}
+body > div[style*="-9999"] table, body > div[style*="750px"] table { background: #fff; }
+body > div[style*="-9999"] th,
+body > div[style*="750px"] th {
+    background: #ede9fe !important;
+    color: #312e81 !important;
+    border: 1px solid #ddd6fe !important;
+    text-shadow: none !important;
+}
+body > div[style*="-9999"] td,
+body > div[style*="750px"] td {
+    background: #fff !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+body > div[style*="-9999"] tr:nth-child(even) td,
+body > div[style*="750px"] tr:nth-child(even) td { background: #f8fafc !important; }
+body > div[style*="-9999"] .rubrica h4,
+body > div[style*="-9999"] .rubric h3,
+body > div[style*="750px"] .rubrica h4,
+body > div[style*="750px"] .rubric h3 {
+    background: #4c1d95 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+body > div[style*="-9999"] .rubric-table th,
+body > div[style*="750px"] .rubric-table th {
+    background: #ede9fe !important;
+    color: #312e81 !important;
+}
+body > div[style*="-9999"] .problem-number,
+body > div[style*="750px"] .problem-number {
+    background: #4c1d95 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+body > div[style*="-9999"] .variables-tag,
+body > div[style*="750px"] .variables-tag {
+    background: #d1fae5 !important;
+    color: #065f46 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+body > div[style*="-9999"] .level-1, body > div[style*="750px"] .level-1 { background: #f8d7da !important; color: #721c24 !important; }
+body > div[style*="-9999"] .level-2, body > div[style*="750px"] .level-2 { background: #fff3cd !important; color: #856404 !important; }
+body > div[style*="-9999"] .level-3, body > div[style*="750px"] .level-3 { background: #d4edda !important; color: #155724 !important; }
+body > div[style*="-9999"] .level-4, body > div[style*="750px"] .level-4 { background: #cce5ff !important; color: #004085 !important; }
+body > div[style*="-9999"] .level-5, body > div[style*="750px"] .level-5 { background: #d1ecf1 !important; color: #0c5460 !important; }
+body > div[style*="-9999"] .badge, body > div[style*="750px"] .badge { background: #e2e8f0 !important; color: #334155 !important; border: none !important; }
+body > div[style*="-9999"] .badge-2vars, body > div[style*="750px"] .badge-2vars { background: #d4edda !important; color: #155724 !important; }
+body > div[style*="-9999"] .badge-3vars, body > div[style*="750px"] .badge-3vars { background: #cce5ff !important; color: #004085 !important; }
+body > div[style*="-9999"] .badge-4vars, body > div[style*="750px"] .badge-4vars { background: #f8d7da !important; color: #721c24 !important; }
+body > div[style*="-9999"] .badge-criteria, body > div[style*="750px"] .badge-criteria { background: #fff3cd !important; color: #856404 !important; }
+body > div[style*="-9999"] .boolean, body > div[style*="750px"] .boolean,
+body > div[style*="-9999"] .expresion, body > div[style*="750px"] .expresion {
+    background: #cffafe !important;
+    color: #155e75 !important;
+    border: 1px solid #a5f3fc !important;
+}
+body > div[style*="-9999"] .solution, body > div[style*="-9999"] .solucion,
+body > div[style*="750px"] .solution, body > div[style*="750px"] .solucion { background: #f0fdf4 !important; border: 1px solid #bbf7d0 !important; }
+body > div[style*="-9999"] .solution h4, body > div[style*="-9999"] .solucion h3,
+body > div[style*="750px"] .solution h4, body > div[style*="750px"] .solucion h3 { color: #166534 !important; -webkit-text-fill-color: #166534 !important; }
+body > div[style*="-9999"] .criteria, body > div[style*="-9999"] .enunciado,
+body > div[style*="750px"] .criteria, body > div[style*="750px"] .enunciado { background: #eff6ff !important; border: 1px solid #bfdbfe !important; }
+body > div[style*="-9999"] .problem-description, body > div[style*="750px"] .problem-description { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; }
+body > div[style*="-9999"] details, body > div[style*="750px"] details { background: #f9fafb !important; border: 1px solid #e5e7eb !important; }
+body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { display: none !important; }
 
-        .problem-number {
-            flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px; border-radius: var(--radius);
-            font-weight: 700; font-size: 0.95rem; color: white;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            box-shadow: 0 2px 8px rgba(79,70,229,0.3);
-        }
-        .problem-card[data-vars="2"] .problem-number { background: linear-gradient(135deg, #059669, #34d399); box-shadow: 0 2px 8px rgba(5,150,105,0.3); }
-        .problem-card[data-vars="3"] .problem-number { background: linear-gradient(135deg, #2563eb, #60a5fa); box-shadow: 0 2px 8px rgba(37,99,235,0.3); }
-        .problem-card[data-vars="4"] .problem-number { background: linear-gradient(135deg, #7c3aed, #a78bfa); box-shadow: 0 2px 8px rgba(124,58,237,0.3); }
+/* ===== MOVIMIENTO REDUCIDO ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
-        .problem-title-area { flex: 1; min-width: 0; }
-        .problem-title { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1.4; margin: 0; }
-        .problem-badges { display: flex; gap: 0.4rem; margin-top: 0.35rem; flex-wrap: wrap; }
-        .badge {
-            display: inline-flex; align-items: center; gap: 0.3rem;
-            padding: 0.15rem 0.6rem; border-radius: var(--radius-full);
-            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.01em;
-        }
-        .badge.vars { background: #f0fdf4; color: #15803d; }
-        .problem-card[data-vars="3"] .badge.vars { background: #eff6ff; color: #1d4ed8; }
-        .problem-card[data-vars="4"] .badge.vars { background: #f5f3ff; color: #6d28d9; }
-        .badge.topic { background: var(--border-light); color: var(--text-secondary); }
+/* ===== IMPRESIÓN nativa ===== */
+@media print {
+    body { background: #fff !important; }
+    header { background: #312e81 !important; border: none; box-shadow: none; }
+    header::before, header::after { display: none; }
+    header h1 { background: none; -webkit-text-fill-color: #fff; color: #fff; animation: none; filter: none; }
+    header p { color: #e0e7ff !important; }
+    header p:last-of-type::after { background: rgba(255,255,255,0.4); }
+}
 
-        .problem-arrow {
-            flex-shrink: 0; width: 32px; height: 32px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; background: var(--border-light);
-            color: var(--text-muted); transition: all 0.3s ease; font-size: 0.85rem;
-        }
-        .problem-card.active .problem-arrow { transform: rotate(180deg); background: var(--primary); color: white; }
+/* ════════════════════════════════════════════════════════
+   SECCIÓN ESPECÍFICA DE ESTE DOCUMENTO
+   ════════════════════════════════════════════════════════ */
+/* ============================================================
+   SECCIÓN EDI6 · Tarjetas generadas por JS con SVG toggle
+   ============================================================ */
+:root {
+    --primary: #8B5CF6;
+    --primary-dark: #6D28D9;
+    --secondary: #F1F5F9;
+    --light: rgba(148, 163, 184, 0.07);
+    --gray: #7E90AB;
+    --success: #34D399;
+    --warning: #FBBF24;
+    --danger: #FB7185;
+    --card-bg: rgba(148, 163, 184, 0.05);
+    --border: rgba(148, 163, 184, 0.14);
+}
 
-        /* Problem Body (collapsible) */
-        .problem-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .problem-body-inner { padding: 0 1.5rem 1.5rem; border-top: 1px solid var(--border); }
-        .problem-card.active .problem-body { max-height: 8000px; }
+body > header {
+    border-radius: 0 0 22px 22px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    padding: 2.4rem 1rem;
+    margin-bottom: 2rem;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem 1rem; }
 
-        /* ===== INTERNAL CONTENT STYLING ===== */
-        .problem-body-inner .enunciado {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-            padding: 1.1rem 1.25rem; border-radius: var(--radius);
-            border: 1px solid var(--border); margin-top: 1rem;
-        }
-        .problem-body-inner .enunciado strong { color: var(--text); }
+h2 { font-family: var(--font-display); }
+h3 {
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    color: #E8EDF7;
+    margin: 0 0 0.6rem;
+}
+p, li { color: var(--text-secondary); }
 
-        .problem-body-inner .solution-block {
-            background: #f0fdf4; padding: 1.1rem 1.25rem; border-radius: var(--radius);
-            border: 1px solid #bbf7d0; border-left: 4px solid var(--success); margin-top: 1rem;
-        }
-        .problem-body-inner .criteria-block {
-            background: #eff6ff; padding: 1.1rem 1.25rem; border-radius: var(--radius);
-            border: 1px solid #bfdbfe; border-left: 4px solid var(--secondary); margin-top: 1rem;
-        }
-        .problem-body-inner .rubric-block {
-            background: #fefce8; padding: 1.1rem 1.25rem; border-radius: var(--radius);
-            border: 1px solid #fde68a; border-left: 4px solid var(--warning); margin-top: 1rem;
-        }
-        .problem-body-inner .content-block { margin-top: 1rem; }
+/* Tarjetas (creadas por JS dentro de #problems-container) */
+.problem-card {
+    background: linear-gradient(180deg, rgba(148, 163, 184, 0.07), rgba(148, 163, 184, 0.028));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 14px 34px -20px rgba(0, 0, 0, 0.85);
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+    animation: cardIn 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+#problems-container .problem-card:nth-child(1)  { animation-delay: 0.04s; }
+#problems-container .problem-card:nth-child(2)  { animation-delay: 0.08s; }
+#problems-container .problem-card:nth-child(3)  { animation-delay: 0.12s; }
+#problems-container .problem-card:nth-child(4)  { animation-delay: 0.16s; }
+#problems-container .problem-card:nth-child(5)  { animation-delay: 0.20s; }
+#problems-container .problem-card:nth-child(6)  { animation-delay: 0.24s; }
+#problems-container .problem-card:nth-child(7)  { animation-delay: 0.28s; }
+#problems-container .problem-card:nth-child(8)  { animation-delay: 0.32s; }
+#problems-container .problem-card:nth-child(9)  { animation-delay: 0.36s; }
+#problems-container .problem-card:nth-child(10) { animation-delay: 0.40s; }
+#problems-container .problem-card:nth-child(11) { animation-delay: 0.44s; }
+#problems-container .problem-card:nth-child(12) { animation-delay: 0.48s; }
+#problems-container .problem-card:nth-child(13) { animation-delay: 0.52s; }
+#problems-container .problem-card:nth-child(14) { animation-delay: 0.56s; }
+#problems-container .problem-card:nth-child(15) { animation-delay: 0.60s; }
+#problems-container .problem-card:nth-child(16) { animation-delay: 0.64s; }
+#problems-container .problem-card:nth-child(17) { animation-delay: 0.68s; }
+#problems-container .problem-card:nth-child(18) { animation-delay: 0.72s; }
+#problems-container .problem-card:nth-child(19) { animation-delay: 0.76s; }
+#problems-container .problem-card:nth-child(20) { animation-delay: 0.80s; }
+#problems-container .problem-card:nth-child(21) { animation-delay: 0.84s; }
+#problems-container .problem-card:nth-child(22) { animation-delay: 0.88s; }
+#problems-container .problem-card:nth-child(23) { animation-delay: 0.92s; }
+#problems-container .problem-card:nth-child(24) { animation-delay: 0.96s; }
+#problems-container .problem-card:nth-child(25) { animation-delay: 1.00s; }
+.problem-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(167, 139, 250, 0.42);
+    box-shadow: 0 22px 48px -20px rgba(0, 0, 0, 0.9), 0 0 32px -10px rgba(139, 92, 246, 0.3);
+}
+.problem-card.expanded {
+    border-color: rgba(139, 92, 246, 0.55);
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 22px 48px -20px rgba(0, 0, 0, 0.9),
+        0 0 44px -12px rgba(139, 92, 246, 0.4);
+}
 
-        /* Auto-style headings inside problem body */
-        .problem-body-inner h3 {
-            font-size: 0.95rem; font-weight: 700; color: var(--text);
-            margin: 1.25rem 0 0.6rem;
-            display: flex; align-items: center; gap: 0.5rem;
-        }
-        .problem-body-inner h3:first-child { margin-top: 1rem; }
-        .problem-body-inner h4 {
-            font-size: 0.9rem; font-weight: 600; color: var(--text);
-            margin: 1rem 0 0.5rem;
-        }
-        .problem-body-inner p { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.7; }
-        .problem-body-inner ul, .problem-body-inner ol {
-            margin: 0.4rem 0 0.6rem 1.25rem; font-size: 0.92rem; color: var(--text-secondary);
-        }
-        .problem-body-inner li { margin-bottom: 0.35rem; line-height: 1.6; }
-        .problem-body-inner strong { color: var(--text); }
+/* Cabecera de tarjeta */
+.problem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0;
+    padding: 16px 18px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: background 0.2s;
+}
+.problem-header:hover { background: rgba(148, 163, 184, 0.06); }
+.problem-card.expanded .problem-header { border-bottom-color: var(--stroke-soft); }
+.problem-number {
+    font-family: var(--font-display);
+    background: var(--grad-main);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.92rem;
+    box-shadow: 0 6px 18px -5px rgba(139, 92, 246, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s, transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.problem-header:hover .problem-number {
+    background: linear-gradient(120deg, #7C3AED, #0891B2);
+    transform: scale(1.05);
+}
+.problem-card.expanded .problem-number {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25), 0 0 26px rgba(139, 92, 246, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.variables-tag {
+    background: rgba(52, 211, 153, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.32);
+    color: #6EE7B7;
+    padding: 4px 13px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+.toggle-icon {
+    color: var(--cyan);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.5));
+}
+.problem-card.expanded .toggle-icon { transform: rotate(180deg); }
 
-        /* Auto-style summary/details (from EDI2) */
-        .problem-body-inner details {
-            margin: 0.75rem 0; border: 1px solid var(--border); border-radius: var(--radius);
-            overflow: hidden;
-        }
-        .problem-body-inner summary {
-            padding: 0.7rem 1rem; background: #f0fdf4; cursor: pointer;
-            font-weight: 600; color: #065f46; font-size: 0.9rem;
-        }
-        .problem-body-inner summary:hover { background: #dcfce7; }
+/* Contenido (mecánica max-height intacta, ampliada para no recortar rúbricas) */
+.problem-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, opacity 0.4s ease;
+    opacity: 0;
+    padding: 0 18px;
+}
+.problem-card.expanded .problem-content {
+    max-height: 4000px;
+    opacity: 1;
+    padding-bottom: 18px;
+}
+.problem-content p { font-size: 0.93rem; margin-bottom: 0.6rem; }
+.problem-content h4 {
+    font-family: var(--font-display);
+    color: #E8EDF7;
+    font-size: 0.98rem;
+    margin: 1.1rem 0 0.4rem;
+}
+.criteria-list {
+    background: rgba(96, 165, 250, 0.08);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    padding: 14px 17px;
+    border-radius: 12px;
+    margin: 0.9rem 0;
+}
+.criteria-list h4 {
+    color: #93C5FD;
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+}
+.criteria-list ul { padding-left: 1.25rem; margin: 0; }
+.criteria-list li { margin-bottom: 0.35rem; font-size: 0.9rem; }
+.criteria-list li::marker { color: var(--blue); }
 
-        /* ===== TABLES ===== */
-        table {
-            width: 100%; border-collapse: separate; border-spacing: 0;
-            font-size: 0.85rem; margin: 0.75rem 0; border-radius: var(--radius);
-            overflow: hidden; border: 1px solid var(--border);
-        }
-        th {
-            background: linear-gradient(135deg, #4f46e5, #6366f1);
-            color: white; padding: 0.65rem 0.85rem; text-align: center;
-            font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em;
-        }
-        td { padding: 0.6rem 0.85rem; border-top: 1px solid var(--border); color: var(--text-secondary); text-align: left; vertical-align: top; }
-        tr:nth-child(even) td { background: var(--border-light); }
-        tr:hover td { background: #eef2ff; }
+/* Tabla de rúbrica */
+.rubric-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.4rem 0 0.4rem;
+    font-size: 0.85rem;
+}
+.rubric-table th, .rubric-table td { padding: 0.55rem 0.7rem; text-align: left; }
+.rubric-table td { background: rgba(15, 23, 42, 0.35); }
+.rubric-table tr:nth-child(even) td { background: rgba(30, 41, 59, 0.42); }
+.rubric-table tr:hover td { background: rgba(99, 102, 241, 0.14); }
+.rubric-table td:first-child { color: #C4B5FD; font-weight: 600; background: rgba(139, 92, 246, 0.13); }
 
-        /* ===== BACK TO TOP ===== */
-        .back-to-top {
-            position: fixed; bottom: 2rem; right: 2rem;
-            width: 48px; height: 48px; border-radius: 50%;
-            background: var(--primary); color: white; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; box-shadow: var(--shadow-lg);
-            opacity: 0; transform: translateY(20px); transition: all 0.3s ease; z-index: 999;
-        }
-        .back-to-top.visible { opacity: 1; transform: translateY(0); }
-        .back-to-top:hover { background: var(--primary-dark); transform: translateY(-2px); }
+/* Footer */
+body > footer {
+    text-align: center;
+    padding: 2rem 0 2.4rem;
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    position: relative;
+}
+body > footer::before {
+    content: '';
+    display: block;
+    width: min(560px, 82%);
+    height: 1px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.55), rgba(34, 211, 238, 0.55), transparent);
+}
+body > footer p { color: var(--text-muted); margin-bottom: 0.3rem; }
 
-        /* ===== FOOTER ===== */
-        .footer { text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 2rem; }
-
-        /* ===== TOOLBAR ===== */
-        .toolbar { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; }
-        .toolbar-btn {
-            display: inline-flex; align-items: center; gap: 0.4rem;
-            padding: 0.45rem 0.9rem; border: 1px solid var(--border);
-            border-radius: var(--radius-full); background: var(--card);
-            color: var(--text-secondary); font-size: 0.8rem; font-weight: 500;
-            cursor: pointer; transition: all 0.2s ease; font-family: inherit;
-        }
-        .toolbar-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 640px) {
-            .header { padding: 2.5rem 1rem 2rem; }
-            .header h1 { font-size: 1.5rem; }
-            .header p { font-size: 0.92rem; }
-            .header-icon { width: 48px; height: 48px; font-size: 1.3rem; }
-            .stats-bar { gap: 0.5rem; padding: 0.75rem 1rem; }
-            .stat-chip { padding: 0.35rem 0.7rem; font-size: 0.78rem; }
-            .main-container { padding: 1.25rem 0.75rem 3rem; }
-            .problem-header { padding: 0.9rem 1rem; gap: 0.75rem; }
-            .problem-number { width: 34px; height: 34px; font-size: 0.85rem; }
-            .problem-title { font-size: 0.92rem; }
-            .problem-body-inner { padding: 0 1rem 1rem; }
-            table { font-size: 0.78rem; }
-            th, td { padding: 0.45rem 0.6rem; }
-            .toolbar { justify-content: center; }
-        }
-
-        /* ===== PRINT ===== */
-        @media print {
-            .header { background: var(--primary-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .stats-bar { position: static; }
-            .problem-body { max-height: none !important; overflow: visible !important; }
-            .problem-arrow { display: none; }
-            .back-to-top, .toolbar { display: none; }
-            .problem-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
-        }
-    </style>
+@media (max-width: 768px) {
+    .container { padding: 0.5rem 0.75rem; }
+    header h1 { font-size: 1.7rem; }
+    .problem-content { padding: 0 14px; }
+    .problem-card.expanded .problem-content { padding-bottom: 14px; }
+    .rubric-table { font-size: 0.75rem; }
+    .rubric-table th, .rubric-table td { padding: 0.4rem; }
+}
+@media (max-width: 480px) {
+    .problem-header { flex-direction: column; align-items: flex-start; }
+    header h1 { font-size: 1.5rem; }
+}
+  </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="header-icon"><i class="fas fa-microchip"></i></div>
-            <h1>Problemas de Electronica Digital - 4 ESO</h1>
-            <p>Conexion con los Criterios de Evaluacion y Rubricas</p>
+    <header>
+        <div class="container">
+            <h1>Problemas de Electrónica Digital – 4º ESO</h1>
+            <p>Conexión con los Criterios de Evaluación y Rúbricas</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">Haz clic en cualquier "Problema X" para expandir o contraer su contenido</p>
         </div>
     </header>
-    <div class="stats-bar" id="statsBar"></div>
-    <div class="main-container">
-        
-        <div class="toolbar">
-            <button class="toolbar-btn" onclick="toggleAll(true)"><i class="fas fa-expand"></i> Expandir todo</button>
-            <button class="toolbar-btn" onclick="toggleAll(false)"><i class="fas fa-compress"></i> Contraer todo</button>
+
+    <div class="container" id="problems-container">
         </div>
-        <div id="problemsContainer">
-            <div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">1</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de iluminación en un armario</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+
+    <footer>
+        <div class="container">
+            <p>Documento basado en los Criterios de Evaluación de Tecnología – 4º ESO (Orden ENS/449/2022)</p>
+            <p>© 2025 – Recursos Educativos de Tecnología</p>
         </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Se quiere diseñar un circuito que encienda una luz LED dentro del armario solo cuando está abierto <strong>y</strong> es de noche. Usa los sensores: A = puerta abierta (1 si abierta), B = oscuridad (1 si de noche).</p>
-<p><strong>Funcion:</strong> F = A · B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.</li><li>TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.</li><li>TEC.4.5.1: Resolver tareas con herramientas digitales y conocimientos interdisciplinares.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>No propone solución ni analiza necesidades</td><td>Propuesta básica sin análisis del entorno</td><td>Propuesta viable con análisis adecuado</td><td>Solución creativa con análisis exhaustivo</td><td>Solución innovadora con análisis preciso y relevante</td></tr><tr><td>TEC.4.2.2</td><td>No construye solución ni usa recursos adecuados</td><td>Construcción con fallos y materiales inadecuados</td><td>Solución funcional con materiales apropiados</td><td>Solución funcional e innovadora con óptima selección</td><td>Producto excepcional con maestría en recursos digitales</td></tr><tr><td>TEC.4.5.1</td><td>No usa herramientas digitales</td><td>Uso básico con ayuda constante</td><td>Uso correcto siguiendo instrucciones</td><td>Uso autónomo y eficiente</td><td>Uso experto y creativo con conocimiento interdisciplinar</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">2</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Alarma de ventana abierta</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Una alarma debe sonar si la ventana está abierta <strong>o</strong> si el sistema está activado. Variables: A = ventana abierta (1 si abierta), B = alarma activada (1 si activada).</p>
-<p><strong>Funcion:</strong> F = A + B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.3: Abordar el proyecto con creatividad e investigación.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.3</td><td>Falta creatividad y colaboración</td><td>Creatividad mínima, investigación superficial</td><td>Soluciones innovadoras básicas, colaboración regular</td><td>Proyecto creativo con mejoras eficientes</td><td>Proyecto excepcionalmente creativo con liderazgo</td></tr><tr><td>TEC.4.4.1</td><td>No diseña sistema automático</td><td>Diseño con errores significativos</td><td>Sistema funcional con componentes básicos</td><td>Sistema sin errores con componentes avanzados</td><td>Sistema superior con elementos innovadores</td></tr><tr><td>TEC.4.6.1</td><td>No aplica sostenibilidad</td><td>Identifica materiales sostenibles sin aplicación</td><td>Selecciona materiales sostenibles simples</td><td>Implementa soluciones con criterios avanzados</td><td>Justifica materiales y propone mejoras futuras</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">3</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de riego automático</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El riego se activa si el suelo está seco <strong>y</strong> es de día <strong>y</strong> no llueve. Variables: A = suelo seco (1 si seco), B = día (1 si de día), C = no llueve (1 si no llueve).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1</li><li>TEC.4.2.2</li><li>TEC.4.4.1</li><li>TEC.4.6.2</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>No analiza necesidades</td><td>Análisis poco relevante</td><td>Análisis adecuado</td><td>Análisis exhaustivo</td><td>Análisis preciso y relevante</td></tr><tr><td>TEC.4.2.2</td><td>Producto inadecuado</td><td>Producto con fallos</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.4.1</td><td>No aplica conocimientos</td><td>Conocimientos básicos incompletos</td><td>Conocimientos básicos aplicados</td><td>Conocimientos avanzados integrados</td><td>Conocimientos innovadores y críticos</td></tr><tr><td>TEC.4.6.2</td><td>No entiende ecotecnologías</td><td>Comprensión mínima</td><td>Comprensión aceptable con ejemplos básicos</td><td>Comprensión notable con ejemplos reales</td><td>Comprensión sobresaliente con ejemplos creativos</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">4</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Encendido de ventilador</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El ventilador se enciende si hace calor <strong>o</strong> si hay humo <strong>y</strong> alguien está en la habitación. Variables: A = calor (1 si calor), B = humo (1 si humo), C = presencia (1 si alguien está).</p>
-<p><strong>Funcion:</strong> F = A + (B · C)</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.2</li><li>TEC.4.3.1</li><li>TEC.4.5.1</li><li>TEC.4.4.2</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.2</td><td>No colabora ni respeta plazos</td><td>Participación mínima</td><td>Participación adecuada</td><td>Participación activa</td><td>Participación excelente</td></tr><tr><td>TEC.4.3.1</td><td>No comunica ni fomenta equipo</td><td>Comunicación deficiente</td><td>Comunicación asertiva correcta</td><td>Comunicación eficaz óptima</td><td>Comunicación excelente y creativa</td></tr><tr><td>TEC.4.5.1</td><td>No resuelve tareas</td><td>Tareas con errores</td><td>Tareas correctas con ayuda</td><td>Tareas sin errores con autonomía</td><td>Tareas superiores con innovación</td></tr><tr><td>TEC.4.4.2</td><td>No integra tecnologías emergentes</td><td>Identifica sin integrar</td><td>Integra IoT básico</td><td>Integra IoT + IA/Big Data</td><td>Integración avanzada y ética</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">5</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de acceso a garaje</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La puerta se abre si el coche tiene autorización <strong>y</strong> el mando está cerca <strong>o</strong> es hora de entrada/salida. Variables: A = autorización (1 si sí), B = mando cerca (1 si cerca), C = horario permitido (1 si sí).</p>
-<p><strong>Funcion:</strong> F = (A · B) + C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1</li><li>TEC.4.2.1</li><li>TEC.4.3.2</li><li>TEC.4.6.3</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>Sin propuesta</td><td>Propuesta poco viable</td><td>Propuesta viable</td><td>Propuesta creativa</td><td>Propuesta innovadora</td></tr><tr><td>TEC.4.2.1</td><td>No analiza ciclo de vida</td><td>Análisis superficial</td><td>Análisis correcto</td><td>Análisis detallado</td><td>Análisis exhaustivo y crítico</td></tr><tr><td>TEC.4.3.2</td><td>Presentación confusa y excluyente</td><td>Poca claridad y lenguaje no inclusivo</td><td>Presentación clara e inclusiva</td><td>Presentación muy clara y respetuosa</td><td>Presentación excelente y creativa</td></tr><tr><td>TEC.4.6.3</td><td>No valora proyectos sociales</td><td>Valoración parcial</td><td>Valoración correcta con interés</td><td>Valoración con ejemplos reales</td><td>Valoración excelente con ejemplos originales</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">6</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de riego inteligente con sensor de lluvia</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Riega si el suelo está seco <strong>y</strong> (es de día <strong>o</strong> hay temporizador activado) <strong>y</strong> no llueve. Variables: A = seco, B = día, C = temporizador.</p>
-<p><strong>Funcion:</strong> F = A · (B + C) · D (con D = no llueve)</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.3</li><li>TEC.4.2.2</li><li>TEC.4.4.1</li><li>TEC.4.6.1</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.3</td><td>Sin creatividad</td><td>Creatividad limitada</td><td>Creatividad básica</td><td>Creatividad notable</td><td>Creatividad excepcional</td></tr><tr><td>TEC.4.2.2</td><td>Fabricación inadecuada</td><td>Fabricación con errores</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.4.1</td><td>No aplica conocimientos</td><td>Conocimientos incompletos</td><td>Conocimientos básicos</td><td>Conocimientos avanzados</td><td>Conocimientos innovadores</td></tr><tr><td>TEC.4.6.1</td><td>Sin criterios sostenibles</td><td>Identificación sin aplicación</td><td>Aplicación básica</td><td>Aplicación avanzada</td><td>Aplicación crítica con propuestas</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="4">
-        <div class="problem-header">
-            <div class="problem-number">7</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de calefacción eficiente</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 4 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La calefacción se enciende si: está frío <strong>y</strong> hay alguien en casa <strong>y</strong> no es hora de dormir <strong>y</strong> no hay ventana abierta. Variables: A = frío, B = presencia, C = no dormir, D = ventana cerrada.</p>
-<p><strong>Funcion:</strong> F = A · B · C · D</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1</li><li>TEC.4.2.1</li><li>TEC.4.4.2</li><li>TEC.4.6.2</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>Sin análisis</td><td>Análisis poco relevante</td><td>Análisis adecuado</td><td>Análisis exhaustivo</td><td>Análisis preciso</td></tr><tr><td>TEC.4.2.1</td><td>Sin evaluación ética</td><td>Evaluación deficiente</td><td>Evaluación coherente</td><td>Evaluación rigurosa</td><td>Evaluación crítica y excelente</td></tr><tr><td>TEC.4.4.2</td><td>Sin integración de tecnologías</td><td>Identificación sin uso</td><td>Uso básico de IoT</td><td>Integración de IoT + IA</td><td>Integración innovadora y ética</td></tr><tr><td>TEC.4.6.2</td><td>Sin comprensión bioclimática</td><td>Comprensión mínima</td><td>Comprensión básica</td><td>Comprensión con ejemplos</td><td>Comprensión creativa</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="4">
-        <div class="problem-header">
-            <div class="problem-number">8</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de seguridad en hogar</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 4 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Alarma si: hay intrusión <strong>y</strong> sistema activado <strong>y</strong> no es el dueño <strong>y</strong> es de noche. Variables: A = intrusión, B = activado, C = no dueño, D = noche.</p>
-<p><strong>Funcion:</strong> F = A · B · C · D</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.2</li><li>TEC.4.3.1</li><li>TEC.4.4.1</li><li>TEC.4.5.1</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.2</td><td>Sin colaboración</td><td>Colaboración mínima</td><td>Colaboración adecuada</td><td>Colaboración activa</td><td>Colaboración excelente</td></tr><tr><td>TEC.4.3.1</td><td>Sin comunicación técnica</td><td>Comunicación incompleta</td><td>Uso correcto de vocabulario técnico</td><td>Uso óptimo de herramientas digitales</td><td>Uso creativo y excelente</td></tr><tr><td>TEC.4.4.1</td><td>Sin sistema automático</td><td>Con errores significativos</td><td>Sistema funcional</td><td>Sistema avanzado</td><td>Sistema innovador</td></tr><tr><td>TEC.4.5.1</td><td>No resuelve tareas</td><td>Tareas incompletas</td><td>Tareas correctas</td><td>Tareas eficientes</td><td>Tareas innovadoras</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="4">
-        <div class="problem-header">
-            <div class="problem-number">9</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de carga de vehículo eléctrico</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 4 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Carga si: coche conectado <strong>y</strong> batería baja <strong>y</strong> tarifa económica <strong>y</strong> no hay sobrecarga en red. Variables: A = conectado, B = batería baja, C = tarifa económica, D = red estable.</p>
-<p><strong>Funcion:</strong> F = A · B · C · D</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.2.2</li><li>TEC.4.4.2</li><li>TEC.4.6.1</li><li>TEC.4.6.3</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.2.2</td><td>Fabricación inadecuada</td><td>Producto con fallos</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.4.2</td><td>Sin tecnologías emergentes</td><td>Identificación básica</td><td>Integración básica</td><td>Integración avanzada</td><td>Integración ética y creativa</td></tr><tr><td>TEC.4.6.1</td><td>Sin sostenibilidad</td><td>Materiales identificados</td><td>Aplicación básica</td><td>Aplicación avanzada</td><td>Justificación y propuestas</td></tr><tr><td>TEC.4.6.3</td><td>No valora impacto social</td><td>Valoración parcial</td><td>Valoración correcta</td><td>Valoración con ejemplos</td><td>Valoración creativa y proactiva</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="4">
-        <div class="problem-header">
-            <div class="problem-number">10</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de iluminación inteligente en aula</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 4 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Luces encendidas si: hay clase <strong>y</strong> (natural insuficiente <strong>o</strong> presentación activa) <strong>y</strong> hay alumnos <strong>y</strong> no es descanso. Variables: A = clase, B = poca luz natural, C = presentación, D = alumnos presentes, E = no descanso → reducido a 4 usando combinación lógica.</p>
-<p><strong>Funcion:</strong> F = A · (B + C) · D · E</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.3</li><li>TEC.4.3.2</li><li>TEC.4.5.1</li><li>TEC.4.6.2</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.3</td><td>Sin creatividad</td><td>Ideas poco originales</td><td>Pensamiento creativo básico</td><td>Proyecto notablemente creativo</td><td>Proyecto excepcionalmente creativo</td></tr><tr><td>TEC.4.3.2</td><td>Presentación confusa</td><td>Poca claridad</td><td>Presentación clara e inclusiva</td><td>Presentación muy clara</td><td>Presentación excelente y dinámica</td></tr><tr><td>TEC.4.5.1</td><td>Tareas no entregadas</td><td>Tareas con errores</td><td>Uso básico de herramientas</td><td>Uso autónomo eficiente</td><td>Uso experto e innovador</td></tr><tr><td>TEC.4.6.2</td><td>Sin comprensión sostenible</td><td>Comprensión limitada</td><td>Comprensión aceptable</td><td>Comprensión notable con ejemplos</td><td>Comprensión sobresaliente y creativa</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">11</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de puerta automática</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La puerta del supermercado se abre cuando detecta presencia <strong>y</strong> no está bloqueada por mantenimiento. Variables: A = presencia detectada (1 si detectada), B = mantenimiento (0 si no hay mantenimiento).</p>
-<p><strong>Funcion:</strong> F = A · ¬B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>No identifica necesidades del entorno</td><td>Identifica necesidades básicas sin profundizar</td><td>Analiza necesidades del entorno adecuadamente</td><td>Realiza un análisis exhaustivo de las necesidades</td><td>Análisis preciso y relevante con propuestas innovadoras</td></tr><tr><td>TEC.4.4.1</td><td>No diseña sistema automático funcional</td><td>Diseña sistema con errores significativos</td><td>Diseña sistema funcional con componentes básicos</td><td>Diseña sistema sin errores con componentes adecuados</td><td>Diseña sistema excepcional con elementos innovadores</td></tr><tr><td>TEC.4.6.1</td><td>No considera aspectos de sostenibilidad</td><td>Identifica conceptos de sostenibilidad sin aplicación</td><td>Aplica criterios básicos de sostenibilidad</td><td>Implementa soluciones con criterios avanzados de sostenibilidad</td><td>Justifica y propone mejoras en sostenibilidad</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">12</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de lavadora</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La lavadora comienza el ciclo solo si está cerrada la puerta <strong>y</strong> hay agua disponible. Variables: A = puerta cerrada (1 si cerrada), B = agua disponible (1 si disponible).</p>
-<p><strong>Funcion:</strong> F = A · B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.6.2: Analizar los beneficios del ecotransporte y arquitectura bioclimática.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.2.2</td><td>No construye solución ni usa recursos adecuados</td><td>Construcción con fallos y materiales inadecuados</td><td>Solución funcional con materiales apropiados</td><td>Solución funcional e innovadora con óptima selección</td><td>Producto excepcional con maestría en recursos digitales</td></tr><tr><td>TEC.4.4.1</td><td>No aplica conocimientos de electrónica</td><td>Aplica conocimientos básicos incompletos</td><td>Aplica conocimientos básicos correctamente</td><td>Aplica conocimientos avanzados integrados</td><td>Aplica conocimientos innovadores y críticos</td></tr><tr><td>TEC.4.6.2</td><td>No identifica beneficios ambientales</td><td>Identifica beneficios mínimos</td><td>Identifica beneficios básicos con ejemplos</td><td>Analiza beneficios con ejemplos reales</td><td>Analiza beneficios con ejemplos originales y creativos</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">13</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de emergencia en piscina</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La alarma de seguridad se activa si hay alguien en el agua <strong>y</strong> no hay vigilancia. Variables: A = presencia en agua (1 si hay alguien), B = vigilancia (0 si no hay vigilancia).</p>
-<p><strong>Funcion:</strong> F = A · ¬B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.3: Abordar el proyecto con creatividad e investigación.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.6.3: Identificar y valorar proyectos tecnológicos de carácter social.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.3</td><td>Falta creatividad y colaboración</td><td>Creatividad mínima, investigación superficial</td><td>Soluciones innovadoras básicas, colaboración regular</td><td>Proyecto creativo con mejoras eficientes</td><td>Proyecto excepcionalmente creativo con liderazgo</td></tr><tr><td>TEC.4.4.1</td><td>No diseña sistema automático</td><td>Diseño con errores significativos</td><td>Sistema funcional con componentes básicos</td><td>Sistema sin errores con componentes avanzados</td><td>Sistema superior con elementos innovadores</td></tr><tr><td>TEC.4.6.3</td><td>No reconoce valor social del proyecto</td><td>Reconoce valor social parcialmente</td><td>Valora correctamente el impacto social</td><td>Valora el impacto social con ejemplos concretos</td><td>Valora excelentemente el impacto social con ejemplos originales</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">14</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de ventilación en invernadero</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Los ventiladores se encienden si la temperatura es alta <strong>o</strong> la humedad es elevada. Variables: A = temperatura alta (1 si alta), B = humedad elevada (1 si elevada).</p>
-<p><strong>Funcion:</strong> F = A + B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.</li><li>TEC.4.2.1: Analizar el diseño de un producto evaluando su ciclo de vida.</li><li>TEC.4.6.2: Analizar los beneficios de la arquitectura bioclimática.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>No propone solución ni analiza necesidades</td><td>Propuesta básica sin análisis del entorno</td><td>Propuesta viable con análisis adecuado</td><td>Solución creativa con análisis exhaustivo</td><td>Solución innovadora con análisis preciso y relevante</td></tr><tr><td>TEC.4.2.1</td><td>No analiza ciclo de vida</td><td>Análisis superficial</td><td>Análisis correcto</td><td>Análisis detallado</td><td>Análisis exhaustivo y crítico</td></tr><tr><td>TEC.4.6.2</td><td>No entiende arquitectura bioclimática</td><td>Comprensión mínima</td><td>Comprensión aceptable con ejemplos básicos</td><td>Comprensión notable con ejemplos reales</td><td>Comprensión sobresaliente con ejemplos creativos</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="2">
-        <div class="problem-header">
-            <div class="problem-number">15</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de ascensor</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El ascensor se mueve si hay petición de planta <strong>y</strong> las puertas están cerradas. Variables: A = petición activa (1 si hay petición), B = puertas cerradas (1 si cerradas).</p>
-<p><strong>Funcion:</strong> F = A · B</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.5.1: Resolver tareas con herramientas digitales y conocimientos interdisciplinares.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.2.2</td><td>No construye solución ni usa recursos adecuados</td><td>Construcción con fallos y materiales inadecuados</td><td>Solución funcional con materiales apropiados</td><td>Solución funcional e innovadora con óptima selección</td><td>Producto excepcional con maestría en recursos digitales</td></tr><tr><td>TEC.4.4.1</td><td>No diseña sistema automático</td><td>Diseño con errores significativos</td><td>Sistema funcional con componentes básicos</td><td>Sistema sin errores con componentes avanzados</td><td>Sistema superior con elementos innovadores</td></tr><tr><td>TEC.4.5.1</td><td>No usa herramientas digitales</td><td>Uso básico con ayuda constante</td><td>Uso correcto siguiendo instrucciones</td><td>Uso autónomo y eficiente</td><td>Uso experto y creativo con conocimiento interdisciplinar</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">16</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de iluminación en biblioteca</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Las luces se encienden si es de noche <strong>y</strong> hay ocupación <strong>y</strong> no hay suficiente luz natural. Variables: A = noche (1 si es de noche), B = ocupación (1 si hay gente), C = poca luz natural (1 si poca luz).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.2: Aplicar estrategias colaborativas de gestión de proyectos.</li><li>TEC.4.2.2: Aplicar técnicas de elaboración digital y selección de recursos.</li><li>TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.2</td><td>No colabora ni respeta plazos</td><td>Participación mínima</td><td>Participación adecuada</td><td>Participación activa</td><td>Participación excelente</td></tr><tr><td>TEC.4.2.2</td><td>Fabricación inadecuada</td><td>Fabricación con errores</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.6.1</td><td>Sin criterios sostenibles</td><td>Identificación sin aplicación</td><td>Aplicación básica</td><td>Aplicación avanzada</td><td>Aplicación crítica con propuestas</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">17</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de riego por goteo</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El riego se activa si la tierra está seca <strong>o</strong> es hora programada <strong>y</strong> no está lloviendo. Variables: A = tierra seca (1 si seca), B = hora programada (1 si es la hora), C = no llueve (1 si no llueve).</p>
-<p><strong>Funcion:</strong> F = (A + B) · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.3: Abordar el proyecto con creatividad e investigación.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.6.2: Analizar los beneficios de la arquitectura bioclimática.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.3</td><td>Sin creatividad</td><td>Creatividad limitada</td><td>Creatividad básica</td><td>Creatividad notable</td><td>Creatividad excepcional</td></tr><tr><td>TEC.4.4.1</td><td>No aplica conocimientos</td><td>Conocimientos incompletos</td><td>Conocimientos básicos</td><td>Conocimientos avanzados</td><td>Conocimientos innovadores</td></tr><tr><td>TEC.4.6.2</td><td>No entiende ecotecnologías</td><td>Comprensión mínima</td><td>Comprensión aceptable con ejemplos básicos</td><td>Comprensión notable con ejemplos reales</td><td>Comprensión sobresaliente con ejemplos creativos</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">18</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de temperatura en acuario</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El calentador se activa si la temperatura es baja <strong>y</strong> el acuario está lleno <strong>y</strong> es de noche. Variables: A = temperatura baja (1 si baja), B = agua suficiente (1 si lleno), C = noche (1 si es de noche).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.2.1: Analizar el diseño de un producto evaluando su ciclo de vida.</li><li>TEC.4.2.2: Aplicar técnicas de elaboración digital y selección de recursos.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.2.1</td><td>No analiza ciclo de vida</td><td>Análisis superficial</td><td>Análisis correcto</td><td>Análisis detallado</td><td>Análisis exhaustivo y crítico</td></tr><tr><td>TEC.4.2.2</td><td>Producto inadecuado</td><td>Producto con fallos</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.4.1</td><td>No aplica conocimientos</td><td>Conocimientos básicos incompletos</td><td>Conocimientos básicos aplicados</td><td>Conocimientos avanzados integrados</td><td>Conocimientos innovadores y críticos</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">19</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de ventilación en aparcamiento</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Los ventiladores se encienden si hay coches <strong>y</strong> (los niveles de CO2 son altos <strong>o</strong> es hora punta). Variables: A = presencia de coches (1 si hay), B = CO2 alto (1 si alto), C = hora punta (1 si es hora punta).</p>
-<p><strong>Funcion:</strong> F = A · (B + C)</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.</li><li>TEC.4.4.2: Integrar tecnologías emergentes en sistemas tecnológicos.</li><li>TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>Sin propuesta</td><td>Propuesta poco viable</td><td>Propuesta viable</td><td>Propuesta creativa</td><td>Propuesta innovadora</td></tr><tr><td>TEC.4.4.2</td><td>Sin integración de tecnologías</td><td>Identificación sin uso</td><td>Uso básico de IoT</td><td>Integración de IoT + IA</td><td>Integración innovadora y ética</td></tr><tr><td>TEC.4.6.1</td><td>Sin sostenibilidad</td><td>Materiales identificados</td><td>Aplicación básica</td><td>Aplicación avanzada</td><td>Justificación y propuestas</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">20</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de lavavajillas</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El lavavajillas comienza el ciclo si está cerrado <strong>y</strong> hay agua <strong>y</strong> hay detergente. Variables: A = puerta cerrada (1 si cerrada), B = agua disponible (1 si disponible), C = detergente (1 si hay).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.</li><li>TEC.4.3.1: Intercambiar información y fomentar el trabajo en equipo.</li><li>TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.2.2</td><td>Fabricación inadecuada</td><td>Fabricación con errores</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.3.1</td><td>Sin comunicación técnica</td><td>Comunicación incompleta</td><td>Uso correcto de vocabulario técnico</td><td>Uso óptimo de herramientas digitales</td><td>Uso creativo y excelente</td></tr><tr><td>TEC.4.6.1</td><td>Sin criterios sostenibles</td><td>Identificación sin aplicación</td><td>Aplicación básica</td><td>Aplicación avanzada</td><td>Aplicación crítica con propuestas</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">21</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de seguridad en nevera</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La alarma suena si la puerta está abierta mucho tiempo <strong>y</strong> hay alimentos dentro <strong>y</strong> la temperatura sube. Variables: A = puerta abierta tiempo prolongado (1 si sí), B = alimentos dentro (1 si hay), C = temperatura alta (1 si alta).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.2: Aplicar estrategias colaborativas de gestión de proyectos.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.5.1: Resolver tareas con herramientas digitales y conocimientos interdisciplinares.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.2</td><td>Sin colaboración</td><td>Colaboración mínima</td><td>Colaboración adecuada</td><td>Colaboración activa</td><td>Colaboración excelente</td></tr><tr><td>TEC.4.4.1</td><td>No diseña sistema automático</td><td>Diseño con errores significativos</td><td>Sistema funcional con componentes básicos</td><td>Sistema sin errores con componentes avanzados</td><td>Sistema superior con elementos innovadores</td></tr><tr><td>TEC.4.5.1</td><td>No resuelve tareas</td><td>Tareas con errores</td><td>Tareas correctas con ayuda</td><td>Tareas sin errores con autonomía</td><td>Tareas superiores con innovación</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">22</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control automático de persianas</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> Las persianas bajan si hace mucho sol <strong>y</strong> no hay nadie en la habitación <strong>o</strong> es hora de dormir. Variables: A = mucho sol (1 si hay), B = habitación vacía (1 si vacía), C = hora de dormir (1 si es hora).</p>
-<p><strong>Funcion:</strong> F = A · (B + C)</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.3: Abordar la gestión del proyecto de forma creativa.</li><li>TEC.4.2.2: Aplicar técnicas de elaboración digital.</li><li>TEC.4.6.2: Analizar los beneficios de la arquitectura bioclimática.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.3</td><td>Sin creatividad</td><td>Creatividad limitada</td><td>Creatividad básica</td><td>Creatividad notable</td><td>Creatividad excepcional</td></tr><tr><td>TEC.4.2.2</td><td>Fabricación inadecuada</td><td>Fabricación con errores</td><td>Producto funcional</td><td>Producto innovador</td><td>Producto excepcional</td></tr><tr><td>TEC.4.6.2</td><td>Sin comprensión bioclimática</td><td>Comprensión mínima</td><td>Comprensión básica</td><td>Comprensión con ejemplos</td><td>Comprensión creativa</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">23</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de recarga de bicis eléctricas</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El punto de recarga funciona si hay bici conectada <strong>y</strong> hay crédito <strong>y</strong> no está en mantenimiento. Variables: A = bici conectada (1 si conectada), B = crédito disponible (1 si hay), C = no mantenimiento (1 si no está en mantenimiento).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.4.2: Integrar tecnologías emergentes en sistemas tecnológicos.</li><li>TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.</li><li>TEC.4.6.3: Identificar y valorar proyectos tecnológicos de carácter social.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.4.2</td><td>Sin tecnologías emergentes</td><td>Identificación básica</td><td>Integración básica</td><td>Integración avanzada</td><td>Integración ética y creativa</td></tr><tr><td>TEC.4.6.1</td><td>Sin sostenibilidad</td><td>Materiales identificados</td><td>Aplicación básica</td><td>Aplicación avanzada</td><td>Justificación y propuestas</td></tr><tr><td>TEC.4.6.3</td><td>No valora impacto social</td><td>Valoración parcial</td><td>Valoración correcta</td><td>Valoración con ejemplos</td><td>Valoración creativa y proactiva</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">24</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Control de climatización en coche</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> El aire acondicionado se activa si la temperatura es alta <strong>y</strong> el motor está encendido <strong>y</strong> no hay modo eco activado. Variables: A = temperatura alta (1 si alta), B = motor encendido (1 si encendido), C = no modo eco (1 si no está activado).</p>
-<p><strong>Funcion:</strong> F = A · B · ¬C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.2.1: Analizar el diseño de un producto evaluando su ciclo de vida.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li><li>TEC.4.6.2: Analizar los beneficios del ecotransporte.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.2.1</td><td>Sin evaluación ética</td><td>Evaluación deficiente</td><td>Evaluación coherente</td><td>Evaluación rigurosa</td><td>Evaluación crítica y excelente</td></tr><tr><td>TEC.4.4.1</td><td>Sin sistema automático</td><td>Con errores significativos</td><td>Sistema funcional</td><td>Sistema avanzado</td><td>Sistema innovador</td></tr><tr><td>TEC.4.6.2</td><td>Sin comprensión de ecotransporte</td><td>Comprensión mínima</td><td>Comprensión básica</td><td>Comprensión con ejemplos</td><td>Comprensión creativa</td></tr></table>
-            </div>
-        </div>
-    </div>
-<div class="problem-card" data-vars="3">
-        <div class="problem-header">
-            <div class="problem-number">25</div>
-            <div class="problem-title-area">
-                <h3 class="problem-title">Sistema de control de ruido en biblioteca</h3>
-                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 3 var</span></div>
-            </div>
-            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
-        </div>
-        <div class="problem-body">
-            <div class="problem-body-inner">
-                <p><strong>Enunciado:</strong> La alarma de ruido se activa si el nivel de sonido es alto <strong>y</strong> hay gente <strong>y</strong> no es hora de recreo. Variables: A = sonido alto (1 si alto), B = presencia de gente (1 si hay), C = no hora recreo (1 si no es recreo).</p>
-<p><strong>Funcion:</strong> F = A · B · C</p>
-<h3>Criterios de Evaluacion</h3><ul><li>TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.</li><li>TEC.4.3.1: Intercambiar información y fomentar el trabajo en equipo.</li><li>TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.</li></ul>
-<h3>Rubrica</h3><table><tr><th>Criterio</th><th>1-2,9</th><th>3-4,9</th><th>5-6,9</th><th>7-8,9</th><th>9-10</th></tr><tr><td>TEC.4.1.1</td><td>No analiza necesidades</td><td>Análisis poco relevante</td><td>Análisis adecuado</td><td>Análisis exhaustivo</td><td>Análisis preciso y relevante</td></tr><tr><td>TEC.4.3.1</td><td>No comunica ni fomenta equipo</td><td>Comunicación deficiente</td><td>Comunicación asertiva correcta</td><td>Comunicación eficaz óptima</td><td>Comunicación excelente y creativa</td></tr><tr><td>TEC.4.4.1</td><td>No aplica conocimientos</td><td>Conocimientos básicos incompletos</td><td>Conocimientos básicos aplicados</td><td>Conocimientos avanzados integrados</td><td>Conocimientos innovadores y críticos</td></tr></table>
-            </div>
-        </div>
-    </div>
-        </div>
-    </div>
-    <footer class="footer">
-        <p>Electronica Digital - 4 ESO &middot; Criterios de Evaluacion TEC.4.x.x</p>
     </footer>
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
     <script>
-        document.querySelectorAll('.problem-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const card = header.closest('.problem-card');
-                card.classList.toggle('active');
-            });
-        });
-        function toggleAll(open) {
-            document.querySelectorAll('.problem-card').forEach(card => {
-                if (open) card.classList.add('active');
-                else card.classList.remove('active');
+        // Los datos de los problemas se mantienen igual
+        const problems = [
+            {
+                number: 1,
+                variables: 2,
+                title: "Control de iluminación en un armario",
+                description: "Se quiere diseñar un circuito que encienda una luz LED dentro del armario solo cuando está abierto <strong>y</strong> es de noche. Usa los sensores: A = puerta abierta (1 si abierta), B = oscuridad (1 si de noche).",
+                function: "F = A · B",
+                criteria: [
+                    "TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.",
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.",
+                    "TEC.4.5.1: Resolver tareas con herramientas digitales y conocimientos interdisciplinares."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "No propone solución ni analiza necesidades",
+                            "Propuesta básica sin análisis del entorno",
+                            "Propuesta viable con análisis adecuado",
+                            "Solución creativa con análisis exhaustivo",
+                            "Solución innovadora con análisis preciso y relevante"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "No construye solución ni usa recursos adecuados",
+                            "Construcción con fallos y materiales inadecuados",
+                            "Solución funcional con materiales apropiados",
+                            "Solución funcional e innovadora con óptima selección",
+                            "Producto excepcional con maestría en recursos digitales"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.5.1",
+                        levels: [
+                            "No usa herramientas digitales",
+                            "Uso básico con ayuda constante",
+                            "Uso correcto siguiendo instrucciones",
+                            "Uso autónomo y eficiente",
+                            "Uso experto y creativo con conocimiento interdisciplinar"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 2,
+                variables: 2,
+                title: "Alarma de ventana abierta",
+                description: "Una alarma debe sonar si la ventana está abierta <strong>o</strong> si el sistema está activado. Variables: A = ventana abierta (1 si abierta), B = alarma activada (1 si activada).",
+                function: "F = A + B",
+                criteria: [
+                    "TEC.4.1.3: Abordar el proyecto con creatividad e investigación.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.3",
+                        levels: [
+                            "Falta creatividad y colaboración",
+                            "Creatividad mínima, investigación superficial",
+                            "Soluciones innovadoras básicas, colaboración regular",
+                            "Proyecto creativo con mejoras eficientes",
+                            "Proyecto excepcionalmente creativo con liderazgo"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No diseña sistema automático",
+                            "Diseño con errores significativos",
+                            "Sistema funcional con componentes básicos",
+                            "Sistema sin errores con componentes avanzados",
+                            "Sistema superior con elementos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "No aplica sostenibilidad",
+                            "Identifica materiales sostenibles sin aplicación",
+                            "Selecciona materiales sostenibles simples",
+                            "Implementa soluciones con criterios avanzados",
+                            "Justifica materiales y propone mejoras futuras"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 3,
+                variables: 3,
+                title: "Control de riego automático",
+                description: "El riego se activa si el suelo está seco <strong>y</strong> es de día <strong>y</strong> no llueve. Variables: A = suelo seco (1 si seco), B = día (1 si de día), C = no llueve (1 si no llueve).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.1.1",
+                    "TEC.4.2.2",
+                    "TEC.4.4.1",
+                    "TEC.4.6.2"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "No analiza necesidades",
+                            "Análisis poco relevante",
+                            "Análisis adecuado",
+                            "Análisis exhaustivo",
+                            "Análisis preciso y relevante"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Producto inadecuado",
+                            "Producto con fallos",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No aplica conocimientos",
+                            "Conocimientos básicos incompletos",
+                            "Conocimientos básicos aplicados",
+                            "Conocimientos avanzados integrados",
+                            "Conocimientos innovadores y críticos"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "No entiende ecotecnologías",
+                            "Comprensión mínima",
+                            "Comprensión aceptable con ejemplos básicos",
+                            "Comprensión notable con ejemplos reales",
+                            "Comprensión sobresaliente con ejemplos creativos"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 4,
+                variables: 3,
+                title: "Encendido de ventilador",
+                description: "El ventilador se enciende si hace calor <strong>o</strong> si hay humo <strong>y</strong> alguien está en la habitación. Variables: A = calor (1 si calor), B = humo (1 si humo), C = presencia (1 si alguien está).",
+                function: "F = A + (B · C)",
+                criteria: [
+                    "TEC.4.1.2",
+                    "TEC.4.3.1",
+                    "TEC.4.5.1",
+                    "TEC.4.4.2"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.2",
+                        levels: [
+                            "No colabora ni respeta plazos",
+                            "Participación mínima",
+                            "Participación adecuada",
+                            "Participación activa",
+                            "Participación excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.3.1",
+                        levels: [
+                            "No comunica ni fomenta equipo",
+                            "Comunicación deficiente",
+                            "Comunicación asertiva correcta",
+                            "Comunicación eficaz óptima",
+                            "Comunicación excelente y creativa"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.5.1",
+                        levels: [
+                            "No resuelve tareas",
+                            "Tareas con errores",
+                            "Tareas correctas con ayuda",
+                            "Tareas sin errores con autonomía",
+                            "Tareas superiores con innovación"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.2",
+                        levels: [
+                            "No integra tecnologías emergentes",
+                            "Identifica sin integrar",
+                            "Integra IoT básico",
+                            "Integra IoT + IA/Big Data",
+                            "Integración avanzada y ética"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 5,
+                variables: 3,
+                title: "Control de acceso a garaje",
+                description: "La puerta se abre si el coche tiene autorización <strong>y</strong> el mando está cerca <strong>o</strong> es hora de entrada/salida. Variables: A = autorización (1 si sí), B = mando cerca (1 si cerca), C = horario permitido (1 si sí).",
+                function: "F = (A · B) + C",
+                criteria: [
+                    "TEC.4.1.1",
+                    "TEC.4.2.1",
+                    "TEC.4.3.2",
+                    "TEC.4.6.3"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "Sin propuesta",
+                            "Propuesta poco viable",
+                            "Propuesta viable",
+                            "Propuesta creativa",
+                            "Propuesta innovadora"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.1",
+                        levels: [
+                            "No analiza ciclo de vida",
+                            "Análisis superficial",
+                            "Análisis correcto",
+                            "Análisis detallado",
+                            "Análisis exhaustivo y crítico"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.3.2",
+                        levels: [
+                            "Presentación confusa y excluyente",
+                            "Poca claridad y lenguaje no inclusivo",
+                            "Presentación clara e inclusiva",
+                            "Presentación muy clara y respetuosa",
+                            "Presentación excelente y creativa"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.3",
+                        levels: [
+                            "No valora proyectos sociales",
+                            "Valoración parcial",
+                            "Valoración correcta con interés",
+                            "Valoración con ejemplos reales",
+                            "Valoración excelente con ejemplos originales"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 6,
+                variables: 3,
+                title: "Sistema de riego inteligente con sensor de lluvia",
+                description: "Riega si el suelo está seco <strong>y</strong> (es de día <strong>o</strong> hay temporizador activado) <strong>y</strong> no llueve. Variables: A = seco, B = día, C = temporizador.",
+                function: "F = A · (B + C) · D (con D = no llueve)",
+                criteria: [
+                    "TEC.4.1.3",
+                    "TEC.4.2.2",
+                    "TEC.4.4.1",
+                    "TEC.4.6.1"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.3",
+                        levels: [
+                            "Sin creatividad",
+                            "Creatividad limitada",
+                            "Creatividad básica",
+                            "Creatividad notable",
+                            "Creatividad excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Fabricación inadecuada",
+                            "Fabricación con errores",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No aplica conocimientos",
+                            "Conocimientos incompletos",
+                            "Conocimientos básicos",
+                            "Conocimientos avanzados",
+                            "Conocimientos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "Sin criterios sostenibles",
+                            "Identificación sin aplicación",
+                            "Aplicación básica",
+                            "Aplicación avanzada",
+                            "Aplicación crítica con propuestas"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 7,
+                variables: 4,
+                title: "Control de calefacción eficiente",
+                description: "La calefacción se enciende si: está frío <strong>y</strong> hay alguien en casa <strong>y</strong> no es hora de dormir <strong>y</strong> no hay ventana abierta. Variables: A = frío, B = presencia, C = no dormir, D = ventana cerrada.",
+                function: "F = A · B · C · D",
+                criteria: [
+                    "TEC.4.1.1",
+                    "TEC.4.2.1",
+                    "TEC.4.4.2",
+                    "TEC.4.6.2"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "Sin análisis",
+                            "Análisis poco relevante",
+                            "Análisis adecuado",
+                            "Análisis exhaustivo",
+                            "Análisis preciso"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.1",
+                        levels: [
+                            "Sin evaluación ética",
+                            "Evaluación deficiente",
+                            "Evaluación coherente",
+                            "Evaluación rigurosa",
+                            "Evaluación crítica y excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.2",
+                        levels: [
+                            "Sin integración de tecnologías",
+                            "Identificación sin uso",
+                            "Uso básico de IoT",
+                            "Integración de IoT + IA",
+                            "Integración innovadora y ética"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "Sin comprensión bioclimática",
+                            "Comprensión mínima",
+                            "Comprensión básica",
+                            "Comprensión con ejemplos",
+                            "Comprensión creativa"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 8,
+                variables: 4,
+                title: "Sistema de seguridad en hogar",
+                description: "Alarma si: hay intrusión <strong>y</strong> sistema activado <strong>y</strong> no es el dueño <strong>y</strong> es de noche. Variables: A = intrusión, B = activado, C = no dueño, D = noche.",
+                function: "F = A · B · C · D",
+                criteria: [
+                    "TEC.4.1.2",
+                    "TEC.4.3.1",
+                    "TEC.4.4.1",
+                    "TEC.4.5.1"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.2",
+                        levels: [
+                            "Sin colaboración",
+                            "Colaboración mínima",
+                            "Colaboración adecuada",
+                            "Colaboración activa",
+                            "Colaboración excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.3.1",
+                        levels: [
+                            "Sin comunicación técnica",
+                            "Comunicación incompleta",
+                            "Uso correcto de vocabulario técnico",
+                            "Uso óptimo de herramientas digitales",
+                            "Uso creativo y excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "Sin sistema automático",
+                            "Con errores significativos",
+                            "Sistema funcional",
+                            "Sistema avanzado",
+                            "Sistema innovador"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.5.1",
+                        levels: [
+                            "No resuelve tareas",
+                            "Tareas incompletas",
+                            "Tareas correctas",
+                            "Tareas eficientes",
+                            "Tareas innovadoras"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 9,
+                variables: 4,
+                title: "Control de carga de vehículo eléctrico",
+                description: "Carga si: coche conectado <strong>y</strong> batería baja <strong>y</strong> tarifa económica <strong>y</strong> no hay sobrecarga en red. Variables: A = conectado, B = batería baja, C = tarifa económica, D = red estable.",
+                function: "F = A · B · C · D",
+                criteria: [
+                    "TEC.4.2.2",
+                    "TEC.4.4.2",
+                    "TEC.4.6.1",
+                    "TEC.4.6.3"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Fabricación inadecuada",
+                            "Producto con fallos",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.2",
+                        levels: [
+                            "Sin tecnologías emergentes",
+                            "Identificación básica",
+                            "Integración básica",
+                            "Integración avanzada",
+                            "Integración ética y creativa"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "Sin sostenibilidad",
+                            "Materiales identificados",
+                            "Aplicación básica",
+                            "Aplicación avanzada",
+                            "Justificación y propuestas"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.3",
+                        levels: [
+                            "No valora impacto social",
+                            "Valoración parcial",
+                            "Valoración correcta",
+                            "Valoración con ejemplos",
+                            "Valoración creativa y proactiva"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 10,
+                variables: 4,
+                title: "Sistema de iluminación inteligente en aula",
+                description: "Luces encendidas si: hay clase <strong>y</strong> (natural insuficiente <strong>o</strong> presentación activa) <strong>y</strong> hay alumnos <strong>y</strong> no es descanso. Variables: A = clase, B = poca luz natural, C = presentación, D = alumnos presentes, E = no descanso → reducido a 4 usando combinación lógica.",
+                function: "F = A · (B + C) · D · E",
+                criteria: [
+                    "TEC.4.1.3",
+                    "TEC.4.3.2",
+                    "TEC.4.5.1",
+                    "TEC.4.6.2"
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.3",
+                        levels: [
+                            "Sin creatividad",
+                            "Ideas poco originales",
+                            "Pensamiento creativo básico",
+                            "Proyecto notablemente creativo",
+                            "Proyecto excepcionalmente creativo"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.3.2",
+                        levels: [
+                            "Presentación confusa",
+                            "Poca claridad",
+                            "Presentación clara e inclusiva",
+                            "Presentación muy clara",
+                            "Presentación excelente y dinámica"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.5.1",
+                        levels: [
+                            "Tareas no entregadas",
+                            "Tareas con errores",
+                            "Uso básico de herramientas",
+                            "Uso autónomo eficiente",
+                            "Uso experto e innovador"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "Sin comprensión sostenible",
+                            "Comprensión limitada",
+                            "Comprensión aceptable",
+                            "Comprensión notable con ejemplos",
+                            "Comprensión sobresaliente y creativa"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 11,
+                variables: 2,
+                title: "Control de puerta automática",
+                description: "La puerta del supermercado se abre cuando detecta presencia <strong>y</strong> no está bloqueada por mantenimiento. Variables: A = presencia detectada (1 si detectada), B = mantenimiento (0 si no hay mantenimiento).",
+                function: "F = A · ¬B",
+                criteria: [
+                    "TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "No identifica necesidades del entorno",
+                            "Identifica necesidades básicas sin profundizar",
+                            "Analiza necesidades del entorno adecuadamente",
+                            "Realiza un análisis exhaustivo de las necesidades",
+                            "Análisis preciso y relevante con propuestas innovadoras"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No diseña sistema automático funcional",
+                            "Diseña sistema con errores significativos",
+                            "Diseña sistema funcional con componentes básicos",
+                            "Diseña sistema sin errores con componentes adecuados",
+                            "Diseña sistema excepcional con elementos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "No considera aspectos de sostenibilidad",
+                            "Identifica conceptos de sostenibilidad sin aplicación",
+                            "Aplica criterios básicos de sostenibilidad",
+                            "Implementa soluciones con criterios avanzados de sostenibilidad",
+                            "Justifica y propone mejoras en sostenibilidad"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 12,
+                variables: 2,
+                title: "Control de lavadora",
+                description: "La lavadora comienza el ciclo solo si está cerrada la puerta <strong>y</strong> hay agua disponible. Variables: A = puerta cerrada (1 si cerrada), B = agua disponible (1 si disponible).",
+                function: "F = A · B",
+                criteria: [
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.6.2: Analizar los beneficios del ecotransporte y arquitectura bioclimática."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "No construye solución ni usa recursos adecuados",
+                            "Construcción con fallos y materiales inadecuados",
+                            "Solución funcional con materiales apropiados",
+                            "Solución funcional e innovadora con óptima selección",
+                            "Producto excepcional con maestría en recursos digitales"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No aplica conocimientos de electrónica",
+                            "Aplica conocimientos básicos incompletos",
+                            "Aplica conocimientos básicos correctamente",
+                            "Aplica conocimientos avanzados integrados",
+                            "Aplica conocimientos innovadores y críticos"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "No identifica beneficios ambientales",
+                            "Identifica beneficios mínimos",
+                            "Identifica beneficios básicos con ejemplos",
+                            "Analiza beneficios con ejemplos reales",
+                            "Analiza beneficios con ejemplos originales y creativos"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 13,
+                variables: 2,
+                title: "Sistema de emergencia en piscina",
+                description: "La alarma de seguridad se activa si hay alguien en el agua <strong>y</strong> no hay vigilancia. Variables: A = presencia en agua (1 si hay alguien), B = vigilancia (0 si no hay vigilancia).",
+                function: "F = A · ¬B",
+                criteria: [
+                    "TEC.4.1.3: Abordar el proyecto con creatividad e investigación.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.6.3: Identificar y valorar proyectos tecnológicos de carácter social."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.3",
+                        levels: [
+                            "Falta creatividad y colaboración",
+                            "Creatividad mínima, investigación superficial",
+                            "Soluciones innovadoras básicas, colaboración regular",
+                            "Proyecto creativo con mejoras eficientes",
+                            "Proyecto excepcionalmente creativo con liderazgo"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No diseña sistema automático",
+                            "Diseño con errores significativos",
+                            "Sistema funcional con componentes básicos",
+                            "Sistema sin errores con componentes avanzados",
+                            "Sistema superior con elementos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.3",
+                        levels: [
+                            "No reconoce valor social del proyecto",
+                            "Reconoce valor social parcialmente",
+                            "Valora correctamente el impacto social",
+                            "Valora el impacto social con ejemplos concretos",
+                            "Valora excelentemente el impacto social con ejemplos originales"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 14,
+                variables: 2,
+                title: "Control de ventilación en invernadero",
+                description: "Los ventiladores se encienden si la temperatura es alta <strong>o</strong> la humedad es elevada. Variables: A = temperatura alta (1 si alta), B = humedad elevada (1 si elevada).",
+                function: "F = A + B",
+                criteria: [
+                    "TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.",
+                    "TEC.4.2.1: Analizar el diseño de un producto evaluando su ciclo de vida.",
+                    "TEC.4.6.2: Analizar los beneficios de la arquitectura bioclimática."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "No propone solución ni analiza necesidades",
+                            "Propuesta básica sin análisis del entorno",
+                            "Propuesta viable con análisis adecuado",
+                            "Solución creativa con análisis exhaustivo",
+                            "Solución innovadora con análisis preciso y relevante"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.1",
+                        levels: [
+                            "No analiza ciclo de vida",
+                            "Análisis superficial",
+                            "Análisis correcto",
+                            "Análisis detallado",
+                            "Análisis exhaustivo y crítico"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "No entiende arquitectura bioclimática",
+                            "Comprensión mínima",
+                            "Comprensión aceptable con ejemplos básicos",
+                            "Comprensión notable con ejemplos reales",
+                            "Comprensión sobresaliente con ejemplos creativos"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 15,
+                variables: 2,
+                title: "Control de ascensor",
+                description: "El ascensor se mueve si hay petición de planta <strong>y</strong> las puertas están cerradas. Variables: A = petición activa (1 si hay petición), B = puertas cerradas (1 si cerradas).",
+                function: "F = A · B",
+                criteria: [
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.5.1: Resolver tareas con herramientas digitales y conocimientos interdisciplinares."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "No construye solución ni usa recursos adecuados",
+                            "Construcción con fallos y materiales inadecuados",
+                            "Solución funcional con materiales apropiados",
+                            "Solución funcional e innovadora con óptima selección",
+                            "Producto excepcional con maestría en recursos digitales"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No diseña sistema automático",
+                            "Diseño con errores significativos",
+                            "Sistema funcional con componentes básicos",
+                            "Sistema sin errores con componentes avanzados",
+                            "Sistema superior con elementos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.5.1",
+                        levels: [
+                            "No usa herramientas digitales",
+                            "Uso básico con ayuda constante",
+                            "Uso correcto siguiendo instrucciones",
+                            "Uso autónomo y eficiente",
+                            "Uso experto y creativo con conocimiento interdisciplinar"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 16,
+                variables: 3,
+                title: "Control de iluminación en biblioteca",
+                description: "Las luces se encienden si es de noche <strong>y</strong> hay ocupación <strong>y</strong> no hay suficiente luz natural. Variables: A = noche (1 si es de noche), B = ocupación (1 si hay gente), C = poca luz natural (1 si poca luz).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.1.2: Aplicar estrategias colaborativas de gestión de proyectos.",
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital y selección de recursos.",
+                    "TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.2",
+                        levels: [
+                            "No colabora ni respeta plazos",
+                            "Participación mínima",
+                            "Participación adecuada",
+                            "Participación activa",
+                            "Participación excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Fabricación inadecuada",
+                            "Fabricación con errores",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "Sin criterios sostenibles",
+                            "Identificación sin aplicación",
+                            "Aplicación básica",
+                            "Aplicación avanzada",
+                            "Aplicación crítica con propuestas"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 17,
+                variables: 3,
+                title: "Sistema de riego por goteo",
+                description: "El riego se activa si la tierra está seca <strong>o</strong> es hora programada <strong>y</strong> no está lloviendo. Variables: A = tierra seca (1 si seca), B = hora programada (1 si es la hora), C = no llueve (1 si no llueve).",
+                function: "F = (A + B) · C",
+                criteria: [
+                    "TEC.4.1.3: Abordar el proyecto con creatividad e investigación.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.6.2: Analizar los beneficios de la arquitectura bioclimática."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.3",
+                        levels: [
+                            "Sin creatividad",
+                            "Creatividad limitada",
+                            "Creatividad básica",
+                            "Creatividad notable",
+                            "Creatividad excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No aplica conocimientos",
+                            "Conocimientos incompletos",
+                            "Conocimientos básicos",
+                            "Conocimientos avanzados",
+                            "Conocimientos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "No entiende ecotecnologías",
+                            "Comprensión mínima",
+                            "Comprensión aceptable con ejemplos básicos",
+                            "Comprensión notable con ejemplos reales",
+                            "Comprensión sobresaliente con ejemplos creativos"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 18,
+                variables: 3,
+                title: "Control de temperatura en acuario",
+                description: "El calentador se activa si la temperatura es baja <strong>y</strong> el acuario está lleno <strong>y</strong> es de noche. Variables: A = temperatura baja (1 si baja), B = agua suficiente (1 si lleno), C = noche (1 si es de noche).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.2.1: Analizar el diseño de un producto evaluando su ciclo de vida.",
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital y selección de recursos.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.2.1",
+                        levels: [
+                            "No analiza ciclo de vida",
+                            "Análisis superficial",
+                            "Análisis correcto",
+                            "Análisis detallado",
+                            "Análisis exhaustivo y crítico"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Producto inadecuado",
+                            "Producto con fallos",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No aplica conocimientos",
+                            "Conocimientos básicos incompletos",
+                            "Conocimientos básicos aplicados",
+                            "Conocimientos avanzados integrados",
+                            "Conocimientos innovadores y críticos"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 19,
+                variables: 3,
+                title: "Sistema de ventilación en aparcamiento",
+                description: "Los ventiladores se encienden si hay coches <strong>y</strong> (los niveles de CO2 son altos <strong>o</strong> es hora punta). Variables: A = presencia de coches (1 si hay), B = CO2 alto (1 si alto), C = hora punta (1 si es hora punta).",
+                function: "F = A · (B + C)",
+                criteria: [
+                    "TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.",
+                    "TEC.4.4.2: Integrar tecnologías emergentes en sistemas tecnológicos.",
+                    "TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "Sin propuesta",
+                            "Propuesta poco viable",
+                            "Propuesta viable",
+                            "Propuesta creativa",
+                            "Propuesta innovadora"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.2",
+                        levels: [
+                            "Sin integración de tecnologías",
+                            "Identificación sin uso",
+                            "Uso básico de IoT",
+                            "Integración de IoT + IA",
+                            "Integración innovadora y ética"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "Sin sostenibilidad",
+                            "Materiales identificados",
+                            "Aplicación básica",
+                            "Aplicación avanzada",
+                            "Justificación y propuestas"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 20,
+                variables: 3,
+                title: "Control de lavavajillas",
+                description: "El lavavajillas comienza el ciclo si está cerrado <strong>y</strong> hay agua <strong>y</strong> hay detergente. Variables: A = puerta cerrada (1 si cerrada), B = agua disponible (1 si disponible), C = detergente (1 si hay).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital y seleccionar recursos electrónicos adecuados.",
+                    "TEC.4.3.1: Intercambiar información y fomentar el trabajo en equipo.",
+                    "TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Fabricación inadecuada",
+                            "Fabricación con errores",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.3.1",
+                        levels: [
+                            "Sin comunicación técnica",
+                            "Comunicación incompleta",
+                            "Uso correcto de vocabulario técnico",
+                            "Uso óptimo de herramientas digitales",
+                            "Uso creativo y excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "Sin criterios sostenibles",
+                            "Identificación sin aplicación",
+                            "Aplicación básica",
+                            "Aplicación avanzada",
+                            "Aplicación crítica con propuestas"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 21,
+                variables: 3,
+                title: "Sistema de seguridad en nevera",
+                description: "La alarma suena si la puerta está abierta mucho tiempo <strong>y</strong> hay alimentos dentro <strong>y</strong> la temperatura sube. Variables: A = puerta abierta tiempo prolongado (1 si sí), B = alimentos dentro (1 si hay), C = temperatura alta (1 si alta).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.1.2: Aplicar estrategias colaborativas de gestión de proyectos.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.5.1: Resolver tareas con herramientas digitales y conocimientos interdisciplinares."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.2",
+                        levels: [
+                            "Sin colaboración",
+                            "Colaboración mínima",
+                            "Colaboración adecuada",
+                            "Colaboración activa",
+                            "Colaboración excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No diseña sistema automático",
+                            "Diseño con errores significativos",
+                            "Sistema funcional con componentes básicos",
+                            "Sistema sin errores con componentes avanzados",
+                            "Sistema superior con elementos innovadores"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.5.1",
+                        levels: [
+                            "No resuelve tareas",
+                            "Tareas con errores",
+                            "Tareas correctas con ayuda",
+                            "Tareas sin errores con autonomía",
+                            "Tareas superiores con innovación"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 22,
+                variables: 3,
+                title: "Control automático de persianas",
+                description: "Las persianas bajan si hace mucho sol <strong>y</strong> no hay nadie en la habitación <strong>o</strong> es hora de dormir. Variables: A = mucho sol (1 si hay), B = habitación vacía (1 si vacía), C = hora de dormir (1 si es hora).",
+                function: "F = A · (B + C)",
+                criteria: [
+                    "TEC.4.1.3: Abordar la gestión del proyecto de forma creativa.",
+                    "TEC.4.2.2: Aplicar técnicas de elaboración digital.",
+                    "TEC.4.6.2: Analizar los beneficios de la arquitectura bioclimática."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.3",
+                        levels: [
+                            "Sin creatividad",
+                            "Creatividad limitada",
+                            "Creatividad básica",
+                            "Creatividad notable",
+                            "Creatividad excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.2.2",
+                        levels: [
+                            "Fabricación inadecuada",
+                            "Fabricación con errores",
+                            "Producto funcional",
+                            "Producto innovador",
+                            "Producto excepcional"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "Sin comprensión bioclimática",
+                            "Comprensión mínima",
+                            "Comprensión básica",
+                            "Comprensión con ejemplos",
+                            "Comprensión creativa"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 23,
+                variables: 3,
+                title: "Sistema de recarga de bicis eléctricas",
+                description: "El punto de recarga funciona si hay bici conectada <strong>y</strong> hay crédito <strong>y</strong> no está en mantenimiento. Variables: A = bici conectada (1 si conectada), B = crédito disponible (1 si hay), C = no mantenimiento (1 si no está en mantenimiento).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.4.2: Integrar tecnologías emergentes en sistemas tecnológicos.",
+                    "TEC.4.6.1: Aplicar criterios de sostenibilidad y accesibilidad.",
+                    "TEC.4.6.3: Identificar y valorar proyectos tecnológicos de carácter social."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.4.2",
+                        levels: [
+                            "Sin tecnologías emergentes",
+                            "Identificación básica",
+                            "Integración básica",
+                            "Integración avanzada",
+                            "Integración ética y creativa"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.1",
+                        levels: [
+                            "Sin sostenibilidad",
+                            "Materiales identificados",
+                            "Aplicación básica",
+                            "Aplicación avanzada",
+                            "Justificación y propuestas"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.3",
+                        levels: [
+                            "No valora impacto social",
+                            "Valoración parcial",
+                            "Valoración correcta",
+                            "Valoración con ejemplos",
+                            "Valoración creativa y proactiva"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 24,
+                variables: 3,
+                title: "Control de climatización en coche",
+                description: "El aire acondicionado se activa si la temperatura es alta <strong>y</strong> el motor está encendido <strong>y</strong> no hay modo eco activado. Variables: A = temperatura alta (1 si alta), B = motor encendido (1 si encendido), C = no modo eco (1 si no está activado).",
+                function: "F = A · B · ¬C",
+                criteria: [
+                    "TEC.4.2.1: Analizar el diseño de un producto evaluando su ciclo de vida.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica.",
+                    "TEC.4.6.2: Analizar los beneficios del ecotransporte."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.2.1",
+                        levels: [
+                            "Sin evaluación ética",
+                            "Evaluación deficiente",
+                            "Evaluación coherente",
+                            "Evaluación rigurosa",
+                            "Evaluación crítica y excelente"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "Sin sistema automático",
+                            "Con errores significativos",
+                            "Sistema funcional",
+                            "Sistema avanzado",
+                            "Sistema innovador"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.6.2",
+                        levels: [
+                            "Sin comprensión de ecotransporte",
+                            "Comprensión mínima",
+                            "Comprensión básica",
+                            "Comprensión con ejemplos",
+                            "Comprensión creativa"
+                        ]
+                    }
+                ]
+            },
+            {
+                number: 25,
+                variables: 3,
+                title: "Sistema de control de ruido en biblioteca",
+                description: "La alarma de ruido se activa si el nivel de sonido es alto <strong>y</strong> hay gente <strong>y</strong> no es hora de recreo. Variables: A = sonido alto (1 si alto), B = presencia de gente (1 si hay), C = no hora recreo (1 si no es recreo).",
+                function: "F = A · B · C",
+                criteria: [
+                    "TEC.4.1.1: Idear soluciones tecnológicas a partir del análisis del entorno.",
+                    "TEC.4.3.1: Intercambiar información y fomentar el trabajo en equipo.",
+                    "TEC.4.4.1: Diseñar sistemas automáticos aplicando electrónica."
+                ],
+                rubric: [
+                    {
+                        criterion: "TEC.4.1.1",
+                        levels: [
+                            "No analiza necesidades",
+                            "Análisis poco relevante",
+                            "Análisis adecuado",
+                            "Análisis exhaustivo",
+                            "Análisis preciso y relevante"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.3.1",
+                        levels: [
+                            "No comunica ni fomenta equipo",
+                            "Comunicación deficiente",
+                            "Comunicación asertiva correcta",
+                            "Comunicación eficaz óptima",
+                            "Comunicación excelente y creativa"
+                        ]
+                    },
+                    {
+                        criterion: "TEC.4.4.1",
+                        levels: [
+                            "No aplica conocimientos",
+                            "Conocimientos básicos incompletos",
+                            "Conocimientos básicos aplicados",
+                            "Conocimientos avanzados integrados",
+                            "Conocimientos innovadores y críticos"
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        function createProblemCard(problem) {
+            const card = document.createElement('div');
+            card.className = 'problem-card';
+            // Se inserta el botón PDF en la cabecera
+            card.innerHTML = `
+                <div class="problem-header" onclick="toggleProblem(this)">
+                    <div class="problem-number">Problema ${problem.number}</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <button class="pdf-btn" onclick="event.stopPropagation(); generatePDF(this, ${problem.number})">Exportar PDF</button>
+                        <div class="variables-tag">${problem.variables} variables</div>
+                        <svg class="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="problem-content">
+                    <h3>${problem.title}</h3>
+                    <p>${problem.description}</p>
+                    <p><strong>Función lógica:</strong> ${problem.function}</p>
+
+                    <div class="criteria-list">
+                        <h4>Criterios de Evaluación Relacionados:</h4>
+                        <ul>
+                            ${problem.criteria.map(criterion => `<li>${criterion}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <h4>Rúbrica de Evaluación</h4>
+                    <table class="rubric-table">
+                        <thead>
+                            <tr>
+                                <th>Puntuación</th>
+                                <th>1–2,9</th>
+                                <th>3–4,9</th>
+                                <th>5–6,9</th>
+                                <th>7–8,9</th>
+                                <th>9–10</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${problem.rubric.map(rubricItem => `
+                                <tr>
+                                    <td>${rubricItem.criterion}</td>
+                                    ${rubricItem.levels.map(level => `<td>${level}</td>`).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            return card;
+        }
+
+        function toggleProblem(header) {
+            const card = header.closest('.problem-card');
+            card.classList.toggle('expanded');
+        }
+
+        // Función de generación PDF adaptada de Copilot05
+        function generatePDF(button, exerciseNum) {
+            // Encontrar la tarjeta padre
+            const sourceCard = button.closest('.problem-card');
+
+            // A) Clonar la tarjeta para prepararla para impresión
+            const clone = sourceCard.cloneNode(true);
+
+            // B) Estilos forzados para el clon (PDF)
+            clone.style.backgroundColor = "white";
+            clone.style.color = "black";
+            clone.style.border = "1px solid #ddd";
+            clone.style.boxShadow = "none";
+            clone.style.margin = "0";
+            clone.style.padding = "20px";
+            clone.style.maxWidth = "100%";
+
+            // Asegurar que el contenido está visible (expandido)
+            const content = clone.querySelector('.problem-content');
+            content.style.maxHeight = "none";
+            content.style.opacity = "1";
+            content.style.display = "block";
+            
+            // Eliminar elementos interactivos no deseados en el PDF
+            const btn = clone.querySelector('.pdf-btn');
+            if(btn) btn.remove();
+            
+            const icon = clone.querySelector('.toggle-icon');
+            if(icon) icon.remove();
+
+            // C) Contenedor temporal ancho (A4)
+            const tempContainer = document.createElement("div");
+            tempContainer.style.position = "absolute";
+            tempContainer.style.left = "-9999px";
+            tempContainer.style.top = "0";
+            tempContainer.style.width = "800px"; // Ancho fijo para evitar cortes
+            tempContainer.style.background = "white";
+            document.body.appendChild(tempContainer);
+            tempContainer.appendChild(clone);
+
+            // D) Generar PDF
+            const opt = {
+              margin:       [10, 15, 10, 15],
+              filename:     `ColecciónEDI6_Problema_${exerciseNum}.pdf`,
+              image:        { type: 'jpeg', quality: 0.98 },
+              html2canvas:  { scale: 2, useCORS: true, logging: false },
+              jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Usar la librería html2pdf
+            html2pdf().set(opt).from(tempContainer).save().then(() => {
+                document.body.removeChild(tempContainer);
             });
         }
-        window.addEventListener('scroll', () => {
-            const btn = document.getElementById('backToTop');
-            if (window.scrollY > 400) btn.classList.add('visible');
-            else btn.classList.remove('visible');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('problems-container');
+            problems.forEach(problem => {
+                container.appendChild(createProblemCard(problem));
+            });
         });
-        (function() {
-            const cards = document.querySelectorAll('.problem-card');
-            let counts = { 2: 0, 3: 0, 4: 0 };
-            cards.forEach(c => { const v = parseInt(c.dataset.vars); if (counts[v] !== undefined) counts[v]++; });
-            const bar = document.getElementById('statsBar');
-            bar.innerHTML = `
-                <span class="stat-chip green"><i class="fas fa-circle-check"></i> 2 variables <span class="count">${counts[2]}</span></span>
-                <span class="stat-chip blue"><i class="fas fa-layer-group"></i> 3 variables <span class="count">${counts[3]}</span></span>
-                <span class="stat-chip purple"><i class="fas fa-cubes"></i> 4 variables <span class="count">${counts[4]}</span></span>
-                <span class="stat-chip"><i class="fas fa-list-check"></i> Total <span class="count">${cards.length}</span></span>
-            `;
-        })();
+
+        // Make toggleProblem globally accessible
+        window.toggleProblem = toggleProblem;
+        // Make generatePDF globally accessible
+        window.generatePDF = generatePDF;
     </script>
 </body>
 </html>
