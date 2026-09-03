@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Problemas de Electrónica Digital – 4.º ESO (25 problemas)</title>
+  <title>Problemas de Electrónica Digital (II)</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
 /* ============================================================
@@ -325,15 +326,6 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
     --danger: #FB7185;
 }
 
-/* Cabecera a sangre completa (body > header) */
-body > header {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    padding: 2.4rem 1.25rem 2.2rem;
-    margin-bottom: 0;
-}
 main { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1rem 2.5rem; }
 
 .intro {
@@ -444,19 +436,30 @@ main { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1rem 2.5rem; }
 }
 .exercise-header:hover { background: rgba(148, 163, 184, 0.06); }
 .exercise-header::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 7px solid var(--cyan);
-    transition: transform 0.3s ease;
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    margin-left: 0.5rem;
-    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.6));
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    color: var(--cyan);
+    background: var(--panel-strong);
+    border: 1px solid var(--stroke);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
+    margin-left: 0.25rem;
 }
-.exercise-card.active .exercise-header::after { transform: rotate(180deg); }
+.exercise-card.active .exercise-header::after {
+    transform: rotate(180deg);
+    background: var(--grad-main);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
+}
 .exercise-title {
     font-family: var(--font-display);
     font-size: 0.99rem;
@@ -594,39 +597,452 @@ body > footer {
     .exercise-meta { max-width: 50%; }
     .rubrica-table { font-size: 0.72rem; }
 }
-  </style>
+  
+/* ============================================================
+   UNIFORMIZACIÓN · índice 2 col · guía de uso · filtros · export
+   ============================================================ */
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 96px; }
+
+/* ---- Índice de problemas (2 columnas) ---- */
+.unif-index { margin: 26px 0; }
+.unif-index h2 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0 0 14px;
+    background: linear-gradient(90deg, #E9D5FF, #22D3EE);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+.unif-index-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+}
+@media (max-width: 760px) {
+    .unif-index-grid { grid-template-columns: 1fr; }
+}
+.unif-index-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--stroke);
+    border-radius: 12px;
+    background: var(--panel);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1), border-color 0.25s, background 0.25s, box-shadow 0.25s, color 0.25s;
+}
+.unif-index-item:hover, .unif-index-item:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(167, 139, 250, 0.55);
+    background: rgba(139, 92, 246, 0.12);
+    color: #fff;
+    box-shadow: 0 12px 28px -16px rgba(139, 92, 246, 0.65);
+    outline: none;
+}
+.unif-index-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #fff;
+    background: var(--grad-main);
+    box-shadow: 0 4px 12px -4px rgba(139, 92, 246, 0.6);
+}
+.unif-index-titulo { flex: 1; font-size: 0.9rem; font-weight: 500; line-height: 1.35; }
+.unif-index-vars {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.08);
+    white-space: nowrap;
+}
+
+/* ---- Guía de uso (acordeón replegado por defecto) ---- */
+.unif-guia {
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.09), rgba(52, 211, 153, 0.02));
+    overflow: hidden;
+    margin: 22px 0;
+    box-shadow: 0 14px 34px -22px rgba(0, 0, 0, 0.85);
+}
+.unif-guia summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    padding: 15px 20px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    color: #6EE7B7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.25s, color 0.25s;
+}
+.unif-guia summary::-webkit-details-marker { display: none; }
+.unif-guia summary::after {
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: var(--cyan);
+    background: var(--panel-strong);
+    border: 1px solid var(--stroke);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
+.unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
+.unif-guia[open] summary::after {
+    content: '\f078';
+    transform: rotate(180deg);
+    color: #06281C;
+    background: linear-gradient(90deg, #34D399, #22D3EE);
+    border-color: transparent;
+}
+.unif-guia-body { padding: 6px 22px 18px; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
+.unif-guia-body p { margin: 0.55rem 0; }
+.unif-guia-body ul { margin: 0.4rem 0 0.4rem 1.25rem; }
+.unif-guia-body li { margin-bottom: 0.35rem; }
+
+/* ---- Filtros por número de variables ---- */
+.unif-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(10, 15, 30, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--stroke);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 22px 0;
+}
+.unif-filters .filter-btn {
+    padding: 9px 20px;
+    border: 1px solid var(--stroke);
+    background: var(--panel-strong);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.unif-filters .filter-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(167, 139, 250, 0.5);
+    color: #fff;
+    transform: translateY(-2px);
+}
+.unif-filters .filter-btn.active {
+    background: var(--grad-main);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.65);
+}
+
+/* ---- Botón export en el cuerpo (EDI6) y exportación EDI4 ---- */
+/* ===== SUBTEMA-PDF-v6 (ancla .unif-pdf-root: viaja con el clon a cualquier contenedor) ===== */
+/* html2pdf 0.10.1 re-clona el contenido dentro de .html2pdf__container con width:180mm
+   (≈680px) y margin:auto: el contenido se re-maquetaba estrecho y descentrado (recortes).
+   Fijamos el contenedor a 800px en el origen para que el recorte x:0,y:0 encaje exacto. */
+.html2pdf__container {
+    position: absolute !important;
+    width: 800px !important;
+    left: 0 !important;
+    right: auto !important;
+    top: 0 !important;
+    margin: 0 !important;
+}
+.unif-pdf-root table { min-width: 0 !important; max-width: 100% !important; }
+.unif-pdf-root, .unif-pdf-root * {
+    color: #1f2937 !important;
+    -webkit-text-fill-color: #1f2937 !important;
+    background-image: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+}
+.unif-pdf-root :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, small, label, h1, h2, h3, h4, h5, h6, table, tbody, thead, tr, figure, blockquote, dt, dd) {
+    background-color: #ffffff !important;
+    border-color: #d1d5db !important;
+}
+.unif-pdf-root :is(.accordion-content, .exercise-body, .problema-content, .problem-content) {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+.unif-pdf-root :is(.accordion-toggle, .arrow-icon, .toggle-icon, .pdf-btn),
+.unif-pdf-root .exercise-header::after,
+.unif-pdf-root .accordion-header::after,
+.unif-pdf-root .problem-header::after,
+.unif-pdf-root summary::after { display: none !important; }
+.unif-pdf-root th {
+    background-color: #ede9fe !important;
+    color: #312e81 !important;
+    -webkit-text-fill-color: #312e81 !important;
+    border-color: #ddd6fe !important;
+}
+.unif-pdf-root .problem-number,
+.unif-pdf-root .rubrica h4,
+.unif-pdf-root .rubric h3 {
+    background-color: #4c1d95 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.unif-pdf-root .rubric-table th {
+    background-color: #ede9fe !important;
+    color: #312e81 !important;
+    -webkit-text-fill-color: #312e81 !important;
+}
+.unif-pdf-root .level-1 { background-color: #f8d7da !important; color: #721c24 !important; -webkit-text-fill-color: #721c24 !important; }
+.unif-pdf-root .level-2 { background-color: #fff3cd !important; color: #856404 !important; -webkit-text-fill-color: #856404 !important; }
+.unif-pdf-root .level-3 { background-color: #d4edda !important; color: #155724 !important; -webkit-text-fill-color: #155724 !important; }
+.unif-pdf-root .level-4 { background-color: #cce5ff !important; color: #004085 !important; -webkit-text-fill-color: #004085 !important; }
+.unif-pdf-root .level-5 { background-color: #d1ecf1 !important; color: #0c5460 !important; -webkit-text-fill-color: #0c5460 !important; }
+.unif-pdf-root .badge,
+.unif-pdf-root [class*="badge-"] {
+    background-color: #e2e8f0 !important;
+    color: #334155 !important;
+    -webkit-text-fill-color: #334155 !important;
+}
+.unif-pdf-root .variables,
+.unif-pdf-root .variables-tag {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+    -webkit-text-fill-color: #065f46 !important;
+    border-color: #a7f3d0 !important;
+}
+.unif-pdf-root :is(.solution, .solucion, [class*="soluc"]) {
+    background-color: #ecfdf5 !important;
+    border-color: #a7f3d0 !important;
+}
+.unif-pdf-bottom { margin-top: 14px; }
+
+/* ---- Título de cabecera para las tarjetas JS de EDI6 ---- */
+.problem-header .problem-title {
+    flex: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: var(--text);
+}
+@media (max-width: 480px) {
+    .problem-header .problem-title { font-size: 0.92rem; }
+}
+
+/* ---- Los acordeones siempre a UNA columna ---- */
+.exercise-grid { grid-template-columns: 1fr !important; }
+
+/* ---- Utilidad para filtros ---- */
+.unif-hidden { display: none !important; }
+
+/* ---- El marcador "+" del resumen no debe salir en los PDF ---- */
+body > div[style*="-9999"] details > summary::after { display: none !important; }
+
+/* ---- Impresión: componentes uniformes en claro ---- */
+@media print {
+    .unif-filters { display: none !important; }
+    .unif-index-item { border-color: #ccc; color: #111; background: #fff; box-shadow: none; }
+    .unif-index-num { background: #eee; color: #111; box-shadow: none; }
+    .unif-index-vars { color: #555; border-color: #ccc; background: #fff; }
+    .unif-guia { border-color: #bbb; background: #fff; box-shadow: none; }
+    .unif-guia summary { color: #111; }
+    .unif-guia summary::after { color: #444; background: #f2f2f2; border-color: #ccc; }
+    .unif-guia-body { color: #222; }
+}
+
+  
+/* ===== ANCHURA UNIFICADA: columna única (cajas visibles de 1168px) ===== */
+main { max-width: 1200px; }
+body > h1, body > section.unif-index, body > .unif-filters, body > footer {
+    max-width: 1168px; margin-left: auto; margin-right: auto;
+}
+  
+
+
+/* ===== SUBTEMA-PDF-v5 (anclas .unif-pdf-root + .unif-pdf-temp) =====
+   El clonador de html2canvas no copia atributos style: los contenedores
+   temporales (div hijo directo de body SIN clase, o con left:-9999px) se
+   tematizan aquí, vía CSS que sí viaja al iframe de render. */
+.unif-pdf-temp, body > div[style*="-9999"], body > div[style*="750px"] {
+    background: #ffffff !important;
+}
+.unif-pdf-temp *, body > div[style*="-9999"] *, body > div[style*="750px"] * {
+    color: #1f2937 !important;
+    -webkit-text-fill-color: #1f2937 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+}
+.unif-pdf-temp :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, h1, h2, h3, h4, h5, table, tbody, thead, tr, figure, blockquote),
+body > div[style*="-9999"] :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, h1, h2, h3, h4, h5, table, tbody, thead, tr, figure, blockquote),
+body > div[style*="750px"] :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, h1, h2, h3, h4, h5, table, tbody, thead, tr, figure, blockquote) {
+    background-image: none !important;
+    background-color: transparent !important;
+    border-color: #d1d5db !important;
+}
+.unif-pdf-temp .accordion-content, .unif-pdf-temp .exercise-body,
+.unif-pdf-temp .problema-content, .unif-pdf-temp .problem-content,
+body > div[style*="-9999"] .accordion-content, body > div[style*="-9999"] .exercise-body,
+body > div[style*="-9999"] .problema-content, body > div[style*="-9999"] .problem-content {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding-top: 1rem;
+}
+/* acentos legibles (especificidad > universal) */
+.unif-pdf-temp th, body > div[style*="-9999"] th, body > div[style*="750px"] th {
+    background-color: #ede9fe !important;
+    color: #312e81 !important;
+    -webkit-text-fill-color: #312e81 !important;
+    border: 1px solid #ddd6fe !important;
+}
+.unif-pdf-temp td, body > div[style*="-9999"] td, body > div[style*="750px"] td {
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    -webkit-text-fill-color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+.unif-pdf-temp tr:nth-child(even) td, body > div[style*="-9999"] tr:nth-child(even) td, body > div[style*="750px"] tr:nth-child(even) td { background-color: #f8fafc !important; }
+.unif-pdf-temp .problem-number, body > div[style*="-9999"] .problem-number, body > div[style*="750px"] .problem-number {
+    background-color: #4c1d95 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.unif-pdf-temp .rubrica h4, .unif-pdf-temp .rubric h3,
+body > div[style*="-9999"] .rubrica h4, body > div[style*="-9999"] .rubric h3,
+body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
+    background-color: #4c1d95 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.unif-pdf-temp .rubric-table th, body > div[style*="-9999"] .rubric-table th, body > div[style*="750px"] .rubric-table th {
+    background-color: #ede9fe !important;
+    color: #312e81 !important;
+    -webkit-text-fill-color: #312e81 !important;
+}
+.unif-pdf-temp .level-1, body > div[style*="-9999"] .level-1, body > div[style*="750px"] .level-1 { background-color: #f8d7da !important; color: #721c24 !important; -webkit-text-fill-color: #721c24 !important; }
+.unif-pdf-temp .level-2, body > div[style*="-9999"] .level-2, body > div[style*="750px"] .level-2 { background-color: #fff3cd !important; color: #856404 !important; -webkit-text-fill-color: #856404 !important; }
+.unif-pdf-temp .level-3, body > div[style*="-9999"] .level-3, body > div[style*="750px"] .level-3 { background-color: #d4edda !important; color: #155724 !important; -webkit-text-fill-color: #155724 !important; }
+.unif-pdf-temp .level-4, body > div[style*="-9999"] .level-4, body > div[style*="750px"] .level-4 { background-color: #cce5ff !important; color: #004085 !important; -webkit-text-fill-color: #004085 !important; }
+.unif-pdf-temp .level-5, body > div[style*="-9999"] .level-5, body > div[style*="750px"] .level-5 { background-color: #d1ecf1 !important; color: #0c5460 !important; -webkit-text-fill-color: #0c5460 !important; }
+.unif-pdf-temp .badge, body > div[style*="-9999"] .badge, body > div[style*="750px"] .badge { background-color: #e2e8f0 !important; color: #334155 !important; -webkit-text-fill-color: #334155 !important; border: none !important; }
+.unif-pdf-temp .variables-tag, body > div[style*="-9999"] .variables-tag, body > div[style*="750px"] .variables-tag { background-color: #d1fae5 !important; color: #065f46 !important; -webkit-text-fill-color: #065f46 !important; }
+.unif-pdf-temp [class*="soluc"], body > div[style*="-9999"] [class*="soluc"], body > div[style*="750px"] [class*="soluc"] { background-color: #ecfdf5 !important; }
+.unif-pdf-temp summary::after, body > div[style*="-9999"] summary::after, body > div[style*="750px"] summary::after { display: none !important; }
+.unif-pdf-temp .pdf-btn, body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { display: none !important; }
+
+/* Barra de filtros integrada sobre el índice */
+.unif-index .unif-filters { margin: 2px 0 16px; }
+/* ===== T11c: ENCABEZADO IDÉNTICO A EDI1 (panel 1168px con aurora) ===== */
+body > header { max-width: 1168px; margin-left: auto; margin-right: auto; }
+</style>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body>
 <header>
-  <h1>Problemas de Electrónica Digital – 4º ESO</h1>
-  <p>Colección de 25 problemas contextualizados en la vida cotidiana con 2, 3 y 4 variables lógicas.</p>
-  <p>Incluyen soluciones guiadas y rúbricas vinculadas a los criterios de Tecnología de 4º ESO</p>
-</header>
+  <h1><i class="fas fa-microchip"></i> Problemas de Electrónica Digital (II) - 4º ESO</h1>
+  </header>
+
+    <section class="unif-index" aria-label="Índice de problemas">
+      <h2>Índice de problemas</h2>
+<div class="unif-filters" role="group" aria-label="Filtrar problemas por número de variables">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="2vars">2 variables</button>
+        <button class="filter-btn" data-filter="3vars">3 variables</button>
+        <button class="filter-btn" data-filter="4vars">4 variables</button>
+      </div>
+      <nav class="unif-index-grid">
+        <a class="unif-index-item" href="#prob-1" data-cat="2vars"><span class="unif-index-num">1</span><span class="unif-index-titulo">Luz de pasillo con dos conmutadores</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob-2" data-cat="2vars"><span class="unif-index-num">2</span><span class="unif-index-titulo">Timbre con modo noche</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob-3" data-cat="3vars"><span class="unif-index-num">3</span><span class="unif-index-titulo">Riego automático del jardín</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-4" data-cat="3vars"><span class="unif-index-num">4</span><span class="unif-index-titulo">Alarma de ventana con modo mascotas</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-5" data-cat="3vars"><span class="unif-index-num">5</span><span class="unif-index-titulo">Ventilación automática en la cocina</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-6" data-cat="3vars"><span class="unif-index-num">6</span><span class="unif-index-titulo">Luz de escritorio para estudiar</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-7" data-cat="4vars"><span class="unif-index-num">7</span><span class="unif-index-titulo">Control de acceso a garaje comunitario</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-8" data-cat="4vars"><span class="unif-index-num">8</span><span class="unif-index-titulo">Ascensor con prioridad de accesibilidad</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-9" data-cat="4vars"><span class="unif-index-num">9</span><span class="unif-index-titulo">Control de calefacción en el aula</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-10" data-cat="4vars"><span class="unif-index-num">10</span><span class="unif-index-titulo">Sistema domótico de ahorro energético en casa</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-11" data-cat="2vars"><span class="unif-index-num">11</span><span class="unif-index-titulo">Luz del baño con sensor de presencia</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob-12" data-cat="2vars"><span class="unif-index-num">12</span><span class="unif-index-titulo">Deshumidificador con control automático</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob-13" data-cat="3vars"><span class="unif-index-num">13</span><span class="unif-index-titulo">Iluminación del portal con reloj astronómico</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-14" data-cat="3vars"><span class="unif-index-num">14</span><span class="unif-index-titulo">Sistema de aviso de aula abierta</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-15" data-cat="3vars"><span class="unif-index-num">15</span><span class="unif-index-titulo">Control de ventiladores en un invernadero escolar</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-16" data-cat="3vars"><span class="unif-index-num">16</span><span class="unif-index-titulo">Aviso de uso del laboratorio de tecnología</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-17" data-cat="4vars"><span class="unif-index-num">17</span><span class="unif-index-titulo">Sistema de control de persianas inteligentes</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-18" data-cat="4vars"><span class="unif-index-num">18</span><span class="unif-index-titulo">Sistema de recarga de bicicletas eléctricas en un instituto</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-19" data-cat="4vars"><span class="unif-index-num">19</span><span class="unif-index-titulo">Control automático de iluminación en biblioteca</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-20" data-cat="4vars"><span class="unif-index-num">20</span><span class="unif-index-titulo">Control de un ventilador de techo en dormitorio</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob-21" data-cat="3vars"><span class="unif-index-num">21</span><span class="unif-index-titulo">Control de una lámpara de lectura en la cama</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-22" data-cat="3vars"><span class="unif-index-num">22</span><span class="unif-index-titulo">Control de una fuente decorativa en un patio</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-23" data-cat="2vars"><span class="unif-index-num">23</span><span class="unif-index-titulo">Señal de “no molestar” en un despacho</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob-24" data-cat="3vars"><span class="unif-index-num">24</span><span class="unif-index-titulo">Control de alarmas de un pequeño huerto urbano</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob-25" data-cat="4vars"><span class="unif-index-num">25</span><span class="unif-index-titulo">Control de carga de dispositivos en un aula de informática</span><span class="unif-index-vars">4 variables</span></a>
+      </nav>
+    </section>
 
 <main>
-  <section class="intro">
-    <h2>Guía de uso en el aula</h2>
-    <p><strong>Tipo de problemas:</strong> Electrónica digital aplicada a situaciones cotidianas (domótica, ahorro energético, seguridad, movilidad, centro educativo, hogar inteligente, etc.).</p>
-    <p><strong>Instrucciones:</strong> Haz clic en el título de cada problema para desplegar o replegar su contenido.</p>
-    <p>Cada problema incluye:</p>
-    <ul>
-      <li><strong>Contexto:</strong> situación cotidiana clara para el alumnado.</li>
-      <li><strong>Definición de variables:</strong> siempre en forma de 0/1.</li>
-      <li><strong>Planteamiento:</strong> tabla de verdad, expresión booleana y, cuando procede, simplificación o análisis.</li>
-      <li><strong>Solución:</strong> desplegable con los pasos y la función lógica resuelta.</li>
-      <li><strong>Rúbrica:</strong> específica del problema y vinculada a los criterios TEC.4.x afectados.</li>
-    </ul>
-  </section>
+  <details class="unif-guia">
+      <summary>Guía de uso en el aula</summary>
+      <div class="unif-guia-body">
+      <p><strong>Tipo de problemas:</strong> Electrónica digital aplicada a situaciones cotidianas (domótica, ahorro energético, seguridad, movilidad, centro educativo, hogar inteligente, etc.).</p>
+      <p><strong>Instrucciones:</strong> Haz clic en el título de cada problema para desplegar o replegar su contenido.</p>
+      <p>Cada problema incluye:</p>
+      <ul>
+        <li><strong>Contexto:</strong> situación cotidiana clara para el alumnado.</li>
+        <li><strong>Definición de variables:</strong> siempre en forma de 0/1.</li>
+        <li><strong>Planteamiento:</strong> tabla de verdad, expresión booleana y, cuando procede, simplificación o análisis.</li>
+        <li><strong>Solución:</strong> desplegable con los pasos y la función lógica resuelta.</li>
+        <li><strong>Rúbrica:</strong> específica del problema y vinculada a los criterios TEC.4.x afectados.</li>
+      </ul>
+      </div>
+    </details>
+
+
 
   <section class="exercise-grid">
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-1" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 1. Luz de pasillo con dos conmutadores</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Domótica básica</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un pasillo hay una lámpara que puede encenderse desde dos puntos diferentes: la entrada (A) y el final del pasillo (B). Se desea que la luz esté encendida cuando exactamente uno de los conmutadores esté en posición de encendido, y apagada cuando los dos estén en la misma posición.</p>
@@ -684,13 +1100,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-2" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 2. Timbre con modo noche</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Confort y descanso</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una vivienda se quiere que el timbre no suene durante la noche para no molestar. Se instala un interruptor de “modo noche” (N) que, cuando está activado, anula el timbre aunque pulsen el botón (T).</p>
@@ -748,13 +1161,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-3" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 3. Riego automático del jardín</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Ahorro de agua</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un jardín se quiere automatizar el riego de forma que se tenga en cuenta la humedad del suelo, el nivel del depósito de agua y el horario nocturno para evitar evaporación excesiva.</p>
@@ -808,13 +1218,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-4" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 4. Alarma de ventana con modo mascotas</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Seguridad en casa</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Una alarma se activa cuando una ventana se abre y el sistema está armado. Sin embargo, existe un “modo mascotas” que permite abrir ligeramente una ventana sin disparar la alarma cuando está activado.</p>
@@ -868,13 +1275,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-5" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 5. Ventilación automática en la cocina</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Salud y confort</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una cocina se instala un sistema de ventilación automática. Se quiere que el extractor se encienda si se da cualquiera de estas condiciones: hay mucho vapor, la temperatura es alta o la placa de cocina está encendida.</p>
@@ -927,13 +1331,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-6" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 6. Luz de escritorio para estudiar</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Vida académica</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Una luz de escritorio inteligente se enciende automáticamente para ayudar a estudiar. Se desea que se encienda solo cuando el alumno está delante del escritorio, hay poca luz natural y está dentro del horario de estudio configurado.</p>
@@ -986,13 +1387,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-7" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 7. Control de acceso a garaje comunitario</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Movilidad diaria</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un garaje comunitario se quiere que la barrera se abra automáticamente solo en determinadas condiciones. El sistema tiene en cuenta si hay plaza libre, si el coche pertenece a un abonado, si la barrera está cerrada y si hay una situación de emergencia.</p>
@@ -1047,13 +1445,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-8" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 8. Ascensor con prioridad de accesibilidad</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Accesibilidad</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un edificio se diseña un ascensor que da prioridad a pisos accesibles cuando hay una persona con movilidad reducida. El sistema registra si se ha pulsado el botón de planta, si se detecta peso excesivo, si el ascensor está en modo mantenimiento y si la planta solicitada es accesible.</p>
@@ -1109,13 +1504,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-9" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 9. Control de calefacción en el aula</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Centro educativo</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un aula se quiere controlar la calefacción de forma automática. El sistema tiene en cuenta si la temperatura es baja, si las ventanas están cerradas, si hay alumnado presente y si se está en horario lectivo.</p>
@@ -1171,13 +1563,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-10" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 10. Sistema domótico de ahorro energético en casa</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Hogar inteligente</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una vivienda se instala un sistema domótico que apaga automáticamente las luces y algunos enchufes cuando la casa se queda vacía, siempre que las ventanas estén cerradas, el modo vacaciones esté activado y la alarma esté encendida.</p>
@@ -1233,13 +1622,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-11" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 11. Luz del baño con sensor de presencia</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Ahorro energético</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un baño se instala una luz controlada por un sensor de presencia y un interruptor general. La luz solo debe encenderse si el interruptor general está encendido y el sensor detecta presencia.</p>
@@ -1297,13 +1683,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-12" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 12. Deshumidificador con control automático</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Salud y confort</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una habitación se instala un deshumidificador que solo debe encenderse cuando la humedad es alta y la ventana está cerrada para que el proceso sea eficiente.</p>
@@ -1361,13 +1744,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-13" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 13. Iluminación del portal con reloj astronómico</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Edificio residencial</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En el portal de una comunidad se quiere que la luz se encienda automáticamente cuando sea de noche o cuando haya poca luz, pero solo si el reloj astronómico indica que es hora de iluminación y el interruptor de mantenimiento no está apagado.</p>
@@ -1423,13 +1803,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-14" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 14. Sistema de aviso de aula abierta</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Centro educativo</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un instituto se quiere instalar un sistema que avise en conserjería cuando una puerta de aula se queda abierta sin alumnado dentro, fuera del horario lectivo, por motivos de seguridad.</p>
@@ -1481,13 +1858,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-15" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 15. Control de ventiladores en un invernadero escolar</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Proyecto escolar</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un invernadero del centro educativo, el alumnado diseña un sistema que enciende ventiladores para regular el clima. Deben encenderse cuando la temperatura sea alta o la humedad interior sea muy elevada, pero solo si el sistema está activado desde el panel de control.</p>
@@ -1541,13 +1915,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-16" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 16. Aviso de uso del laboratorio de tecnología</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Organización de espacios</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En el laboratorio de tecnología se quiere que se encienda un piloto en la puerta cuando el laboratorio está ocupado y se están utilizando herramientas peligrosas, para que el profesorado y conserjería lo sepan.</p>
@@ -1597,13 +1968,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-17" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 17. Sistema de control de persianas inteligentes</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Confort térmico</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un salón se instalan persianas inteligentes que se bajan automáticamente para evitar sobrecalentamiento. El sistema tiene en cuenta la intensidad solar, la temperatura interior, si hay personas en la habitación y si el usuario ha activado el modo automático.</p>
@@ -1654,13 +2022,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-18" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 18. Sistema de recarga de bicicletas eléctricas en un instituto</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Ecotransporte</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Un instituto quiere instalar un sistema de recarga de bicicletas eléctricas que favorezca la movilidad sostenible. Se desea que los puntos de carga se activen automáticamente solo en determinadas condiciones.</p>
@@ -1710,13 +2075,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-19" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 19. Control automático de iluminación en biblioteca</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Espacios de estudio</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En la biblioteca del centro se quiere automatizar el encendido de la iluminación general. El sistema tiene en cuenta la presencia, la luz natural, el horario de apertura y si se ha activado un modo “evento especial”.</p>
@@ -1767,13 +2129,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-20" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 20. Control de un ventilador de techo en dormitorio</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Confort en el hogar</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Un ventilador de techo en un dormitorio dispone de varios condicionantes: interruptor general, temperatura alta, presencia en la habitación y modo “ruido bajo” para la noche (que solo permite funcionar en velocidad baja, pero asumimos que activa igualmente el ventilador).</p>
@@ -1824,13 +2183,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-21" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 21. Control de una lámpara de lectura en la cama</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Hábitos de lectura</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Se diseña una lámpara de lectura junto a la cama que puede encenderse solo si se da la combinación adecuada de tres condiciones: el usuario ha pulsado el botón de encendido, la luz ambiental es baja y no se ha activado el modo “descanso total” en el móvil (que apaga todas las luces).</p>
@@ -1880,13 +2236,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-22" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 22. Control de una fuente decorativa en un patio</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Espacios exteriores</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En el patio de una casa o del centro se instala una fuente decorativa. Se quiere que funcione solo cuando es horario diurno, hay personas presentes en el patio y el depósito de agua está suficientemente lleno.</p>
@@ -1935,13 +2288,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-23" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 23. Señal de “no molestar” en un despacho</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Comunicación en espacios compartidos</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un despacho se coloca un indicador luminoso de “no molestar”. La persona que trabaja dentro puede activar un interruptor para encender el indicador, pero también se enciende automáticamente cuando está en una videollamada.</p>
@@ -1998,13 +2348,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-24" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 24. Control de alarmas de un pequeño huerto urbano</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Huerto escolar o comunitario</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un huerto urbano gestionado por un grupo de vecinos o por el alumnado, se quiere activar una alarma en el móvil cuando se combina el riesgo de helada y la falta de riego, pero solo si el sistema está en modo vigilancia.</p>
@@ -2054,13 +2401,10 @@ body > footer {
       </div>
     </article>
 
-    <article class="exercise-card">
+    <article class="exercise-card" id="prob-25" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 25. Control de carga de dispositivos en un aula de informática</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Gestión de recursos TIC</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un aula de informática hay varias regletas inteligentes para cargar portátiles y tabletas. Se quiere que las regletas se activen solo cuando sea horario lectivo, haya dispositivos conectados, el nivel de batería medio sea bajo y el responsable TIC haya activado el modo de carga desde un panel.</p>
@@ -2112,9 +2456,6 @@ body > footer {
   </section>
 </main>
 
-<footer>
-  Documento HTML responsivo para trabajo de aula en Tecnología 4.º ESO. Adaptable a ordenador, tablet y móvil.
-</footer>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -2235,18 +2576,375 @@ body > footer {
 
     // D) Generar PDF
     const opt = {
-      margin:       [10, 15, 10, 15],
+      margin:       [15, 15, 15, 15],
       filename:     `ColecciónEDI2_Problema_${exerciseNum}.pdf`,
-      image:        { type: 'jpeg', quality: 1 },
-      html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0, logging: false, width: 800, windowWidth: 900, x: 0, y: 0 },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+      pagebreak:    { mode: ['css', 'legacy'] }
     };
 
     html2pdf().set(opt).from(clone).save().then(() => {
         document.body.removeChild(tempContainer);
     });
   }
+</script>
+
+<script>
+/* ===== UNIFORMIZACIÓN: índice · guía · filtros ===== */
+(function () {
+  'use strict';
+  var OPENER = 'click-header'; // 'click-header' | 'details' | 'none'
+
+  // 1) Índice: abrir el acordeón destino y hacer scroll suave
+  document.querySelectorAll('a.unif-index-item').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var href = a.getAttribute('href');
+      var target = document.querySelector(href);
+      if (!target) return;
+      if (OPENER === 'details') {
+        target.open = true;
+      } else if (OPENER === 'click-header') {
+        var hdr = target.querySelector('.accordion-header, .exercise-header, .problema-header, .problem-header');
+        var abierto = target.classList.contains('active') || target.classList.contains('expanded') ||
+                      !!target.querySelector('.active, .expanded');
+        if (hdr && !abierto) hdr.click();
+      }
+      // Scroll en dos fases: inmediato + corrección al asentarse las transiciones
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 600);
+      if (history.replaceState) history.replaceState(null, '', href);
+    });
+  });
+
+  // 2) Filtros por número de variables (barra uniforme)
+  var botones = document.querySelectorAll('.unif-filters .filter-btn');
+  if (botones.length) {
+    botones.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        botones.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var f = btn.getAttribute('data-filter');
+        var cat = (f === 'all') ? null : f;
+        document.querySelectorAll('[data-cat]').forEach(function (el) {
+          el.classList.toggle('unif-hidden', !!(cat && el.getAttribute('data-cat') !== cat));
+        });
+      });
+    });
+  }
+  /* sin extras */
+})();
+</script>
+<script>
+/* ===== MEJORA-PDF-CLARO: exportaciones legibles y sin páginas en blanco ===== */
+(function () {
+  'use strict';
+  function parseCol(v) {
+    var m = /rgba?\(([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?/.exec(v || '');
+    return m ? [+m[1], +m[2], +m[3], m[4] === undefined ? 1 : +m[4]] : null;
+  }
+  function lum(c) { return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+
+  // Tema claro inline sobre el elemento que se va a capturar en el PDF
+  /* window.__unifTemaClaroAgresivo */
+  window.__unifTemaClaro = function (root) {
+    /* Tema claro AGRESIVO con estilos inline: los inline SÍ viajan con el clon
+       al iframe de html2canvas (verificado). El parche por prototipo lo aplica
+       para todas las exportaciones sin importar el orden .set()/.from(). */
+    try {
+      if (!root || !root.querySelectorAll) return;
+      var els = [root].concat([].slice.call(root.querySelectorAll('*')));
+      var Acentos = [
+        { sel: 'th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+        { sel: '.problem-number', bg: '#4c1d95', col: '#ffffff', bd: '' },
+        { sel: '.rubrica h4', bg: '#4c1d95', col: '#ffffff', bd: '' },
+        { sel: '.rubric h3', bg: '#4c1d95', col: '#ffffff', bd: '' },
+        { sel: '.rubric-table th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+        { sel: '.level-1', bg: '#f8d7da', col: '#721c24', bd: '' },
+        { sel: '.level-2', bg: '#fff3cd', col: '#856404', bd: '' },
+        { sel: '.level-3', bg: '#d4edda', col: '#155724', bd: '' },
+        { sel: '.level-4', bg: '#cce5ff', col: '#004085', bd: '' },
+        { sel: '.level-5', bg: '#d1ecf1', col: '#0c5460', bd: '' },
+        { sel: '.badge', bg: '#e2e8f0', col: '#334155', bd: '' },
+        { sel: '.variables-tag', bg: '#d1fae5', col: '#065f46', bd: '#a7f3d0' }
+      ];
+      els.forEach(function (el) {
+        var s = el.style;
+        s.animation = 'none'; s.transition = 'none';
+        s.opacity = '1'; s.visibility = 'visible';
+        s.textShadow = 'none'; s.boxShadow = 'none';
+        s.filter = 'none'; s.backdropFilter = 'none';
+        s.maxHeight = 'none'; s.maxWidth = 'none'; s.overflow = 'visible';
+        var tag = el.tagName;
+        var cls = ' ' + (typeof el.className === 'string' ? el.className : '') + ' ';
+        var esTexto = /^(P|DIV|SPAN|LI|UL|OL|TD|TH|TABLE|TR|TBODY|THEAD|SUMMARY|DETAILS|H1|H2|H3|H4|H5|H6|STRONG|B|EM|SMALL|LABEL|SECTION|HEADER|FOOTER|FIGURE|FIGCAPTION|BLOCKQUOTE|DT|DD)$/.test(tag);
+        if (esTexto) {
+          s.color = '#1f2937';
+          s.webkitTextFillColor = '#1f2937';
+          s.backgroundImage = 'none';
+          s.backgroundColor = '#ffffff';
+          s.borderColor = '#d1d5db';
+        }
+        if (tag === 'DETAILS') el.open = true;
+        if (/content|body|soluc/i.test(cls) && (tag === 'DIV' || tag === 'SECTION')) {
+          s.display = 'block';
+        }
+        if (/soluc|ejemplo|resultado/i.test(cls)) {
+          s.backgroundColor = '#ecfdf5';
+          s.borderColor = '#a7f3d0';
+        }
+        if (tag === 'SUMMARY' || /header|titulo|title/i.test(cls)) {
+          s.color = '#312e81';
+          s.webkitTextFillColor = '#312e81';
+        }
+        for (var i = 0; i < Acentos.length; i++) {
+          var a = Acentos[i];
+          var m = false;
+          try { m = el.matches(a.sel); } catch (e) { m = false; }
+          if (m) {
+            s.backgroundColor = a.bg;
+            s.color = a.col;
+            s.webkitTextFillColor = a.col;
+            if (a.bd) s.borderColor = a.bd;
+          }
+        }
+      });
+    } catch (e) {}
+  };
+
+  function parchar() {
+    if (typeof window.html2pdf !== 'function' || window.html2pdf.__unifPatched) return;
+    var _h = window.html2pdf;
+    /* FIX-PDF-SCROLL: la cadena del worker arranca con .from()/.set(); hay que
+       estar arriba ANTES de crear el worker o html2canvas captura en blanco. */
+    function conTop() {
+      try {
+        /* behavior:'instant' explícito: NO consulta el CSS (scroll-behavior:smooth
+           del documento) y por tanto siempre salta al instante. */
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } catch (e) {
+        try { window.scrollTo(0, 0); } catch (e2) {}
+      }
+      return _h.apply(this, arguments);
+    }
+    Object.keys(_h).forEach(function (k) { try { conTop[k] = _h[k]; } catch (e) {} });
+    /* Tema claro del clon en TODOS los workers (los métodos devuelven workers nuevos) */
+    var W = _h.Worker;
+    /* FIX-FUENTES: esperar a document.fonts.ready (máx 1.5s) antes de renderizar
+       el canvas; evita texto invisible/desplazado por métricas de fuente a medias. */
+    if (W && W.prototype && typeof W.prototype.toCanvas === 'function' && !W.prototype.__unifFonts) {
+      W.prototype.__unifFonts = true;
+      var _toCanvas = W.prototype.toCanvas;
+      W.prototype.toCanvas = function () {
+        var self = this, args = arguments;
+        var listo = Promise.resolve();
+        try {
+          if (document.fonts && document.fonts.ready && document.fonts.status !== 'loaded') {
+            listo = Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 1500); })]);
+          }
+        } catch (e) {}
+        return listo.then(function () { return _toCanvas.apply(self, args); });
+      };
+    }
+    if (W && W.prototype && typeof W.prototype.from === 'function') {
+      var _from = W.prototype.from;
+      W.prototype.from = function (src, type) {
+        try {
+          if (src && src.nodeType === 1 && src !== document.body) {
+            window.__unifTemaClaro(src);
+            /* marcar el clon Y el contenedor: las CLASES sí viajan al iframe de
+               html2canvas; html2pdf mueve el clon a html2pdf__container para render */
+            src.classList.add('unif-pdf-root');
+            var t = (src.style && src.style.left === '-9999px') ? src
+                  : (src.parentElement && src.parentElement.style && src.parentElement.style.left === '-9999px' ? src.parentElement : null);
+            if (t && t.classList) t.classList.add('unif-pdf-temp');
+            /* FIX-ORIGEN: contenedor en pantalla (fijo, 0,0, z-index -1) para que el
+               recorte x:0,y:0 de html2canvas capture desde el borde del clon. */
+            if (t) {
+              try {
+                t.style.position = 'fixed';
+                t.style.left = '0px';
+                t.style.top = '0px';
+                t.style.zIndex = '-1';
+                t.style.width = '800px';
+                t.style.background = '#ffffff';
+              } catch (e2) {}
+            }
+            /* FIX-ENVOLTURA: html2canvas 1.4.1 pierde los textos de un párrafo cuando un
+               elemento inline (span.variables) parte entre dos líneas. Se aplana a texto:
+               el enunciado sale completo (probado: con el span se pierde media frase). */
+            try {
+              src.querySelectorAll('span.variables').forEach(function (sv) {
+                sv.replaceWith(document.createTextNode(sv.textContent));
+              });
+            } catch (e3) {}
+          }
+        } catch (e) {}
+        return _from.call(this, src, type);
+      };
+      var _toPdf = W.prototype.toPdf;
+      W.prototype.toPdf = function () {
+        try {
+          var opt = this.prop && this.prop.opt;
+          /* contenidos muy largos: reducir escala para no superar los límites de canvas */
+          var cont = this.prop && (this.prop.container || this.prop.src);
+          if (cont && cont.nodeType === 1 && opt && opt.html2canvas && opt.html2canvas.scale > 1) {
+            var alto = 0;
+            try { alto = Math.max(cont.scrollHeight || 0, Math.round(cont.getBoundingClientRect().height)); } catch (e) {}
+            if (alto > 2200) opt.html2canvas.scale = 1;
+          }
+          if (opt && opt.html2canvas && typeof opt.html2canvas === 'object') {
+            var prev = opt.html2canvas.onclone;
+            opt.html2canvas.onclone = function (doc) {
+              try {
+                var rootEl = doc.querySelector('.unif-pdf-root');
+                if (rootEl) {
+                  var Acentos = [
+                    { sel: 'th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+                    { sel: '.problem-number', bg: '#4c1d95', col: '#ffffff', bd: '' },
+                    { sel: '.rubrica h4', bg: '#4c1d95', col: '#ffffff', bd: '' },
+                    { sel: '.rubric h3', bg: '#4c1d95', col: '#ffffff', bd: '' },
+                    { sel: '.rubric-table th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+                    { sel: '.level-1', bg: '#f8d7da', col: '#721c24', bd: '' },
+                    { sel: '.level-2', bg: '#fff3cd', col: '#856404', bd: '' },
+                    { sel: '.level-3', bg: '#d4edda', col: '#155724', bd: '' },
+                    { sel: '.level-4', bg: '#cce5ff', col: '#004085', bd: '' },
+                    { sel: '.level-5', bg: '#d1ecf1', col: '#0c5460', bd: '' },
+                    { sel: '.badge', bg: '#e2e8f0', col: '#334155', bd: '' },
+                    { sel: '.variables-tag', bg: '#d1fae5', col: '#065f46', bd: '#a7f3d0' }
+                  ];
+                  var els = [rootEl].concat([].slice.call(rootEl.querySelectorAll('*')));
+                  els.forEach(function (el) {
+                    var s = el.style;
+                    s.animation = 'none'; s.transition = 'none';
+                    s.opacity = '1'; s.visibility = 'visible';
+                    s.textShadow = 'none'; s.boxShadow = 'none';
+                    s.filter = 'none'; s.backdropFilter = 'none';
+                    s.maxHeight = 'none'; s.maxWidth = 'none'; s.overflow = 'visible';
+                    var tag = el.tagName;
+                    var cls = ' ' + (typeof el.className === 'string' ? el.className : '') + ' ';
+                    var esTexto = /^(P|DIV|SPAN|LI|UL|OL|TD|TH|TABLE|TR|TBODY|THEAD|SUMMARY|DETAILS|H1|H2|H3|H4|H5|H6|STRONG|B|EM|SMALL|LABEL|SECTION|HEADER|FOOTER|FIGURE|FIGCAPTION|BLOCKQUOTE|DT|DD)$/.test(tag);
+                    if (esTexto) {
+                      s.color = '#1f2937';
+                      s.webkitTextFillColor = '#1f2937';
+                      s.backgroundImage = 'none';
+                      s.backgroundColor = '#ffffff';
+                      s.borderColor = '#d1d5db';
+                    }
+                    if (tag === 'DETAILS') el.open = true;
+                    if (/content|body|soluc/i.test(cls) && (tag === 'DIV' || tag === 'SECTION')) {
+                      s.display = 'block';
+                    }
+                    if (/soluc|ejemplo|resultado/i.test(cls)) {
+                      s.backgroundColor = '#ecfdf5';
+                      s.borderColor = '#a7f3d0';
+                    }
+                    if (tag === 'SUMMARY' || /header|titulo|title/i.test(cls)) {
+                      s.color = '#312e81';
+                      s.webkitTextFillColor = '#312e81';
+                    }
+                    for (var i = 0; i < Acentos.length; i++) {
+                      var a = Acentos[i];
+                      var m = false;
+                      try { m = el.matches(a.sel); } catch (e) { m = false; }
+                      if (m) {
+                        s.backgroundColor = a.bg;
+                        s.color = a.col;
+                        s.webkitTextFillColor = a.col;
+                        if (a.bd) s.borderColor = a.bd;
+                      }
+                    }
+                  });
+                }
+              } catch (e) {}
+              if (typeof prev === 'function') prev(doc);
+            };
+          }
+        } catch (e) {}
+        return _toPdf.apply(this, arguments);
+      };
+    }
+    window.html2pdf = conTop;
+    conTop.__unifPatched = true;
+  }
+  parchar();
+  document.addEventListener('DOMContentLoaded', parchar);
+})();
+</script>
+
+<script>
+/* ===== MEJORA-FLUJO-INDEX: flujo índice → acordeón → volver al índice ===== */
+(function () {
+  'use strict';
+  var SEL = '.exercise-card';
+  var DETAILS = false;
+  var VUELTA = null;  // acordeón abierto desde el índice
+  var ITEM = null;    // enlace del índice que lo abrió
+
+  function abierto(el) {
+    if (!el) return false;
+    if (DETAILS) return el.open;
+    if (el.classList.contains('active') || el.classList.contains('expanded')) return true;
+    return !!el.querySelector('.accordion-header.active, .accordion-content.active');
+  }
+
+  function volverAlIndice() {
+    var dest = (ITEM && !ITEM.classList.contains('unif-hidden')) ? ITEM : document.querySelector('.unif-index');
+    VUELTA = null; ITEM = null;
+    if (!dest) return;
+    dest.scrollIntoView({ behavior: 'smooth', block: dest.classList.contains('unif-index') ? 'start' : 'center' });
+  }
+
+  // 1) Recordar qué acordeón se abre desde el índice
+  document.querySelectorAll('a.unif-index-item').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var t = document.querySelector(a.getAttribute('href') || '');
+      VUELTA = (t && (DETAILS || t.matches(SEL))) ? t : null;
+      ITEM = a;
+    }, true);
+  });
+
+  // 2) Al cerrar ese acordeón, volver al índice
+  if (DETAILS) {
+    document.querySelectorAll('details[data-cat]').forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (!d.open) {
+          if (d === VUELTA) volverAlIndice();
+        } else if (d !== VUELTA) {
+          VUELTA = null; ITEM = null;
+        }
+      });
+    });
+  } else {
+    document.addEventListener('click', function (e) {
+      if (!e.target || !e.target.closest) return;
+      var card = e.target.closest(SEL);
+      if (!card) return;
+      if (card === VUELTA) {
+        setTimeout(function () {
+          if (VUELTA === card && !abierto(card)) volverAlIndice();
+        }, 80);
+      } else {
+        VUELTA = null; ITEM = null;  // interacción manual con otro acordeón
+      }
+    }, true);
+  }
+
+  // 3) Todos los acordeones de problema inician replegados (red de seguridad)
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.problem-accordion, .exercise-card, .problema, .problem-card').forEach(function (el) {
+      el.classList.remove('active', 'expanded');
+      var h = el.querySelector('.accordion-header.active');
+      if (h) h.classList.remove('active');
+      var c = el.querySelector('.accordion-content.active');
+      if (c) c.classList.remove('active');
+    });
+    document.querySelectorAll('details[data-cat]').forEach(function (d) { d.open = false; });
+  });
+})();
 </script>
 
 </body>
