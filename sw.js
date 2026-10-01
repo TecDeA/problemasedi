@@ -25,12 +25,16 @@ self.addEventListener('install', event => {
 });
 
 // Activación: Limpiamos cachés viejas si actualizas la versión
+// Solo borrar cachés de esta propia app (por prefijo): no tocar las cachés
+// del portal ni las de otras apps alojadas en subcarpetas del mismo dominio.
+const esCachePropia = (c) => c.startsWith('edi-');
+
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName !== CACHE_NAME && esCachePropia(cacheName)) {
             return caches.delete(cacheName);
           }
         })
