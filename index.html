@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Problemas de Electrónica Digital - IES Virgen de Villadiego</title>
-	<link rel="manifest" href="manifest.json">
+        <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2c3e50">
 <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="icon" href="favicon.ico" type="image/vnd.icon">
@@ -133,6 +133,70 @@
             h1 { font-size: 1.8rem; }
             h2 { font-size: 1rem; }
         }
+
+        /* --- CHIP DINÁMICO DE VERSIÓN (leída de sw.js) --- */
+        .version-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+            padding: 5px 14px 5px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent-color), var(--hover-color));
+            box-shadow: 0 3px 8px rgba(52, 152, 219, 0.35);
+            min-width: 110px;
+            justify-content: center;
+            line-height: 1.4;
+            transition: all 0.3s ease;
+        }
+
+        .version-chip::before {
+            content: '';
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #2ecc71;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+            animation: chip-pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .version-chip.loading::before {
+            background: #f1c40f;
+            animation: chip-pulse 1s ease-in-out infinite;
+        }
+
+        .version-chip.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.35);
+        }
+
+        .version-chip.error::before {
+            background: #fff;
+            animation: none;
+        }
+
+        .version-chip.updated {
+            animation: chip-bounce 0.6s ease;
+        }
+
+        @keyframes chip-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        @keyframes chip-bounce {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.15); }
+            70% { transform: scale(0.96); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -140,6 +204,9 @@
     <header>
         <h1>COLECCIONES DE PROBLEMAS DE ELECTRÓNICA DIGITAL</h1>
         <h2>DEPARTAMENTO DE TECNOLOGÍA IES VIRGEN DE VILLADIEGO</h2>
+        <div id="version-chip" class="version-chip loading" title="Versión de la caché tomada de sw.js">
+            <span id="version-chip-text">cargando…</span>
+        </div>
     </header>
 
 <main class="container">
@@ -178,17 +245,76 @@
     </footer>
 
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(registration => {
-          console.log('Service Worker registrado con éxito:', registration.scope);
+  (function () {
+    const chip = document.getElementById('version-chip');
+    const chipText = document.getElementById('version-chip-text');
+
+    /**
+     * Descarga sw.js como texto y extrae el valor de CACHE_NAME.
+     * Usamos cache: 'no-store' para evitar leer una copia en caché
+     * y reflejar siempre la versión real del Service Worker activo.
+     */
+    function actualizarVersionChip() {
+      fetch('./sw.js', { cache: 'no-store' })
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.text();
         })
-        .catch(error => {
-          console.log('Fallo al registrar el Service Worker:', error);
+        .then(text => {
+          // Captura: CACHE_NAME = 'edi-v6'  |  "edi-v6"  |  `edi-v6`
+          const match = text.match(/CACHE_NAME\s*=\s*['"`]([^'"`]+)['"`]/);
+          if (match && match[1]) {
+            chip.classList.remove('loading', 'error');
+            chip.classList.add('updated');
+            // Quita la clase de rebote al terminar la animación
+            setTimeout(() => chip.classList.remove('updated'), 600);
+            chipText.textContent = 'v ' + match[1];
+            chip.title = 'Service Worker: CACHE_NAME = "' + match[1] + '"';
+          } else {
+            chip.classList.remove('loading');
+            chip.classList.add('error');
+            chipText.textContent = 'versión no encontrada';
+          }
+        })
+        .catch(() => {
+          chip.classList.remove('loading');
+          chip.classList.add('error');
+          chipText.textContent = 'sw.js no disponible';
         });
-    });
-  }
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => {
+            console.log('Service Worker registrado con éxito:', registration.scope);
+            actualizarVersionChip();
+
+            // Si hay una nueva versión del SW esperando, recargar el chip al activarse
+            navigator.serviceWorker.addEventListener('controllerchange', actualizarVersionChip);
+
+            // Detectar actualizaciones del SW ya registrado
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'activated') {
+                    actualizarVersionChip();
+                  }
+                });
+              }
+            });
+          })
+          .catch(error => {
+            console.log('Fallo al registrar el Service Worker:', error);
+            actualizarVersionChip();
+          });
+      });
+    } else {
+      // Sin soporte de SW: aún intentamos leer sw.js para mostrar la versión
+      actualizarVersionChip();
+    }
+  })();
 </script>
 </body>
 </html>
