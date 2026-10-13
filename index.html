@@ -264,11 +264,14 @@
           // Captura: CACHE_NAME = 'edi-v6'  |  "edi-v6"  |  `edi-v6`
           const match = text.match(/CACHE_NAME\s*=\s*['"`]([^'"`]+)['"`]/);
           if (match && match[1]) {
+            // Elimina el prefijo "edi-" (si existe) para mostrar solo la versión,
+            // p. ej. "edi-v2.1" -> "v2.1", "edi-v6" -> "v6"
+            const version = match[1].replace(/^edi-/i, '');
             chip.classList.remove('loading', 'error');
             chip.classList.add('updated');
             // Quita la clase de rebote al terminar la animación
             setTimeout(() => chip.classList.remove('updated'), 600);
-            chipText.textContent = 'v ' + match[1];
+            chipText.textContent = version;
             chip.title = 'Service Worker: CACHE_NAME = "' + match[1] + '"';
           } else {
             chip.classList.remove('loading');
